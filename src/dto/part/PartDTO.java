@@ -3,7 +3,7 @@ package dto.part;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
-import dao.part.IPart;
+import model.part.IPart;
 
 public class PartDTO implements Serializable {
 

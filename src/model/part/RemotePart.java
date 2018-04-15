@@ -3,7 +3,6 @@ package model.part;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
-import dao.part.IPart;
 import dto.part.PartDTO;
 
 public class RemotePart extends UnicastRemoteObject implements IPart {

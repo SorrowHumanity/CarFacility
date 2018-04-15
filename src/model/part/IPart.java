@@ -1,4 +1,4 @@
-package dao.part;
+package model.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
