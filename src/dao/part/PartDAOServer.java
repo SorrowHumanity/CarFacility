@@ -7,8 +7,8 @@ import java.util.Collection;
 import dto.part.PartDTO;
 
 public class PartDAOServer extends UnicastRemoteObject implements IPartDAO {
-	
-	// This is the beginning AND the end mortals, none may enter the master's sanctum! ;) Muhahahahahaha
+
+	private static final long serialVersionUID = 1L;
 
 	public PartDAOServer() throws RemoteException {
 	}
