@@ -10,17 +10,19 @@ public class PartDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String name;
+	private String carChassisNumber, name;
 	private double weight;
 
-	public PartDTO(int id, String name, double weight) {
+	public PartDTO(int id, String chassisNumber, String name, double weight) {
 		this.id = id;
+		this.carChassisNumber = chassisNumber;
 		this.name = name;
 		this.weight = weight;
 	}
 
 	public PartDTO(IPart remotePart) throws RemoteException {
-		this(remotePart.getId(), remotePart.getName(), remotePart.getWeight());
+		this(remotePart.getId(), remotePart.getCarChassisNumber(),
+				remotePart.getName(), remotePart.getWeight());
 	}
 
 	public int getId() {
@@ -35,9 +37,14 @@ public class PartDTO implements Serializable {
 		return weight;
 	}
 
+	public String getCarChassisNumber() {
+		return carChassisNumber;
+	}
+
 	@Override
 	public String toString() {
-		return "PartDTO [id=" + id + ", name=" + name + ", weight=" + weight + "]";
+		return "PartDTO [id=" + id + ", carChassisNumber=" + carChassisNumber + ", name=" + name + ", weight=" + weight
+				+ "]";
 	}
 
 }

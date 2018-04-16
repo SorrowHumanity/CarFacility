@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,6 +57,33 @@ public class DatabaseHelper<T> {
 		}
 	}
 
+	private PreparedStatement prepareReturningId(Connection connection, String sql, Object[] parameters)
+			throws SQLException {
+		PreparedStatement stat = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		for (int i = 0; i < parameters.length; i++) {
+			stat.setObject(i + 1, parameters[i]);
+		}
+		return stat;
+	}
+
+	public int executeUpdateReturningId(String sql, Object... parameters) throws RemoteException {
+		try (Connection connection = getConnection()) {
+			PreparedStatement stat = prepareReturningId(connection, sql, parameters);
+
+			stat.executeUpdate();
+
+			// retrieve the generated primary key
+			try (ResultSet output = stat.getGeneratedKeys()) {
+
+				if (!output.next()) return -1; // move cursor & check if set is empty
+
+				return output.getInt(1);
+			}
+		} catch (SQLException e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
+	}
+
 	public T mapSingle(DataMapper<T> mapper, String sql, Object... parameters) throws RemoteException {
 		try (Connection connection = getConnection()) {
 			PreparedStatement stat = prepare(connection, sql, parameters);
@@ -83,6 +111,10 @@ public class DatabaseHelper<T> {
 		} catch (SQLException e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
+	}
+	
+	public static void main(String[] args) {
+	
 	}
 
 }

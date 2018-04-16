@@ -7,6 +7,8 @@ public interface IPart extends Remote {
 
 	int getId() throws RemoteException;
 	
+	String getCarChassisNumber() throws RemoteException;
+	
 	String getName() throws RemoteException;
 
 	double getWeight() throws RemoteException;
