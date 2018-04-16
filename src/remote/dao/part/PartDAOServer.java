@@ -38,7 +38,7 @@ public class PartDAOServer extends UnicastRemoteObject implements IPartDAO {
 	public boolean update(PartDTO partDTO) throws RemoteException {
 		int rowsAffected = partsDB.executeUpdate("UPDATE car_facility_schema.parts" + 
 				" SET car_chassis_number = ?, name = ?, weight_kg = ? WHERE id = ?;", 
-				partDTO.getCarChassisNumber(), partDTO.getName(), partDTO.getWeight(), partDTO.getId());
+				partDTO.getCarChassisNumber(), partDTO.getName(), partDTO.getWeightKg(), partDTO.getId());
 		return rowsAffected != 0;
 	}
 

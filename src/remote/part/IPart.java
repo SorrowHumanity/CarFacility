@@ -11,6 +11,6 @@ public interface IPart extends Remote {
 	
 	String getName() throws RemoteException;
 
-	double getWeight() throws RemoteException;
+	double getWeightKg() throws RemoteException;
 
 }
