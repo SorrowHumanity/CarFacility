@@ -58,4 +58,14 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 		return "RemotePallet [id=" + id + ", palletType=" + palletType + ", parts=" + parts + "]";
 	}
 
+	@Override
+	public double getTotalWeight() throws RemoteException {
+		double totalWeight = 0;
+		
+		for (IPart part : parts) 
+			totalWeight += part.getWeightKg();
+		
+		return totalWeight;
+	}
+
 }

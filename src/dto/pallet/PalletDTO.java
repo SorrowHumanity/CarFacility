@@ -29,10 +29,10 @@ public class PalletDTO implements Serializable {
 
 	private static List<PartDTO> toDTOParts(List<IPart> remoteParts) throws RemoteException {
 		List<PartDTO> dtoParts = new LinkedList<>();
-		
+
 		for (IPart part : remoteParts)
 			dtoParts.add(new PartDTO(part));
-		
+
 		return dtoParts;
 	}
 
@@ -46,6 +46,15 @@ public class PalletDTO implements Serializable {
 
 	public List<PartDTO> getParts() {
 		return parts;
+	}
+
+	public double getTotalWeight() {
+		double totalWeight = 0;
+
+		for (PartDTO part : parts)
+			totalWeight += part.getWeightKg();
+
+		return totalWeight;
 	}
 
 	@Override

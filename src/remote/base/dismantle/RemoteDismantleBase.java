@@ -20,7 +20,6 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	private static final long serialVersionUID = 1L;
 
 	private Map<Integer, IPart> partCache = new HashMap<>();
-
 	private IPartDAO partDAO;
 
 	public RemoteDismantleBase(IPartDAO partDAO) throws RemoteException {
@@ -38,7 +37,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 	@Override
 	public List<IPart> getParts(String carChassisNumber) throws RemoteException {
-		// read all values from the database
+		// read all parts from the database
 		Collection<PartDTO> parts = partDAO.readAll(carChassisNumber);
 		
 		// create output collection
