@@ -6,7 +6,7 @@ import java.util.Collection;
 
 import dto.part.PartDTO;
 
-public interface IPartDAO extends Remote {
+public interface IPartDAOServer extends Remote {
 
 	PartDTO create(String chassisNumber, String name, double weight) throws RemoteException;
 

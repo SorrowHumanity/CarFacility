@@ -10,9 +10,9 @@ import java.util.Map;
 
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
-import remote.dao.pallet.IPalletDAO;
+import remote.dao.pallet.IPalletDAOServer;
 import remote.dao.pallet.PalletDAOServer;
-import remote.dao.part.IPartDAO;
+import remote.dao.part.IPartDAOServer;
 import remote.dao.part.PartDAOServer;
 import remote.model.pallet.IPallet;
 import remote.model.pallet.RemotePallet;
@@ -26,10 +26,10 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	private Map<Integer, IPart> partCache = new HashMap<>();
 	private Map<Integer, IPallet> palletCache = new HashMap<>();
 
-	private IPartDAO partDAO;
-	private IPalletDAO palletDAO;
+	private IPartDAOServer partDAO;
+	private IPalletDAOServer palletDAO;
 
-	public RemoteDismantleBase(IPartDAO partDAO, IPalletDAO palletDAO) throws RemoteException {
+	public RemoteDismantleBase(IPartDAOServer partDAO, IPalletDAOServer palletDAO) throws RemoteException {
 		this.partDAO = partDAO;
 		this.palletDAO = palletDAO;
 	}

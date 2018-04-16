@@ -8,7 +8,7 @@ import java.util.Collection;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 
-public class PartDAOServer extends UnicastRemoteObject implements IPartDAO {
+public class PartDAOServer extends UnicastRemoteObject implements IPartDAOServer {
 
 	private static final long serialVersionUID = 1L;
 
