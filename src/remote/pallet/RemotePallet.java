@@ -1,4 +1,4 @@
-package model.pallet;
+package remote.pallet;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -7,8 +7,8 @@ import java.util.List;
 
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
-import model.part.IPart;
-import model.part.RemotePart;
+import remote.part.IPart;
+import remote.part.RemotePart;
 
 public class RemotePallet extends UnicastRemoteObject implements IPallet {
 

@@ -1,11 +1,11 @@
-package base.part;
+package remote.base.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import model.pallet.IPallet;
-import model.part.IPart;
+import remote.pallet.IPallet;
+import remote.part.IPart;
 
 public interface DismantleBase extends Remote {
 

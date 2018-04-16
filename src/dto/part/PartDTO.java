@@ -3,7 +3,7 @@ package dto.part;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
-import model.part.IPart;
+import remote.part.IPart;
 
 public class PartDTO implements Serializable {
 
@@ -17,8 +17,8 @@ public class PartDTO implements Serializable {
 		this.weight = weight;
 	}
 
-	public PartDTO(IPart part) throws RemoteException {
-		this(part.getName(), part.getWeight());
+	public PartDTO(IPart remotePart) throws RemoteException {
+		this(remotePart.getName(), remotePart.getWeight());
 	}
 
 	public String getName() {

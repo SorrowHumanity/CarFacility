@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import dto.part.PartDTO;
-import model.pallet.IPallet;
-import model.part.IPart;
+import remote.pallet.IPallet;
+import remote.part.IPart;
 
 public class PalletDTO implements Serializable {
 
@@ -23,8 +23,8 @@ public class PalletDTO implements Serializable {
 		this.parts = parts;
 	}
 
-	public PalletDTO(IPallet pallet) throws RemoteException {
-		this(pallet.getId(), pallet.getPalletType(), toDTOParts(pallet.getParts()));
+	public PalletDTO(IPallet remotePallet) throws RemoteException {
+		this(remotePallet.getId(), remotePallet.getPalletType(), toDTOParts(remotePallet.getParts()));
 	}
 
 	private static List<PartDTO> toDTOParts(List<IPart> remoteParts) throws RemoteException {

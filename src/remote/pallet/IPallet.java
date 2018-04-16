@@ -1,10 +1,10 @@
-package model.pallet;
+package remote.pallet;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import model.part.IPart;
+import remote.part.IPart;
 
 public interface IPallet extends Remote {
 
