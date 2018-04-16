@@ -1,4 +1,4 @@
-package remote.part;
+package remote.model.part;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

@@ -11,9 +11,9 @@ import java.util.Map;
 import dto.part.PartDTO;
 import remote.dao.part.IPartDAO;
 import remote.dao.part.PartDAOServer;
-import remote.pallet.IPallet;
-import remote.part.IPart;
-import remote.part.RemotePart;
+import remote.model.pallet.IPallet;
+import remote.model.part.IPart;
+import remote.model.part.RemotePart;
 
 public class RemoteDismantleBase extends UnicastRemoteObject implements IDismantleBase {
 

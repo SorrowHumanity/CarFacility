@@ -4,8 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import remote.pallet.IPallet;
-import remote.part.IPart;
+import remote.model.pallet.IPallet;
+import remote.model.part.IPart;
 
 public interface IDismantleBase extends Remote {
 

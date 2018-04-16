@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import dto.part.PartDTO;
-import remote.pallet.IPallet;
-import remote.part.IPart;
+import remote.model.pallet.IPallet;
+import remote.model.part.IPart;
 
 public class PalletDTO implements Serializable {
 
