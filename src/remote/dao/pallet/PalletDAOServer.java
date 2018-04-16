@@ -27,7 +27,7 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAOSe
 	public PalletDTO create(String palletType, List<PartDTO> palletParts) throws RemoteException {
 		// create pallet
 		int id = palletDB.executeUpdateReturningId(
-				"INSERT INTO car_facility_schema.pallets (pallet_type, total_weight)" + " VALUES (?, ?);", palletType,
+				"INSERT INTO car_facility_schema.pallets (pallet_type, total_weight_kg) VALUES (?, ?);", palletType,
 				getTotalWeightKg(palletParts));
 
 		// create associations between the pallet and all the parts belonging to the
