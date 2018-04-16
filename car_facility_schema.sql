@@ -19,8 +19,8 @@ CREATE TABLE car_facility_schema.parts (
 CREATE TABLE car_facility_schema.pallets (
   id           SERIAL PRIMARY KEY UNIQUE NOT NULL,
   pallet_type  VARCHAR(50),
-  total_weight NUMERIC(10, 3)
-)
+  total_weight_kg NUMERIC(10, 3)
+);
 
 CREATE TABLE car_facility_schema.contains (
   part_id   INT REFERENCES car_facility_schema.parts (id) ON DELETE SET NULL ON UPDATE CASCADE,

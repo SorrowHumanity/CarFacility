@@ -28,7 +28,7 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 		// create pallet
 		int id = palletDB.executeUpdateReturningId(
 				"INSERT INTO car_facility_schema.pallets (pallet_type, total_weight)" + " VALUES (?, ?);", palletType,
-				getTotalWeight(palletParts));
+				getTotalWeightKg(palletParts));
 		
 		// create associations between the pallet and all the parts belonging to the pallet
 		associateParts(id, palletParts);
@@ -49,17 +49,28 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 
 	@Override
 	public boolean update(PalletDTO palletDTO) throws RemoteException {
-
-		return false;
+		// update entry in pallets entity
+		int rowsAffected = palletDB.executeUpdate("UPDATE car_facility_schema.pallets SET pallet_type = ?,"
+				+ "total_weight_kg = ? WHERE id = ?;", 
+				palletDTO.getPalletType(), palletDTO.getTotalWeightKg(), palletDTO.getId());
+		
+		return rowsAffected != 0;
 	}
 
 	@Override
 	public boolean delete(PalletDTO palletDTO) throws RemoteException {
-		// TODO Auto-generated method stub
-		return false;
+		// remove all associated parts
+		palletDB.executeUpdate("DELETE FROM car_facility_schema.contains"
+				+ " WHERE pallet_id = ?;", palletDTO.getId());
+		
+		// remove entry from pallets entity
+		int rowsAffected = palletDB.executeUpdate("DELETE FROM car_facility_schema.pallets WHERE id = ?;",
+				palletDTO.getId());
+		
+		return rowsAffected != 0;
 	}
 
-	private double getTotalWeight(List<PartDTO> allParts) {
+	private double getTotalWeightKg(List<PartDTO> allParts) {
 		double totalWeight = 0;
 
 		for (PartDTO part : allParts)
@@ -82,9 +93,7 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 		PartDTO[] parts = new PartDTO[allParts.size()];
 		allParts.toArray(parts);
 		
-		PalletDTO palletDTO = dao.create("AllTypes", Arrays.asList(parts));
 		
-		System.out.println(palletDTO);
 		
 	}
 

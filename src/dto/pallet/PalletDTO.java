@@ -48,7 +48,7 @@ public class PalletDTO implements Serializable {
 		return parts;
 	}
 
-	public double getTotalWeight() {
+	public double getTotalWeightKg() {
 		double totalWeight = 0;
 
 		for (PartDTO part : parts)
