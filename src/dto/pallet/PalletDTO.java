@@ -28,7 +28,7 @@ public class PalletDTO implements Serializable {
 	}
 
 	private static List<PartDTO> toDTOParts(List<IPart> remoteParts) throws RemoteException {
-		List<PartDTO> dtoParts = new LinkedList<>();
+		LinkedList<PartDTO> dtoParts = new LinkedList<>();
 
 		for (IPart part : remoteParts)
 			dtoParts.add(new PartDTO(part));
@@ -59,7 +59,13 @@ public class PalletDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PalletDTO [id=" + id + ", palletType=" + palletType + ", parts=" + parts + "]";
+		StringBuilder sb = new StringBuilder(String.format("PalletDTO [id: %d, palletType: %s, \nParts:\n", id, palletType));
+		
+		for (PartDTO partDTO : parts) 
+			sb.append(partDTO + "\n");
+		
+		sb.append("]");
+		return sb.toString();
 	}
 
 }
