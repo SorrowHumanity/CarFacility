@@ -34,7 +34,6 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 		// pallet
 		associateParts(id, palletParts);
 
-		// create & return PalletDTO
 		return new PalletDTO(id, palletType, palletParts);
 	}
 
