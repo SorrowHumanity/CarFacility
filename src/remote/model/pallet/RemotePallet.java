@@ -31,8 +31,10 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 
 	private static List<IPart> toRemoteParts(List<PartDTO> partDTOs) throws RemoteException {
 		List<IPart> remoteParts = new LinkedList<>();
+		
 		for (PartDTO part : partDTOs)
 			remoteParts.add(new RemotePart(part));
+		
 		return remoteParts;
 	}
 
