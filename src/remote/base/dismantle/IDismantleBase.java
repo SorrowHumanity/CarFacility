@@ -1,4 +1,4 @@
-package remote.base.part;
+package remote.base.dismantle;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -7,11 +7,11 @@ import java.util.List;
 import remote.pallet.IPallet;
 import remote.part.IPart;
 
-public interface DismantleBase extends Remote {
+public interface IDismantleBase extends Remote {
 
-	IPart registerPart(String name, double weight) throws RemoteException;
+	IPart registerPart(String carChassisNumber, String name, double weight) throws RemoteException;
 
-	List<IPart> getParts(String chassisNumber) throws RemoteException;
+	List<IPart> getParts(String carChassisNumber) throws RemoteException;
 
 	IPallet registerPallet(int id, String palletType, List<IPart> parts) throws RemoteException;
 
