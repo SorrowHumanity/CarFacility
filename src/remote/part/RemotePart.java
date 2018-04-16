@@ -9,16 +9,23 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 
 	private static final long serialVersionUID = 1L;
 
+	private int id;
 	private String name;
 	private double weight;
 
-	public RemotePart(String name, double weight) throws RemoteException {
+	public RemotePart(int id, String name, double weight) throws RemoteException {
+		this.id = id;
 		this.name = name;
 		this.weight = weight;
 	}
 
 	public RemotePart(PartDTO partDTO) throws RemoteException {
-		this(partDTO.getName(), partDTO.getWeight());
+		this(partDTO.getId(), partDTO.getName(), partDTO.getWeight());
+	}
+
+	@Override
+	public int getId() throws RemoteException {
+		return id;
 	}
 
 	@Override
@@ -33,7 +40,7 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 
 	@Override
 	public String toString() {
-		return "RemotePart [name=" + name + ", weight=" + weight + "]";
+		return "RemotePart [id=" + id + ", name=" + name + ", weight=" + weight + "]";
 	}
 
 }
