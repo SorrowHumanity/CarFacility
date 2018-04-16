@@ -29,10 +29,10 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 				toRemoteParts(palletDTO.getParts()));
 	}
 
-	private static List<IPart> toRemoteParts(List<PartDTO> partDTOs) throws RemoteException {
+	private static List<IPart> toRemoteParts(List<PartDTO> allParts) throws RemoteException {
 		List<IPart> remoteParts = new LinkedList<>();
 		
-		for (PartDTO part : partDTOs)
+		for (PartDTO part : allParts)
 			remoteParts.add(new RemotePart(part));
 		
 		return remoteParts;
@@ -54,11 +54,6 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	@Override
-	public String toString() {
-		return "RemotePallet [id=" + id + ", palletType=" + palletType + ", parts=" + parts + "]";
-	}
-
-	@Override
 	public double getTotalWeight() throws RemoteException {
 		double totalWeight = 0;
 		
@@ -66,6 +61,11 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 			totalWeight += part.getWeightKg();
 		
 		return totalWeight;
+	}
+
+	@Override
+	public String toString() {
+		return "RemotePallet [id=" + id + ", palletType=" + palletType + ", parts=" + parts + "]";
 	}
 
 }

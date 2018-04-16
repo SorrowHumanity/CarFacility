@@ -2,14 +2,14 @@ package remote.dao.pallet;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Arrays;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
-import remote.dao.part.IPartDAO;
 import remote.dao.part.PartDAOServer;
 
 public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
@@ -29,44 +29,57 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 		int id = palletDB.executeUpdateReturningId(
 				"INSERT INTO car_facility_schema.pallets (pallet_type, total_weight)" + " VALUES (?, ?);", palletType,
 				getTotalWeightKg(palletParts));
-		
-		// create associations between the pallet and all the parts belonging to the pallet
+
+		// create associations between the pallet and all the parts belonging to the
+		// pallet
 		associateParts(id, palletParts);
-		
+
 		// create & return PalletDTO
 		return new PalletDTO(id, palletType, palletParts);
 	}
 
 	@Override
 	public PalletDTO read(int id) throws RemoteException {
-		return null;
+		return palletDB.mapSingle((rs) -> {
+			try {
+				return createPallet(rs);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}, "SELECT * FROM car_facility_schema.pallets WHERE pallets.id = ?;", id);
 	}
 
 	@Override
 	public Collection<PalletDTO> readAll() throws RemoteException {
-		return null;
+		return palletDB.map((rs) -> {
+			try {
+				return createPallet(rs);
+			} catch (RemoteException e) {
+				return null;
+			}
+		}, "SELECT * FROM car_facility_schema.pallets;");
 	}
 
 	@Override
 	public boolean update(PalletDTO palletDTO) throws RemoteException {
 		// update entry in pallets entity
-		int rowsAffected = palletDB.executeUpdate("UPDATE car_facility_schema.pallets SET pallet_type = ?,"
-				+ "total_weight_kg = ? WHERE id = ?;", 
+		int rowsAffected = palletDB.executeUpdate(
+				"UPDATE car_facility_schema.pallets SET pallet_type = ?," + "total_weight_kg = ? WHERE id = ?;",
 				palletDTO.getPalletType(), palletDTO.getTotalWeightKg(), palletDTO.getId());
-		
+
 		return rowsAffected != 0;
 	}
 
 	@Override
 	public boolean delete(PalletDTO palletDTO) throws RemoteException {
-		// remove all associated parts
-		palletDB.executeUpdate("DELETE FROM car_facility_schema.contains"
-				+ " WHERE pallet_id = ?;", palletDTO.getId());
-		
+		// remove all part associations
+		palletDB.executeUpdate("DELETE FROM car_facility_schema.contains" + " WHERE pallet_id = ?;", palletDTO.getId());
+
 		// remove entry from pallets entity
 		int rowsAffected = palletDB.executeUpdate("DELETE FROM car_facility_schema.pallets WHERE id = ?;",
 				palletDTO.getId());
-		
+
 		return rowsAffected != 0;
 	}
 
@@ -85,16 +98,23 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 					palletId, part.getId());
 		}
 	}
-	
-	public static void main(String[] args) throws RemoteException {
-		IPartDAO partDAO = new PartDAOServer();
-		IPalletDAO dao = new PalletDAOServer();
-		Collection<PartDTO> allParts = partDAO.readAll("123456");
-		PartDTO[] parts = new PartDTO[allParts.size()];
-		allParts.toArray(parts);
-		
-		
-		
+
+	private PalletDTO createPallet(ResultSet rs) throws SQLException, RemoteException {
+		int palletId = rs.getInt("id");
+		String palletType = rs.getString("pallet_type");
+		List<PartDTO> parts = getParts(palletId);
+		return new PalletDTO(palletId, palletType, parts);
+	}
+
+	private List<PartDTO> getParts(int palletId) throws RemoteException {
+		DatabaseHelper<PartDTO> partsDB = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/car_facility_system",
+				"postgres", "password");
+		return partsDB.map((rs) -> PartDAOServer.createPart(rs),
+				"SELECT car_facility_schema.parts.id, car_facility_schema.parts.name,"
+						+ " car_facility_schema.parts.car_chassis_number, car_facility_schema.parts.weight_kg "
+						+ "FROM car_facility_schema.parts, car_facility_schema.contains, car_facility_schema.pallets "
+						+ "WHERE contains.pallet_id = ? AND parts.id = contains.part_id;",
+				palletId);
 	}
 
 }

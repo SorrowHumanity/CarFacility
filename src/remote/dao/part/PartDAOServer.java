@@ -49,7 +49,7 @@ public class PartDAOServer extends UnicastRemoteObject implements IPartDAO {
 		return rowsAffected != 0;
 	}
 	
-	private PartDTO createPart(ResultSet rs) throws SQLException {
+	public static PartDTO createPart(ResultSet rs) throws SQLException {
 		int id = rs.getInt("id");
 		String carChassisNumber = rs.getString("car_chassis_number");
 		String name = rs.getString("name");

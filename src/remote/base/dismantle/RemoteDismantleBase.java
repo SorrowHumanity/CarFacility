@@ -8,10 +8,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
+import remote.dao.pallet.IPalletDAO;
+import remote.dao.pallet.PalletDAOServer;
 import remote.dao.part.IPartDAO;
 import remote.dao.part.PartDAOServer;
 import remote.model.pallet.IPallet;
+import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
 
@@ -20,17 +24,21 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	private static final long serialVersionUID = 1L;
 
 	private Map<Integer, IPart> partCache = new HashMap<>();
-	private IPartDAO partDAO;
+	private Map<Integer, IPallet> palletCache = new HashMap<>();
 
-	public RemoteDismantleBase(IPartDAO partDAO) throws RemoteException {
+	private IPartDAO partDAO;
+	private IPalletDAO palletDAO;
+
+	public RemoteDismantleBase(IPartDAO partDAO, IPalletDAO palletDAO) throws RemoteException {
 		this.partDAO = partDAO;
+		this.palletDAO = palletDAO;
 	}
 
 	@Override
 	public IPart registerPart(String carChassisNumber, String name, double weight) throws RemoteException {
 		// create part in the database
 		PartDTO partDTO = partDAO.create(carChassisNumber, name, weight);
-		
+
 		// cache & return the remote part object;
 		return partCache.put(partDTO.getId(), new RemotePart(partDTO));
 	}
@@ -39,42 +47,60 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	public List<IPart> getParts(String carChassisNumber) throws RemoteException {
 		// read all parts from the database
 		Collection<PartDTO> parts = partDAO.readAll(carChassisNumber);
-		
+
 		// create output collection
 		LinkedList<IPart> matchingParts = new LinkedList<>();
-		
+
 		// go through all parts
 		for (PartDTO dto : parts) {
-			
+
 			// cache, if it is not already cached
 			if (!partCache.containsKey(dto.getId())) {
 				partCache.put(dto.getId(), new RemotePart(dto));
 			}
-			
+
 			// add to output collection
 			matchingParts.add(partCache.get(dto.getId()));
 		}
-		
+
 		return matchingParts;
 	}
 
 	@Override
 	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+		// create pallet in the database
+		PalletDTO palletDTO = palletDAO.create(palletType, toPartDTOList(parts));
+		
+		// create remote pallet and cache it
+		return palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
 	}
 
 	@Override
-	public IPallet getPallet(int id) throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	public IPallet getPallet(int palletId) throws RemoteException {
+		// cache, if it is not already cached
+		if (!palletCache.containsKey(palletId)) {
+			// read pallet from database
+			PalletDTO palletDTO = palletDAO.read(palletId);
+
+			palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
+		}
+
+		return palletCache.get(palletId);
 	}
-	
+
+	private List<PartDTO> toPartDTOList(List<IPart> allParts) throws RemoteException {
+		LinkedList<PartDTO> allPartDTOs = new LinkedList<>();
+		
+		for (IPart part : allParts)
+			allPartDTOs.add(new PartDTO(part));
+		
+		return allPartDTOs;
+	}
+
 	public static void main(String[] args) throws RemoteException {
-		IPartDAO dao = new PartDAOServer();
-		IDismantleBase disBase = new RemoteDismantleBase(dao);
-		List<IPart> parts = disBase.getParts("123456");
-		System.out.println(parts);
+		IDismantleBase disBase = new RemoteDismantleBase(new PartDAOServer(), new PalletDAOServer());
+		IPallet pallet = disBase.getPallet(1);
+		System.out.println(pallet );
 	}
 
 }
