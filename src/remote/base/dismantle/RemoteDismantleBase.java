@@ -43,9 +43,10 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		// create output collection
 		LinkedList<IPart> matchingParts = new LinkedList<>();
 		
-		// go through all parts & cache the ones that are not already
+		// go through all parts
 		for (PartDTO dto : parts) {
 			
+			// cache, if it is not already cached
 			if (!partCache.containsKey(dto.getId())) {
 				partCache.put(dto.getId(), new RemotePart(dto));
 			}
@@ -58,7 +59,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public IPallet registerPallet(int id, String palletType, List<IPart> parts) throws RemoteException {
+	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		// TODO Auto-generated method stub
 		return null;
 	}
