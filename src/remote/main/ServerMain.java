@@ -30,15 +30,16 @@ public class ServerMain {
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
 		startCarFacilitySystem();
 
-		List<IPart> parts = new LinkedList<>();
-		parts.add(new RemotePart(1, "987", "Mitsubishi Engine", 30.5));
-		parts.add(new RemotePart(2, "987", "Some Engine", 10.5));
-		ICar car = new RemoteCar("987", "Subaru Outback", parts);
-		
-		DismantleBaseLocator.lookupBase().dismantleCar(car);
-		
-		//IPallet pallet = new RemotePallet(1, PalletEntityConstants.ENGINE_PART_TYPE, parts);
-		//System.out.println(pallet.getPalletType());
+		// List<IPart> parts = new LinkedList<>();
+		// parts.add(new RemotePart(1, "987", "Mitsubishi Engine", 30.5));
+		// parts.add(new RemotePart(2, "987", "Some Engine", 10.5));
+		// ICar car = new RemoteCar("987", "Subaru Outback", parts);
+		//
+		// DismantleBaseLocator.lookupBase().dismantleCar(car);
+		//
+		// //IPallet pallet = new RemotePallet(1,
+		// PalletEntityConstants.ENGINE_PART_TYPE, parts);
+		// System.out.println(pallet.getPalletType());
 	}
 
 	private static void startCarFacilitySystem() throws RemoteException, MalformedURLException, NotBoundException {
