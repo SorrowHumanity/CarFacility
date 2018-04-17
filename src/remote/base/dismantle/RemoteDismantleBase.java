@@ -11,9 +11,9 @@ import java.util.Map;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import remote.dao.pallet.IPalletDAOServer;
-import remote.dao.pallet.PalletDAOServer;
+import remote.dao.pallet.RemotePalletDAOServer;
 import remote.dao.part.IPartDAOServer;
-import remote.dao.part.PartDAOServer;
+import remote.dao.part.RemotePartDAOServer;
 import remote.model.pallet.IPallet;
 import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
@@ -98,7 +98,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	public static void main(String[] args) throws RemoteException {
-		IDismantleBase disBase = new RemoteDismantleBase(new PartDAOServer(), new PalletDAOServer());
+		IDismantleBase disBase = new RemoteDismantleBase(new RemotePartDAOServer(), new RemotePalletDAOServer());
 		
 		IPallet pallet = disBase.getPallet(1);
 		System.out.println(pallet.getTotalWeight());

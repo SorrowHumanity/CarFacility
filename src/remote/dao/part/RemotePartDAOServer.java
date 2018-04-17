@@ -8,15 +8,15 @@ import java.util.Collection;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 
-public class PartDAOServer extends UnicastRemoteObject implements IPartDAOServer {
+public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAOServer {
 
 	private static final long serialVersionUID = 1L;
 
 	private DatabaseHelper<PartDTO> partsDB;
 
-	public PartDAOServer() throws RemoteException {
-		partsDB = new DatabaseHelper<>("jdbc:postgresql://localhost:5432"
-				+ "/car_facility_system", "postgres", "password");
+	public RemotePartDAOServer() throws RemoteException {
+		partsDB = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, 
+				DatabaseHelper.POSTGRES_USERNAME, DatabaseHelper.POSTGRES_PASSWORD);
 	}
 
 	@Override

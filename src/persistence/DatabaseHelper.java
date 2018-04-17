@@ -17,6 +17,10 @@ public class DatabaseHelper<T> {
 	private String username;
 	private String password;
 
+	public static final String CAR_FACILITY_DB_URL = "jdbc:postgresql://localhost:5432/car_facility_system";
+	public static final String POSTGRES_USERNAME = "postgres";
+	public static final String POSTGRES_PASSWORD = "password";
+	
 	public DatabaseHelper(String jdbcURL, String username, String password) throws RemoteException {
 		this.jdbcURL = jdbcURL;
 		this.username = username;

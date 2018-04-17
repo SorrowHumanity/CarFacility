@@ -10,24 +10,25 @@ import java.util.List;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
-import remote.dao.part.PartDAOServer;
+import remote.dao.part.RemotePartDAOServer;
 
-public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAOServer {
+public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalletDAOServer {
 
 	private static final long serialVersionUID = 1L;
 
 	private DatabaseHelper<PalletDTO> palletDB;
 
-	public PalletDAOServer() throws RemoteException {
-		palletDB = new DatabaseHelper<>("jdbc:postgresql://localhost:5432" + "/car_facility_system", "postgres",
-				"password");
+	public RemotePalletDAOServer() throws RemoteException {
+		palletDB = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, 
+				DatabaseHelper.POSTGRES_USERNAME, DatabaseHelper.POSTGRES_PASSWORD);
 	}
 
 	@Override
 	public PalletDTO create(String palletType, List<PartDTO> palletParts) throws RemoteException {
 		// create pallet
 		int id = palletDB.executeUpdateReturningId(
-				"INSERT INTO car_facility_schema.pallets (pallet_type, total_weight_kg) VALUES (?, ?);", palletType,
+				"INSERT INTO car_facility_schema.pallets (pallet_type,"
+				+ " total_weight_kg) VALUES (?, ?);", palletType,
 				getTotalWeightKg(palletParts));
 
 		// create associations between the pallet and all the parts belonging to the
@@ -74,7 +75,8 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAOSe
 	@Override
 	public boolean delete(PalletDTO palletDTO) throws RemoteException {
 		// remove all part associations
-		palletDB.executeUpdate("DELETE FROM car_facility_schema.contains" + " WHERE pallet_id = ?;", palletDTO.getId());
+		palletDB.executeUpdate("DELETE FROM car_facility_schema.contains"
+				+ " WHERE pallet_id = ?;", palletDTO.getId());
 
 		// remove entry from pallets entity
 		int rowsAffected = palletDB.executeUpdate("DELETE FROM car_facility_schema.pallets WHERE id = ?;",
@@ -108,10 +110,10 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAOSe
 	}
 
 	private List<PartDTO> getParts(int palletId) throws RemoteException {
-		DatabaseHelper<PartDTO> partsDB = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/car_facility_system",
-				"postgres", "password");
+		DatabaseHelper<PartDTO> partsDB = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, 
+				DatabaseHelper.POSTGRES_USERNAME, DatabaseHelper.POSTGRES_PASSWORD);
 		
-		return partsDB.map((rs) -> PartDAOServer.createPart(rs),
+		return partsDB.map((rs) -> RemotePartDAOServer.createPart(rs),
 				"SELECT car_facility_schema.parts.id, car_facility_schema.parts.name,"
 						+ " car_facility_schema.parts.car_chassis_number, car_facility_schema.parts.weight_kg "
 						+ "FROM car_facility_schema.parts, car_facility_schema.contains, car_facility_schema.pallets "
