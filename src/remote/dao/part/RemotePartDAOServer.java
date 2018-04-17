@@ -31,9 +31,14 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 	}
 
 	@Override
-	public Collection<PartDTO> readAll(String chassisNumber) throws RemoteException {
+	public Collection<PartDTO> read(String chassisNumber) throws RemoteException {
 		return partsDB.map((rs) -> createPart(rs), 
 		"SELECT * FROM car_facility_schema.parts WHERE parts.car_chassis_number = ?;", chassisNumber);
+	}
+
+	@Override
+	public Collection<PartDTO> readAll() throws RemoteException {
+		return partsDB.map((rs) -> createPart(rs), "SELECT * FROM car_facility_schema.parts;");
 	}
 
 	@Override

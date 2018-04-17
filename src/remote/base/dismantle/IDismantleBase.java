@@ -12,6 +12,8 @@ public interface IDismantleBase extends Remote {
 	IPart registerPart(String carChassisNumber, String name, double weight) throws RemoteException;
 
 	List<IPart> getParts(String carChassisNumber) throws RemoteException;
+	
+	List<IPart> getAllParts() throws RemoteException;
 
 	IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException;
 

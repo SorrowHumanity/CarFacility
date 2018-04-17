@@ -10,7 +10,7 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String carChassisNumber, name;
+	private String carChassisNumber, name; // chassis number is null, if the part does not come from a dismantled car
 	private double weightKg;
 
 	public RemotePart(int id, String carChassisNumber, String name, double weightKg) throws RemoteException {
@@ -46,7 +46,8 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 
 	@Override
 	public String toString() {
-		return "RemotePart [id=" + id + ", name=" + name + ", weightKg=" + weightKg + "]";
+		return "RemotePart [id=" + id + ", carChassisNumber=" + carChassisNumber + ", name=" + name + ", weightKg="
+				+ weightKg + "]";
 	}
 
 }

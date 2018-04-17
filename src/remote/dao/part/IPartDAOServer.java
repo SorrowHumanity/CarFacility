@@ -10,8 +10,10 @@ public interface IPartDAOServer extends Remote {
 
 	PartDTO create(String chassisNumber, String name, double weight) throws RemoteException;
 
-	Collection<PartDTO> readAll(String chassisNumber) throws RemoteException;
+	Collection<PartDTO> read(String chassisNumber) throws RemoteException;
 
+	Collection<PartDTO> readAll() throws RemoteException;
+	
 	boolean update(PartDTO partDTO) throws RemoteException;
 
 	boolean delete(PartDTO partDTO) throws RemoteException;

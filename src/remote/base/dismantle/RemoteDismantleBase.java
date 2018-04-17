@@ -46,7 +46,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	@Override
 	public List<IPart> getParts(String carChassisNumber) throws RemoteException {
 		// read all parts from the database
-		Collection<PartDTO> parts = partDAO.readAll(carChassisNumber);
+		Collection<PartDTO> parts = partDAO.read(carChassisNumber);
 
 		// create output collection
 		LinkedList<IPart> matchingParts = new LinkedList<>();
@@ -64,6 +64,29 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		}
 
 		return matchingParts;
+	}
+
+	@Override
+	public List<IPart> getAllParts() throws RemoteException {
+		// read all parts from the database
+				Collection<PartDTO> parts = partDAO.readAll();
+
+				// create output collection
+				LinkedList<IPart> matchingParts = new LinkedList<>();
+
+				// go through all parts
+				for (PartDTO dto : parts) {
+
+					// cache, if it is not already cached
+					if (!partCache.containsKey(dto.getId())) {
+						partCache.put(dto.getId(), new RemotePart(dto));
+					}
+
+					// add to output collection
+					matchingParts.add(partCache.get(dto.getId()));
+				}
+
+				return matchingParts;
 	}
 
 	@Override
@@ -99,10 +122,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 	public static void main(String[] args) throws RemoteException {
 		IDismantleBase disBase = new RemoteDismantleBase(new RemotePartDAOServer(), new RemotePalletDAOServer());
-		
-		IPallet pallet = disBase.getPallet(1);
-		System.out.println(pallet.getTotalWeight());
-		System.out.println(pallet);
+		List<IPart> parts = disBase.getAllParts();
+		System.out.println(parts);
 	}
 
 }

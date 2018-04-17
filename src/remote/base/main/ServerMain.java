@@ -21,6 +21,9 @@ public class ServerMain {
 		IDismantleBase dismantleBase =
 				new RemoteDismantleBase(RemotePartDAOManager.lookupDAO(), RemotePalletDAOManager.lookupDAO());
 		
+	
+		dismantleBase.registerPart(null, "Gas engine", 24.6);
+		
 	}
 
 }
