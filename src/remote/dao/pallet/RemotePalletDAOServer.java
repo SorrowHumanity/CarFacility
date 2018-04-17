@@ -12,7 +12,7 @@ import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 import remote.dao.part.RemotePartDAOServer;
 
-public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalletDAOServer {
+public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 
 	private static final long serialVersionUID = 1L;
 

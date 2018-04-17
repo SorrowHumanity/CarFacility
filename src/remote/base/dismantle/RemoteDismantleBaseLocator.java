@@ -5,8 +5,8 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import remote.dao.pallet.IPalletDAOServer;
-import remote.dao.part.IPartDAOServer;
+import remote.dao.pallet.IPalletDAO;
+import remote.dao.part.IPartDAO;
 
 public class RemoteDismantleBaseLocator {
 
@@ -18,7 +18,7 @@ public class RemoteDismantleBaseLocator {
 		return (IDismantleBase) Naming.lookup(DISMANTLE_BASE_ID);
 	}
 
-	public static void bindBase(IPartDAOServer partDAO, IPalletDAOServer palletDAO)
+	public static void bindBase(IPartDAO partDAO, IPalletDAO palletDAO)
 			throws RemoteException, MalformedURLException {
 		Naming.rebind(DISMANTLE_BASE_ID, new RemoteDismantleBase(partDAO, palletDAO));
 	}

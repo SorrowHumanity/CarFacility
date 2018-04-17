@@ -13,7 +13,7 @@ import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 import remote.dao.part.RemotePartDAOManager;
 
-public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAOServer {
+public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
 	private static final long serialVersionUID = 1L;
 

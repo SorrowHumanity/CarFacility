@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.Collection;
 import dto.car.CarDTO;
 
-public interface ICarDAOServer extends Remote {
+public interface ICarDAO extends Remote {
 
 	CarDTO create(CarDTO carDTO) throws RemoteException;
 

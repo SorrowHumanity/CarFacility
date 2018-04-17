@@ -8,7 +8,7 @@ import java.util.List;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 
-public interface IPalletDAOServer extends Remote {
+public interface IPalletDAO extends Remote {
 
 	PalletDTO create(String palletType, List<PartDTO> parts) throws RemoteException;
 

@@ -11,8 +11,8 @@ public class RemotePalletDAOManager {
 
 	private RemotePalletDAOManager() {}
 
-	public static IPalletDAOServer lookupDAO() throws MalformedURLException, RemoteException, NotBoundException {
-		return (IPalletDAOServer) Naming.lookup(PALLET_DAO_NAME);
+	public static IPalletDAO lookupDAO() throws MalformedURLException, RemoteException, NotBoundException {
+		return (IPalletDAO) Naming.lookup(PALLET_DAO_NAME);
 	}
 
 	public static void bindDAO(String name) throws RemoteException, MalformedURLException {
