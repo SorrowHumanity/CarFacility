@@ -30,4 +30,13 @@ public class CarFacilityUtils {
 		return allRemoteParts;
 	}
 	
+	public static double weightParts(List<PartDTO> allParts) {
+		double totalWeight = 0;
+		
+		for (PartDTO part : allParts) 
+			totalWeight += part.getWeightKg();
+		
+		return totalWeight;
+	}
+	
 }

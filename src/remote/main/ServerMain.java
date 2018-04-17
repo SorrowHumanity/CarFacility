@@ -4,29 +4,19 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
-import dto.car.CarDTO;
-import dto.part.PartDTO;
-import remote.base.dismantle_station.RemoteDismantleBaseLocator;
-import remote.dao.car.ICarDAO;
-import remote.dao.car.RemoteCarDAOManager;
-import remote.dao.pallet.RemotePalletDAOManager;
-import remote.dao.part.RemotePartDAOManager;
-import remote.model.pallet.IPallet;
-import remote.model.part.IPart;
+import remote.base.dismantle_station.DismantleBaseLocator;
+import remote.base.registration_station.RegistrationBaseLocator;
+import remote.dao.car.CarDAOLocator;
+import remote.dao.pallet.PalletDAOLocator;
+import remote.dao.part.PartDAOLocator;
 
 public class ServerMain {
 
 	private ServerMain() {}
 	
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
-		
 		startCarFacilitySystem();
-		
-	}
+	} 
 
 	private static void startCarFacilitySystem() throws RemoteException,
 											MalformedURLException, NotBoundException {
@@ -34,13 +24,13 @@ public class ServerMain {
 		LocateRegistry.createRegistry(1099);
 
 		// bind DAO objects
-		RemoteCarDAOManager.bindDAO(RemoteCarDAOManager.CAR_DAO);
-		RemotePartDAOManager.bindDAO(RemotePartDAOManager.PART_DAO);
-		RemotePalletDAOManager.bindDAO(RemotePalletDAOManager.PALLET_DAO);
+		CarDAOLocator.bindDAO(CarDAOLocator.CAR_DAO_ID);
+		PartDAOLocator.bindDAO(PartDAOLocator.PART_DAO_ID);
+		PalletDAOLocator.bindDAO(PalletDAOLocator.PALLET_DAO_ID);
 		
 		// bind Base objects
-		RemoteDismantleBaseLocator.bindBase(RemotePartDAOManager.lookupDAO(),
-				RemotePalletDAOManager.lookupDAO());
+		RegistrationBaseLocator.bindBase(RegistrationBaseLocator.REGISTRATION_BASE_ID);
+		DismantleBaseLocator.bindBase(DismantleBaseLocator.DISMANTLE_BASE_ID);
 
 	}
 

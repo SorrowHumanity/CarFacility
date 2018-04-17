@@ -12,7 +12,7 @@ import java.util.List;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
-import remote.base.dismantle_station.RemoteDismantleBaseLocator;
+import remote.base.dismantle_station.DismantleBaseLocator;
 import remote.model.part.IPart;
 import util.CarFacilityUtils;
 
@@ -115,7 +115,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		String palletType = rs.getString("pallet_type");
 		List<IPart> parts = null;
 		try {
-			parts = RemoteDismantleBaseLocator.lookupBase().getParts(palletId);
+			parts = DismantleBaseLocator.lookupBase().getParts(palletId);
 		} catch (MalformedURLException | NotBoundException e) {
 			e.printStackTrace();
 		}

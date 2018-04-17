@@ -10,8 +10,9 @@ import java.util.Collection;
 import java.util.List;
 
 import dto.car.CarDTO;
+import dto.part.PartDTO;
 import persistence.DatabaseHelper;
-import remote.base.dismantle_station.RemoteDismantleBaseLocator;
+import remote.base.dismantle_station.DismantleBaseLocator;
 import remote.model.part.IPart;
 import util.CarFacilityUtils;
 
@@ -29,12 +30,14 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	}
 
 	@Override
-	public CarDTO create(CarDTO carDTO) throws RemoteException {
+	public CarDTO create(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
+		double weight = CarFacilityUtils.weightParts(parts);
+		
 		carDB.executeUpdate(
 				"INSERT INTO car_facility_schema.cars" + " (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
-				carDTO.getChassisNumber(), carDTO.getModel(), carDTO.getWeight());
+				chassisNumber, model, weight);
 
-		return carDTO;
+		return new CarDTO(chassisNumber, model, parts);
 	}
 
 	@Override
@@ -69,7 +72,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 		String chassisNumber = rs.getString("chassis_number");
 		String model = rs.getString("model");
 		try {
-			List<IPart> parts = RemoteDismantleBaseLocator.lookupBase().getParts(chassisNumber);
+			List<IPart> parts = DismantleBaseLocator.lookupBase().getParts(chassisNumber);
 			return new CarDTO(chassisNumber, model, CarFacilityUtils.toDTOParts(parts));
 		} catch (RemoteException | MalformedURLException | NotBoundException e) {
 			return null;

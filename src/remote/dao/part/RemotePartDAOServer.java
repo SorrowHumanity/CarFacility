@@ -15,13 +15,15 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 	private DatabaseHelper<PartDTO> partsDB;
 
 	public RemotePartDAOServer() throws RemoteException {
-		partsDB = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, 
-				DatabaseHelper.POSTGRES_USERNAME, DatabaseHelper.POSTGRES_PASSWORD);
+		partsDB = new DatabaseHelper<>(
+				DatabaseHelper.CAR_FACILITY_DB_URL, 
+				DatabaseHelper.POSTGRES_USERNAME,
+				DatabaseHelper.POSTGRES_PASSWORD);
 	}
 
 	@Override
 	public PartDTO create(String chassisNumber, String name, double weight) throws RemoteException {
-		// update database
+		// create database entry
 		int id = partsDB
 				.executeUpdateReturningId("INSERT INTO "
 						+ "car_facility_schema.parts (car_chassis_number, name, weight_kg)"

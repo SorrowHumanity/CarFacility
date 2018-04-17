@@ -18,7 +18,7 @@ import remote.model.part.IPart;
 import remote.model.part.RemotePart;
 import util.CarFacilityUtils;
 
-public class RemoteDismantleStationBase extends UnicastRemoteObject implements IDismantleStation {
+public class RemoteDismantleBase extends UnicastRemoteObject implements IDismantleBase {
 
 	private static final long serialVersionUID = 1L;
 
@@ -28,7 +28,7 @@ public class RemoteDismantleStationBase extends UnicastRemoteObject implements I
 	private IPartDAO partDAO;
 	private IPalletDAO palletDAO;
 
-	public RemoteDismantleStationBase(IPartDAO partDAO, IPalletDAO palletDAO) throws RemoteException {
+	public RemoteDismantleBase(IPartDAO partDAO, IPalletDAO palletDAO) throws RemoteException {
 		this.partDAO = partDAO;
 		this.palletDAO = palletDAO;
 	}
