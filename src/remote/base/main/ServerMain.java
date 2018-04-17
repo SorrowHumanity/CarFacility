@@ -7,19 +7,19 @@ import java.rmi.registry.LocateRegistry;
 
 import remote.base.dismantle.IDismantleBase;
 import remote.base.dismantle.RemoteDismantleBase;
-import remote.dao.pallet.RemotePalletDAOLocator;
-import remote.dao.part.RemotePartDAOLocator;
+import remote.dao.pallet.RemotePalletDAOManager;
+import remote.dao.part.RemotePartDAOManager;
 
 public class ServerMain {
 
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
 		LocateRegistry.createRegistry(1099);
 		
-		RemotePartDAOLocator.bindDAO(RemotePartDAOLocator.PART_DAO_NAME);
-		RemotePalletDAOLocator.bindDAO(RemotePalletDAOLocator.PALLET_DAO_NAME);
+		RemotePartDAOManager.bindDAO(RemotePartDAOManager.PART_DAO_NAME);
+		RemotePalletDAOManager.bindDAO(RemotePalletDAOManager.PALLET_DAO_NAME);
 		
 		IDismantleBase dismantleBase =
-				new RemoteDismantleBase(RemotePartDAOLocator.lookupDAO(), RemotePalletDAOLocator.lookupDAO());
+				new RemoteDismantleBase(RemotePartDAOManager.lookupDAO(), RemotePalletDAOManager.lookupDAO());
 		
 	}
 

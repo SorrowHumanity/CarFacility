@@ -5,11 +5,11 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class RemotePalletDAOLocator {
+public class RemotePalletDAOManager {
 
 	public static final String PALLET_DAO_NAME = "PalletDAOServer";
 
-	private RemotePalletDAOLocator() {}
+	private RemotePalletDAOManager() {}
 
 	public static IPalletDAOServer lookupDAO() throws MalformedURLException, RemoteException, NotBoundException {
 		return (IPalletDAOServer) Naming.lookup(PALLET_DAO_NAME);

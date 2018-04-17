@@ -5,11 +5,11 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class RemotePartDAOLocator {
+public class RemotePartDAOManager {
 
 	public static final String PART_DAO_NAME = "PartDAOServer";
 	
-	private RemotePartDAOLocator() {}
+	private RemotePartDAOManager() {}
 	
 	public static IPartDAOServer lookupDAO() throws MalformedURLException, RemoteException, NotBoundException {
 		return (IPartDAOServer) Naming.lookup(PART_DAO_NAME);
