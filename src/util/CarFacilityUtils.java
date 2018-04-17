@@ -22,7 +22,7 @@ public class CarFacilityUtils {
 	}
 	
 	public static List<IPart> toRemoteParts(List<PartDTO> allDTOparts) throws RemoteException {
-		List<IPart> allRemoteParts = new LinkedList<>();
+		LinkedList<IPart> allRemoteParts = new LinkedList<>();
 		
 		for (PartDTO part : allDTOparts)
 			allRemoteParts.add(new RemotePart(part));
