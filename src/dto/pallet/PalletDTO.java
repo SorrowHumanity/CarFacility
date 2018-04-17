@@ -27,13 +27,13 @@ public class PalletDTO implements Serializable {
 		this(remotePallet.getId(), remotePallet.getPalletType(), toDTOParts(remotePallet.getParts()));
 	}
 
-	private static List<PartDTO> toDTOParts(List<IPart> remoteParts) throws RemoteException {
-		LinkedList<PartDTO> dtoParts = new LinkedList<>();
+	private static List<PartDTO> toDTOParts(List<IPart> allRemoteParts) throws RemoteException {
+		LinkedList<PartDTO> allDTOParts = new LinkedList<>();
 
-		for (IPart part : remoteParts)
-			dtoParts.add(new PartDTO(part));
+		for (IPart part : allRemoteParts)
+			allDTOParts.add(new PartDTO(part));
 
-		return dtoParts;
+		return allDTOParts;
 	}
 
 	public int getId() {
@@ -64,7 +64,7 @@ public class PalletDTO implements Serializable {
 		for (PartDTO partDTO : parts) 
 			sb.append(partDTO + "\n");
 		
-		sb.append("]");
+		sb.append(String.format("totalWeight: %d]", getTotalWeightKg()));
 		return sb.toString();
 	}
 

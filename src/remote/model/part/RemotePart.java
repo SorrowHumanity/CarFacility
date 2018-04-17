@@ -46,7 +46,7 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 
 	@Override
 	public String toString() {
-		return "RemotePart [id=" + id + ", name=" + name + ", weight=" + weightKg + "]";
+		return "RemotePart [id=" + id + ", name=" + name + ", weightKg=" + weightKg + "]";
 	}
 
 }
