@@ -13,12 +13,12 @@ public class CarFacilityUtils {
 	private CarFacilityUtils() {}
 	
 	public static List<PartDTO> toDTOParts(List<IPart> allRemoteParts) throws RemoteException {
-		LinkedList<PartDTO> allDTOparts = new LinkedList<>();
+		LinkedList<PartDTO> allDTOParts = new LinkedList<>();
 
 		for (IPart part : allRemoteParts)
-			allDTOparts.add(new PartDTO(part));
+			allDTOParts.add(new PartDTO(part));
 
-		return allDTOparts;
+		return allDTOParts;
 	}
 	
 	public static List<IPart> toRemoteParts(List<PartDTO> allDTOparts) throws RemoteException {
