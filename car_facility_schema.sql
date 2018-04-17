@@ -1,12 +1,7 @@
-<-- Precondition: car_facility_system database exists and car_facility_schema exist 
-
-CREATE DATABASE car_facility_system;
-
-CREATE SCHEMA car_facility_system.car_facility_schema;
-
 CREATE TABLE car_facility_schema.cars (
   chassis_number VARCHAR(50) PRIMARY KEY UNIQUE NOT NULL,
-  model          VARCHAR(50)
+  model          VARCHAR(50),
+  weight_kg      NUMERIC(10, 1)
 );
 
 CREATE TABLE car_facility_schema.parts (
@@ -17,8 +12,8 @@ CREATE TABLE car_facility_schema.parts (
 );
 
 CREATE TABLE car_facility_schema.pallets (
-  id           SERIAL PRIMARY KEY UNIQUE NOT NULL,
-  pallet_type  VARCHAR(50),
+  id              SERIAL PRIMARY KEY UNIQUE NOT NULL,
+  pallet_type     VARCHAR(50),
   total_weight_kg NUMERIC(10, 1)
 );
 
