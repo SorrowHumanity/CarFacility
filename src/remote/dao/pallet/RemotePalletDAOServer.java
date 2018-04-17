@@ -19,8 +19,10 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	private DatabaseHelper<PalletDTO> palletDB;
 
 	public RemotePalletDAOServer() throws RemoteException {
-		palletDB = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, 
-				DatabaseHelper.POSTGRES_USERNAME, DatabaseHelper.POSTGRES_PASSWORD);
+		palletDB = new DatabaseHelper<>(
+				DatabaseHelper.CAR_FACILITY_DB_URL, 
+				DatabaseHelper.POSTGRES_USERNAME,
+				DatabaseHelper.POSTGRES_PASSWORD);
 	}
 
 	@Override
@@ -29,7 +31,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		int id = palletDB.executeUpdateReturningId(
 				"INSERT INTO car_facility_schema.pallets (pallet_type,"
 				+ " total_weight_kg) VALUES (?, ?);", palletType,
-				getTotalWeightKg(palletParts));
+				getPalletWeight(palletParts));
 
 		// create associations between the pallet and all the parts belonging to the
 		// pallet
@@ -66,7 +68,8 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	public boolean update(PalletDTO palletDTO) throws RemoteException {
 		// update entry in pallets entity
 		int rowsAffected = palletDB.executeUpdate(
-				"UPDATE car_facility_schema.pallets SET pallet_type = ?," + "total_weight_kg = ? WHERE id = ?;",
+				"UPDATE car_facility_schema.pallets SET"
+				+ " pallet_type = ?," + "total_weight_kg = ? WHERE id = ?;",
 				palletDTO.getPalletType(), palletDTO.getTotalWeightKg(), palletDTO.getId());
 
 		return rowsAffected != 0;
@@ -79,13 +82,14 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 				+ " WHERE pallet_id = ?;", palletDTO.getId());
 
 		// remove entry from pallets entity
-		int rowsAffected = palletDB.executeUpdate("DELETE FROM car_facility_schema.pallets WHERE id = ?;",
+		int rowsAffected = palletDB.executeUpdate("DELETE FROM"
+				+ " car_facility_schema.pallets WHERE id = ?;",
 				palletDTO.getId());
 
 		return rowsAffected != 0;
 	}
 
-	private double getTotalWeightKg(List<PartDTO> allParts) {
+	private double getPalletWeight(List<PartDTO> allParts) {
 		double totalWeight = 0;
 
 		for (PartDTO part : allParts)
@@ -96,7 +100,8 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 
 	private void associateParts(int palletId, List<PartDTO> allParts) throws RemoteException {
 		for (PartDTO part : allParts) {
-			palletDB.executeUpdate("INSERT INTO car_facility_schema.contains (pallet_id, part_id) VALUES (?, ?);",
+			palletDB.executeUpdate("INSERT INTO car_facility_schema.contains"
+					+ " (pallet_id, part_id) VALUES (?, ?);",
 					palletId, part.getId());
 		}
 	}
@@ -110,8 +115,10 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	}
 
 	private List<PartDTO> getParts(int palletId) throws RemoteException {
-		DatabaseHelper<PartDTO> partsDB = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, 
-				DatabaseHelper.POSTGRES_USERNAME, DatabaseHelper.POSTGRES_PASSWORD);
+		DatabaseHelper<PartDTO> partsDB = new DatabaseHelper<>(
+				DatabaseHelper.CAR_FACILITY_DB_URL, 
+				DatabaseHelper.POSTGRES_USERNAME,
+				DatabaseHelper.POSTGRES_PASSWORD);
 		
 		return partsDB.map((rs) -> RemotePartDAOServer.createPart(rs),
 				"SELECT car_facility_schema.parts.id, car_facility_schema.parts.name,"
