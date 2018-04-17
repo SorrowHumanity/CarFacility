@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import remote.dao.pallet.IPalletDAO;
 import remote.dao.part.IPartDAO;
+import remote.model.car.ICar;
 import remote.model.pallet.IPallet;
 import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
@@ -121,6 +121,29 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
+	public boolean addToPallet(IPart part) throws RemoteException {
+		// get all available pallets
+		getAllPallets();
+
+		// attempt to add to existing pallet
+		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
+			IPallet pallet = entry.getValue();
+			if (pallet.palletFits(part)) {
+				pallet.addPart(part);
+				palletDAO.update(new PalletDTO(pallet));
+				return true;
+			}
+		}
+
+		// if there is no fitting pallet, create a new one
+		LinkedList<IPart> partDTOs = new LinkedList<>();
+		partDTOs.add((part));
+		registerPallet(part.getType(), partDTOs);
+		
+		return true;
+	}
+
+	@Override
 	public IPallet getPallet(int palletId) throws RemoteException {
 		// cache, if it is not already cached
 		if (!palletCache.containsKey(palletId)) {
@@ -133,6 +156,43 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		}
 
 		return palletCache.get(palletId);
+	}
+
+	@Override
+	public List<IPallet> getAllPallets() throws RemoteException {
+		// read all parts from the database
+		Collection<PalletDTO> allPallets = palletDAO.readAll();
+
+		// create output collection
+		LinkedList<IPallet> palletList = new LinkedList<>();
+
+		// go through all parts
+		for (PalletDTO pallet : allPallets) {
+
+			// cache, if it is not already cached
+			if (!palletCache.containsKey(pallet.getId())) {
+				palletCache.put(pallet.getId(), new RemotePallet(pallet));
+			}
+
+			// add to output collection
+			palletList.add(palletCache.get(pallet.getId()));
+		}
+
+		return palletList;
+	}
+
+	@Override
+	public List<IPart> dismantleCar(ICar car) throws RemoteException {
+		// create output collection
+		LinkedList<IPart> carParts = new LinkedList<>();
+
+		// register all parts
+		for (IPart part : car.getParts()) {
+			IPart remotePart = registerPart(part.getCarChassisNumber(), part.getName(), part.getWeightKg());
+			carParts.add(remotePart);
+		}
+
+		return carParts;
 	}
 
 }

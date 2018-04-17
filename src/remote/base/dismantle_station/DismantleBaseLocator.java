@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import remote.dao.pallet.PalletDAOLocator;
 import remote.dao.part.PartDAOLocator;
 
-public class DismantleBaseLocator {
+public final class DismantleBaseLocator {
 
 	public static final String DISMANTLE_BASE_ID = "RemoteDismantleBase";
 

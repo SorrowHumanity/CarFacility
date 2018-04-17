@@ -123,4 +123,10 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		return new PalletDTO(palletId, palletType, CarFacilityUtils.toDTOParts(parts));
 	}
 
+	@Override
+	public boolean addToPallet(PalletDTO palletDTO, List<PartDTO> partDTOs) throws RemoteException {
+		associateParts(palletDTO.getId(), partDTOs);
+		return update(palletDTO);
+	}
+
 }

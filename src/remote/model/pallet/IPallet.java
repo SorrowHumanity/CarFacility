@@ -13,7 +13,11 @@ public interface IPallet extends Remote {
 	String getPalletType() throws RemoteException;
 
 	List<IPart> getParts() throws RemoteException;
-	
-	double getTotalWeight() throws RemoteException;
+
+	double getTotalWeightKg() throws RemoteException;
+
+	boolean addPart(IPart part) throws RemoteException;
+
+	boolean palletFits(IPart part) throws RemoteException;
 
 }

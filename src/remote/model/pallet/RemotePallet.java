@@ -23,8 +23,12 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	public RemotePallet(PalletDTO palletDTO) throws RemoteException {
-		this(palletDTO.getId(), palletDTO.getPalletType(), CarFacilityUtils
-				.toRemoteParts(palletDTO.getParts()));
+		this(palletDTO.getId(), palletDTO.getPalletType(), CarFacilityUtils.toRemoteParts(palletDTO.getParts()));
+	}
+
+	@Override
+	public boolean addPart(IPart part) throws RemoteException {
+		return parts.add(part);
 	}
 
 	@Override
@@ -43,18 +47,32 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	@Override
-	public double getTotalWeight() throws RemoteException {
+	public double getTotalWeightKg() throws RemoteException {
 		double totalWeight = 0;
-		
-		for (IPart part : parts) 
+
+		for (IPart part : parts)
 			totalWeight += part.getWeightKg();
-		
+
 		return totalWeight;
 	}
 
 	@Override
 	public String toString() {
 		return "RemotePallet [id=" + id + ", palletType=" + palletType + ", parts=" + parts + "]";
+	}
+
+	@Override
+	public boolean palletFits(IPart part) throws RemoteException {
+		return partTypeEquals(part) && hasEnoughVolume(part);
+	}
+
+	private boolean partTypeEquals(IPart part) throws RemoteException {
+		return part.getName().endsWith(getPalletType());
+	}
+
+	private boolean hasEnoughVolume(IPart part) throws RemoteException {
+		double combinedWeight = Double.sum(part.getWeightKg(), getTotalWeightKg());
+		return Double.compare(combinedWeight, PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0;
 	}
 
 }

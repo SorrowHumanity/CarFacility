@@ -5,7 +5,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class PalletDAOLocator {
+public final class PalletDAOLocator {
 
 	public static final String PALLET_DAO_ID = "RemotePalletDAO";
 

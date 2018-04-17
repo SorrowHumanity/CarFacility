@@ -11,7 +11,8 @@ import util.CarFacilityUtils;
 public class PalletDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+	public static final double MAX_PALLET_WEIGHT_KG = 250;
+	
 	private int id;
 	private String palletType;
 	private List<PartDTO> parts;

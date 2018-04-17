@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 
 import remote.dao.car.CarDAOLocator;
 
-public class RegistrationBaseLocator {
+public final class RegistrationBaseLocator {
 
 	public static final String REGISTRATION_BASE_ID = "RemoteRegistrationBase";
 

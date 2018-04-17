@@ -5,7 +5,7 @@ import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-public class PartDAOLocator {
+public final class PartDAOLocator {
 
 	public static final String PART_DAO_ID = "RemotePartDAO";
 	

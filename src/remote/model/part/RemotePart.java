@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import dto.part.PartDTO;
+import remote.dao.pallet.PalletEntityConstants;
 
 public class RemotePart extends UnicastRemoteObject implements IPart {
 
@@ -42,6 +43,12 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 	@Override
 	public String getCarChassisNumber() throws RemoteException {
 		return carChassisNumber;
+	}
+
+	@Override
+	public String getType() throws RemoteException {
+		String[] split = name.split(" ");
+		return split[split.length - 1];
 	}
 
 	@Override
