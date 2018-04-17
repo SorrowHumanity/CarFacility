@@ -18,7 +18,7 @@ import remote.model.part.IPart;
 import remote.model.part.RemotePart;
 import util.CarFacilityUtils;
 
-public class RemoteDismantleStationBase extends UnicastRemoteObject implements IDismantleStationBase {
+public class RemoteDismantleStationBase extends UnicastRemoteObject implements IDismantleStation {
 
 	private static final long serialVersionUID = 1L;
 

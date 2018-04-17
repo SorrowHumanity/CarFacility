@@ -7,7 +7,7 @@ import java.util.List;
 import remote.model.pallet.IPallet;
 import remote.model.part.IPart;
 
-public interface IDismantleStationBase extends Remote {
+public interface IDismantleStation extends Remote {
 
 	IPart registerPart(String carChassisNumber, String name, double weight) throws RemoteException;
 
