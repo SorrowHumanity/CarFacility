@@ -128,6 +128,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		// attempt to add to existing pallet
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
 			IPallet pallet = entry.getValue();
+			System.out.println(pallet);
 			if (pallet.palletFits(part)) {
 				pallet.addPart(part);
 				palletDAO.update(new PalletDTO(pallet));
