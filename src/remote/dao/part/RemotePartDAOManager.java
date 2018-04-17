@@ -7,16 +7,16 @@ import java.rmi.RemoteException;
 
 public class RemotePartDAOManager {
 
-	public static final String PART_DAO_NAME = "PartDAOServer";
+	public static final String PART_DAO = "PartDAOServer";
 	
 	private RemotePartDAOManager() {}
 	
 	public static IPartDAO lookupDAO() throws MalformedURLException, RemoteException, NotBoundException {
-		return (IPartDAO) Naming.lookup(PART_DAO_NAME);
+		return (IPartDAO) Naming.lookup(PART_DAO);
 	}
 	
 	public static void bindDAO(String name) throws RemoteException, MalformedURLException {
-		Naming.rebind(PART_DAO_NAME, new RemotePartDAOServer());
+		Naming.rebind(PART_DAO, new RemotePartDAOServer());
 	}
 	
 }

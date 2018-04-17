@@ -51,7 +51,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	@Override
 	public boolean update(CarDTO carDTO) throws RemoteException {
 		int rowsAffected = carDB.executeUpdate("UPDATE car_facility_schema.cars"
-				+ " SET model = ?, weight = ?"
+				+ " SET model = ?, weight_kg = ?"
 				+ " WHERE chassis_number = ?;", 
 				carDTO.getModel(), carDTO.getWeight(), carDTO.getChassisNumber());
 		

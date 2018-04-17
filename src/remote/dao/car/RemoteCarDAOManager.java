@@ -7,20 +7,20 @@ import java.rmi.RemoteException;
 
 public class RemoteCarDAOManager {
 	
-	public static final String CAR_DAO_LOCATOR = "RemoteCarDAO";
+	public static final String CAR_DAO = "RemoteCarDAO";
 	
 	private RemoteCarDAOManager() {}
 	
 	public static ICarDAO lookupDAO() throws MalformedURLException,
 											RemoteException, NotBoundException {
 		
-		return (ICarDAO) Naming.lookup(CAR_DAO_LOCATOR);
+		return (ICarDAO) Naming.lookup(CAR_DAO);
 	}
 	
 	public static void bindDAO(String name) throws RemoteException,
 											MalformedURLException {
 		
-		Naming.rebind(CAR_DAO_LOCATOR, new RemoteCarDAOServer());
+		Naming.rebind(CAR_DAO, new RemoteCarDAOServer());
 	} 
 
 }

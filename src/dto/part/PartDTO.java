@@ -19,6 +19,10 @@ public class PartDTO implements Serializable {
 		this.name = name;
 		this.weightKg = weightKg;
 	}
+	
+	public PartDTO(String chassisNumber, String name, double weightKg) {
+		this(0, chassisNumber, name, weightKg);
+	}
 
 	public PartDTO(IPart remotePart) throws RemoteException {
 		this(remotePart.getId(), remotePart.getCarChassisNumber(), remotePart.getName(), remotePart.getWeightKg());

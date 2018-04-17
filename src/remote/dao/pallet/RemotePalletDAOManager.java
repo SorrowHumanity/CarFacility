@@ -7,16 +7,16 @@ import java.rmi.RemoteException;
 
 public class RemotePalletDAOManager {
 
-	public static final String PALLET_DAO_NAME = "PalletDAOServer";
+	public static final String PALLET_DAO = "PalletDAOServer";
 
 	private RemotePalletDAOManager() {}
 
 	public static IPalletDAO lookupDAO() throws MalformedURLException, RemoteException, NotBoundException {
-		return (IPalletDAO) Naming.lookup(PALLET_DAO_NAME);
+		return (IPalletDAO) Naming.lookup(PALLET_DAO);
 	}
 
 	public static void bindDAO(String name) throws RemoteException, MalformedURLException {
-		Naming.rebind(PALLET_DAO_NAME, new RemotePalletDAOServer());
+		Naming.rebind(PALLET_DAO, new RemotePalletDAOServer());
 	}
 
 }
