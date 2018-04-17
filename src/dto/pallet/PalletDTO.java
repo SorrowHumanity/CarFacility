@@ -27,7 +27,7 @@ public class PalletDTO implements Serializable {
 		this(remotePallet.getId(), remotePallet.getPalletType(), toDTOParts(remotePallet.getParts()));
 	}
 
-	private static List<PartDTO> toDTOParts(List<IPart> allRemoteParts) throws RemoteException {
+	public static List<PartDTO> toDTOParts(List<IPart> allRemoteParts) throws RemoteException {
 		LinkedList<PartDTO> allDTOParts = new LinkedList<>();
 
 		for (IPart part : allRemoteParts)
