@@ -6,7 +6,8 @@ CREATE TABLE car_facility_schema.cars (
 
 CREATE TABLE car_facility_schema.parts (
   id                 SERIAL PRIMARY KEY UNIQUE NOT NULL,
-  car_chassis_number VARCHAR(50) REFERENCES car_facility_schema.cars (chassis_number) ON DELETE SET NULL ON UPDATE CASCADE,
+  car_chassis_number VARCHAR(50) REFERENCES car_facility_schema.cars (chassis_number)
+  												ON DELETE SET NULL ON UPDATE CASCADE,
   name               VARCHAR(250),
   weight_kg          NUMERIC(10, 1)
 );
