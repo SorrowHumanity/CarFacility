@@ -1,5 +1,9 @@
 package remote.base.registration_station;
 
-public interface IRegistrationStation {
+import java.rmi.Remote;
 
+public interface IRegistrationStation extends Remote {
+
+	
+	
 }
