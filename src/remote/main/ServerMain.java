@@ -1,4 +1,4 @@
-package remote.base.main;
+package remote.main;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import dto.car.CarDTO;
 import dto.part.PartDTO;
-import remote.base.dismantle.RemoteDismantleBaseLocator;
+import remote.base.dismantle_station.RemoteDismantleBaseLocator;
 import remote.dao.car.ICarDAO;
 import remote.dao.car.RemoteCarDAOManager;
 import remote.dao.pallet.RemotePalletDAOManager;
