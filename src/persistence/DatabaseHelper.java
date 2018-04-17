@@ -75,7 +75,7 @@ public class DatabaseHelper<T> {
 			// retrieve the generated primary key
 			try (ResultSet output = stat.getGeneratedKeys()) {
 
-				if (!output.next()) return -1; // move cursor & check if set is empty
+				if (!output.next()) return -1; // nothing is returned
 
 				return output.getInt(1);
 			}
@@ -113,8 +113,4 @@ public class DatabaseHelper<T> {
 		}
 	}
 	
-	public static void main(String[] args) {
-	
-	}
-
 }

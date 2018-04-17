@@ -55,6 +55,7 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAOSe
 			try {
 				return createPallet(rs);
 			} catch (RemoteException e) {
+				e.printStackTrace();
 				return null;
 			}
 		}, "SELECT * FROM car_facility_schema.pallets;");
@@ -102,12 +103,14 @@ public class PalletDAOServer extends UnicastRemoteObject implements IPalletDAOSe
 		int palletId = rs.getInt("id");
 		String palletType = rs.getString("pallet_type");
 		List<PartDTO> parts = getParts(palletId);
+		
 		return new PalletDTO(palletId, palletType, parts);
 	}
 
 	private List<PartDTO> getParts(int palletId) throws RemoteException {
 		DatabaseHelper<PartDTO> partsDB = new DatabaseHelper<>("jdbc:postgresql://localhost:5432/car_facility_system",
 				"postgres", "password");
+		
 		return partsDB.map((rs) -> PartDAOServer.createPart(rs),
 				"SELECT car_facility_schema.parts.id, car_facility_schema.parts.name,"
 						+ " car_facility_schema.parts.car_chassis_number, car_facility_schema.parts.weight_kg "
