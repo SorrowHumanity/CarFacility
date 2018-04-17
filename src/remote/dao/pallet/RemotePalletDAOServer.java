@@ -1,5 +1,7 @@
 package remote.dao.pallet;
 
+import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.ResultSet;
@@ -10,7 +12,9 @@ import java.util.List;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
-import remote.dao.part.RemotePartDAOServer;
+import remote.base.dismantle_station.RemoteDismantleBaseLocator;
+import remote.model.part.IPart;
+import util.CarFacilityUtils;
 
 public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 
@@ -109,23 +113,14 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	private PalletDTO createPallet(ResultSet rs) throws SQLException, RemoteException {
 		int palletId = rs.getInt("id");
 		String palletType = rs.getString("pallet_type");
-		List<PartDTO> parts = getParts(palletId);
+		List<IPart> parts = null;
+		try {
+			parts = RemoteDismantleBaseLocator.lookupBase().getParts(palletId);
+		} catch (MalformedURLException | NotBoundException e) {
+			e.printStackTrace();
+		}
 		
-		return new PalletDTO(palletId, palletType, parts);
-	}
-
-	private List<PartDTO> getParts(int palletId) throws RemoteException {
-		DatabaseHelper<PartDTO> partsDB = new DatabaseHelper<>(
-				DatabaseHelper.CAR_FACILITY_DB_URL, 
-				DatabaseHelper.POSTGRES_USERNAME,
-				DatabaseHelper.POSTGRES_PASSWORD);
-		
-		return partsDB.map((rs) -> RemotePartDAOServer.createPart(rs),
-				"SELECT car_facility_schema.parts.id, car_facility_schema.parts.name,"
-						+ " car_facility_schema.parts.car_chassis_number, car_facility_schema.parts.weight_kg "
-						+ "FROM car_facility_schema.parts, car_facility_schema.contains, car_facility_schema.pallets "
-						+ "WHERE contains.pallet_id = ? AND parts.id = contains.part_id;",
-				palletId);
+		return new PalletDTO(palletId, palletType, CarFacilityUtils.toDTOParts(parts));
 	}
 
 }

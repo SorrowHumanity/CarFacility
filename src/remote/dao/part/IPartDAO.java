@@ -11,6 +11,8 @@ public interface IPartDAO extends Remote {
 	PartDTO create(String chassisNumber, String name, double weight) throws RemoteException;
 
 	Collection<PartDTO> read(String chassisNumber) throws RemoteException;
+	
+	Collection<PartDTO> read(int palletId) throws RemoteException;
 
 	Collection<PartDTO> readAll() throws RemoteException;
 	

@@ -66,6 +66,29 @@ public class RemoteDismantleStationBase extends UnicastRemoteObject implements I
 	}
 
 	@Override
+	public List<IPart> getParts(int palletId) throws RemoteException {
+		// read all parts from the database
+		Collection<PartDTO> parts = partDAO.read(palletId);
+
+		// create output collection
+		LinkedList<IPart> matchingParts = new LinkedList<>();
+
+		// go through all parts
+		for (PartDTO dto : parts) {
+
+			// cache, if it is not already cached
+			if (!partCache.containsKey(dto.getId())) {
+				partCache.put(dto.getId(), new RemotePart(dto));
+			}
+
+			// add to output collection
+			matchingParts.add(partCache.get(dto.getId()));
+		}
+
+		return matchingParts;
+	}
+
+	@Override
 	public List<IPart> getAllParts() throws RemoteException {
 		// read all parts from the database
 		Collection<PartDTO> parts = partDAO.readAll();
@@ -101,10 +124,10 @@ public class RemoteDismantleStationBase extends UnicastRemoteObject implements I
 	public IPallet getPallet(int palletId) throws RemoteException {
 		// cache, if it is not already cached
 		if (!palletCache.containsKey(palletId)) {
-			
+
 			// read pallet from database
 			PalletDTO palletDTO = palletDAO.read(palletId);
-			
+
 			// cache pallet
 			palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
 		}

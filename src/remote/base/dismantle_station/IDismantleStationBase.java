@@ -13,6 +13,8 @@ public interface IDismantleStationBase extends Remote {
 
 	List<IPart> getParts(String carChassisNumber) throws RemoteException;
 	
+	List<IPart> getParts(int palletId) throws RemoteException;
+	
 	List<IPart> getAllParts() throws RemoteException;
 
 	IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException;

@@ -15,6 +15,8 @@ import remote.dao.car.ICarDAO;
 import remote.dao.car.RemoteCarDAOManager;
 import remote.dao.pallet.RemotePalletDAOManager;
 import remote.dao.part.RemotePartDAOManager;
+import remote.model.pallet.IPallet;
+import remote.model.part.IPart;
 
 public class ServerMain {
 
@@ -23,7 +25,6 @@ public class ServerMain {
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
 		
 		startCarFacilitySystem();
-		
 		
 	}
 
