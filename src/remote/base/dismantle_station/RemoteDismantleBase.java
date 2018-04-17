@@ -135,7 +135,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			}
 		}
 
-		// if there is no fitting pallet, create a new one
+		// if there is no extinsting pallet that fits, create a new one
 		LinkedList<IPart> partDTOs = new LinkedList<>();
 		partDTOs.add((part));
 		registerPallet(part.getType(), partDTOs);
@@ -188,8 +188,14 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 		// register all parts
 		for (IPart part : car.getParts()) {
+			// register part
 			IPart remotePart = registerPart(part.getCarChassisNumber(), part.getName(), part.getWeightKg());
+			
+			// add part to output list
 			carParts.add(remotePart);
+			
+			// add part to pallet
+			addToPallet(remotePart);
 		}
 
 		return carParts;

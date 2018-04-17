@@ -19,7 +19,5 @@ public interface IPalletDAO extends Remote {
 	boolean update(PalletDTO palletDTO) throws RemoteException;
 
 	boolean delete(PalletDTO palletDTO) throws RemoteException;
-	
-	boolean addToPallet(PalletDTO palletDTO, List<PartDTO> partDTOs) throws RemoteException;
 
 }
