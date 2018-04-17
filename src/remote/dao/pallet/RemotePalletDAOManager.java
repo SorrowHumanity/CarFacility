@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 
 public class RemotePalletDAOManager {
 
-	public static final String PALLET_DAO = "PalletDAOServer";
+	public static final String PALLET_DAO = "RemotePalletDAO";
 
 	private RemotePalletDAOManager() {}
 

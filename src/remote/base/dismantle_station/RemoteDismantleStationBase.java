@@ -11,13 +11,12 @@ import java.util.Map;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import remote.dao.pallet.IPalletDAO;
-import remote.dao.pallet.RemotePalletDAOServer;
 import remote.dao.part.IPartDAO;
-import remote.dao.part.RemotePartDAOServer;
 import remote.model.pallet.IPallet;
 import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
+import util.CarFacilityUtils;
 
 public class RemoteDismantleStationBase extends UnicastRemoteObject implements IDismantleStationBase {
 
@@ -69,31 +68,31 @@ public class RemoteDismantleStationBase extends UnicastRemoteObject implements I
 	@Override
 	public List<IPart> getAllParts() throws RemoteException {
 		// read all parts from the database
-				Collection<PartDTO> parts = partDAO.readAll();
+		Collection<PartDTO> parts = partDAO.readAll();
 
-				// create output collection
-				LinkedList<IPart> matchingParts = new LinkedList<>();
+		// create output collection
+		LinkedList<IPart> matchingParts = new LinkedList<>();
 
-				// go through all parts
-				for (PartDTO dto : parts) {
+		// go through all parts
+		for (PartDTO dto : parts) {
 
-					// cache, if it is not already cached
-					if (!partCache.containsKey(dto.getId())) {
-						partCache.put(dto.getId(), new RemotePart(dto));
-					}
+			// cache, if it is not already cached
+			if (!partCache.containsKey(dto.getId())) {
+				partCache.put(dto.getId(), new RemotePart(dto));
+			}
 
-					// add to output collection
-					matchingParts.add(partCache.get(dto.getId()));
-				}
+			// add to output collection
+			matchingParts.add(partCache.get(dto.getId()));
+		}
 
-				return matchingParts;
+		return matchingParts;
 	}
 
 	@Override
 	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		// create pallet in the database
-		PalletDTO palletDTO = palletDAO.create(palletType, toPartDTOList(parts));
-		
+		PalletDTO palletDTO = palletDAO.create(palletType, CarFacilityUtils.toDTOParts(parts));
+
 		// create remote palet and cache it
 		return palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
 	}
@@ -102,28 +101,15 @@ public class RemoteDismantleStationBase extends UnicastRemoteObject implements I
 	public IPallet getPallet(int palletId) throws RemoteException {
 		// cache, if it is not already cached
 		if (!palletCache.containsKey(palletId)) {
+			
 			// read pallet from database
 			PalletDTO palletDTO = palletDAO.read(palletId);
-
+			
+			// cache pallet
 			palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
 		}
 
 		return palletCache.get(palletId);
-	}
-
-	private List<PartDTO> toPartDTOList(List<IPart> allParts) throws RemoteException {
-		LinkedList<PartDTO> allPartDTOs = new LinkedList<>();
-		
-		for (IPart part : allParts)
-			allPartDTOs.add(new PartDTO(part));
-		
-		return allPartDTOs;
-	}
-
-	public static void main(String[] args) throws RemoteException {
-		IDismantleStationBase disBase = new RemoteDismantleStationBase(new RemotePartDAOServer(), new RemotePalletDAOServer());
-		List<IPart> parts = disBase.getAllParts();
-		System.out.println(parts);
 	}
 
 }

@@ -5,8 +5,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import dto.car.CarDTO;
-import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
+import util.CarFacilityUtils;
 
 public class RemoteCar extends UnicastRemoteObject implements ICar {
 
@@ -20,10 +20,10 @@ public class RemoteCar extends UnicastRemoteObject implements ICar {
 		this.model = model;
 		this.parts = parts;
 	}
-	
+
 	public RemoteCar(CarDTO carDTO) throws RemoteException {
-		this(carDTO.getChassisNumber(), carDTO.getModel(),
-				RemotePallet.toRemoteParts(carDTO.getParts()));
+		this(carDTO.getChassisNumber(), carDTO.getModel(), CarFacilityUtils
+				.toRemoteParts(carDTO.getParts()));
 	}
 
 	@Override
@@ -44,10 +44,10 @@ public class RemoteCar extends UnicastRemoteObject implements ICar {
 	@Override
 	public double getWeight() throws RemoteException {
 		double totalWeight = 0;
-		
-		for (IPart part : parts) 
+
+		for (IPart part : parts)
 			totalWeight += part.getWeightKg();
-		
+
 		return totalWeight;
 	}
 

@@ -44,7 +44,8 @@ public class DatabaseHelper<T> {
 		}
 	}
 
-	private PreparedStatement prepare(Connection connection, String sql, Object[] parameters) throws SQLException {
+	private PreparedStatement prepare(Connection connection, String sql, Object[] parameters) 
+																				throws SQLException {
 		PreparedStatement stat = connection.prepareStatement(sql);
 		for (int i = 0; i < parameters.length; i++) {
 			stat.setObject(i + 1, parameters[i]);
@@ -106,12 +107,12 @@ public class DatabaseHelper<T> {
 		try (Connection connection = getConnection()) {
 			PreparedStatement stat = prepare(connection, sql, parameters);
 			ResultSet rs = stat.executeQuery();
-			LinkedList<T> allCars = new LinkedList<>();
+			LinkedList<T> allObjects = new LinkedList<>();
 			while (rs.next()) {
-				allCars.add(mapper.create(rs));
+				allObjects.add(mapper.create(rs));
 			}
 			rs.close();
-			return allCars;
+			return allObjects;
 		} catch (SQLException e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

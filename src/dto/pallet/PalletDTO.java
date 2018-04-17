@@ -2,12 +2,11 @@ package dto.pallet;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.LinkedList;
 import java.util.List;
 
 import dto.part.PartDTO;
 import remote.model.pallet.IPallet;
-import remote.model.part.IPart;
+import util.CarFacilityUtils;
 
 public class PalletDTO implements Serializable {
 
@@ -24,16 +23,8 @@ public class PalletDTO implements Serializable {
 	}
 
 	public PalletDTO(IPallet remotePallet) throws RemoteException {
-		this(remotePallet.getId(), remotePallet.getPalletType(), toDTOParts(remotePallet.getParts()));
-	}
-
-	public static List<PartDTO> toDTOParts(List<IPart> allRemoteParts) throws RemoteException {
-		LinkedList<PartDTO> allDTOParts = new LinkedList<>();
-
-		for (IPart part : allRemoteParts)
-			allDTOParts.add(new PartDTO(part));
-
-		return allDTOParts;
+		this(remotePallet.getId(), remotePallet.getPalletType(), CarFacilityUtils
+																.toDTOParts(remotePallet.getParts()));
 	}
 
 	public int getId() {

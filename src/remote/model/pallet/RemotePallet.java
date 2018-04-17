@@ -2,13 +2,11 @@ package remote.model.pallet;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.LinkedList;
 import java.util.List;
 
 import dto.pallet.PalletDTO;
-import dto.part.PartDTO;
 import remote.model.part.IPart;
-import remote.model.part.RemotePart;
+import util.CarFacilityUtils;
 
 public class RemotePallet extends UnicastRemoteObject implements IPallet {
 
@@ -25,17 +23,8 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	public RemotePallet(PalletDTO palletDTO) throws RemoteException {
-		this(palletDTO.getId(), palletDTO.getPalletType(), 
-				toRemoteParts(palletDTO.getParts()));
-	}
-
-	public static List<IPart> toRemoteParts(List<PartDTO> allParts) throws RemoteException {
-		List<IPart> remoteParts = new LinkedList<>();
-		
-		for (PartDTO part : allParts)
-			remoteParts.add(new RemotePart(part));
-		
-		return remoteParts;
+		this(palletDTO.getId(), palletDTO.getPalletType(), CarFacilityUtils
+				.toRemoteParts(palletDTO.getParts()));
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 
 public class RemotePartDAOManager {
 
-	public static final String PART_DAO = "PartDAOServer";
+	public static final String PART_DAO = "RemotePartDAO";
 	
 	private RemotePartDAOManager() {}
 	

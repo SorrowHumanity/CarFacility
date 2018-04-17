@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import remote.model.car.ICar;
+import util.CarFacilityUtils;
 
 public class CarDTO implements Serializable {
 
@@ -22,8 +22,8 @@ public class CarDTO implements Serializable {
 	}
 
 	public CarDTO(ICar remoteCar) throws RemoteException {
-		this(remoteCar.getChassisNumber(), remoteCar.getModel(),
-				PalletDTO.toDTOParts(remoteCar.getParts()));
+		this(remoteCar.getChassisNumber(), remoteCar.getModel(), CarFacilityUtils
+																.toDTOParts(remoteCar.getParts()));
 	}
 
 	public String getChassisNumber() {
