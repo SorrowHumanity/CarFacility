@@ -19,7 +19,7 @@ import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
 
-public class RemoteDismantleBase extends UnicastRemoteObject implements IDismantleBase {
+public class RemoteDismantleStationBase extends UnicastRemoteObject implements IDismantleStationBase {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	private IPartDAO partDAO;
 	private IPalletDAO palletDAO;
 
-	public RemoteDismantleBase(IPartDAO partDAO, IPalletDAO palletDAO) throws RemoteException {
+	public RemoteDismantleStationBase(IPartDAO partDAO, IPalletDAO palletDAO) throws RemoteException {
 		this.partDAO = partDAO;
 		this.palletDAO = palletDAO;
 	}
@@ -121,7 +121,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	public static void main(String[] args) throws RemoteException {
-		IDismantleBase disBase = new RemoteDismantleBase(new RemotePartDAOServer(), new RemotePalletDAOServer());
+		IDismantleStationBase disBase = new RemoteDismantleStationBase(new RemotePartDAOServer(), new RemotePalletDAOServer());
 		List<IPart> parts = disBase.getAllParts();
 		System.out.println(parts);
 	}

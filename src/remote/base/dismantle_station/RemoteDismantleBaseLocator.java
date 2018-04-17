@@ -14,13 +14,13 @@ public class RemoteDismantleBaseLocator {
 
 	private RemoteDismantleBaseLocator() {}
 
-	public static IDismantleBase lookupBase() throws MalformedURLException, RemoteException, NotBoundException {
-		return (IDismantleBase) Naming.lookup(DISMANTLE_BASE_ID);
+	public static IDismantleStationBase lookupBase() throws MalformedURLException, RemoteException, NotBoundException {
+		return (IDismantleStationBase) Naming.lookup(DISMANTLE_BASE_ID);
 	}
 
 	public static void bindBase(IPartDAO partDAO, IPalletDAO palletDAO)
 			throws RemoteException, MalformedURLException {
-		Naming.rebind(DISMANTLE_BASE_ID, new RemoteDismantleBase(partDAO, palletDAO));
+		Naming.rebind(DISMANTLE_BASE_ID, new RemoteDismantleStationBase(partDAO, palletDAO));
 	}
 
 }
