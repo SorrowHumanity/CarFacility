@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import dto.pallet.PalletDTO;
-import remote.base.dismantle_station.DismantleBaseLocator;
-import remote.base.dismantle_station.IDismantleBase;
 import remote.model.part.IPart;
 import util.Utils;
 
@@ -81,20 +79,6 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 		double combinedWeight = Double.sum(part.getWeightKg(), getWeightKg());
 		System.out.println("Combined weight: " + combinedWeight);
 		return Double.compare(combinedWeight, PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0;
-	}
-
-	public static void main(String[] args) throws RemoteException {
-		IPallet p = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID).getPallet(2);
-		System.out.println(p.getPalletType());
-		IDismantleBase disBase = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID);
-		List<IPart> list = disBase.getAllParts();
-		if (p.palletFits(list.get(5))) {
-			System.out.println(list.get(5).getWeightKg());
-			boolean r = p.addPart(list.get(5));
-			System.out.println("Yes: " + p.getWeightKg());
-		} else {
-			System.out.println("NO");
-		}
 	}
 
 }

@@ -2,7 +2,6 @@ package remote.model.car;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Arrays;
 import java.util.List;
 
 import dto.car.CarDTO;

@@ -36,6 +36,16 @@ public class Utils {
 		return remoteParts;
 	}
 
+	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
+		LinkedList<IPart> remoteParts = new LinkedList<>();
+	
+		for (PartDTO part : allParts)
+			remoteParts.add(new RemotePart(part));
+	
+		return remoteParts;
+	
+	}
+
 	public static List<PartDTO> toDTOPartsList(List<IPart> allRemoteParts) throws RemoteException {
 		LinkedList<PartDTO> allDTOParts = new LinkedList<>();
 
@@ -75,30 +85,10 @@ public class Utils {
 		return palletDTOs;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static <T> T[] toArray(List<T> list) {
-		T[] array = (T[]) new Object[list.size()];
-
-		for (int i = 0; i < list.size(); i++)
-			array[i] = list.get(i);
-
-		return array;
-	}
-
 	public static PartDTO[] toPartDTOArray(List<PartDTO> DTOparts) {
 		PartDTO[] array = new PartDTO[DTOparts.size()];
 		DTOparts.toArray(array);
 		return array;
-	}
-
-	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
-		LinkedList<IPart> remoteParts = new LinkedList<>();
-		
-		for (PartDTO part : allParts)
-			remoteParts.add(new RemotePart(part));
-		
-		return remoteParts;
-
 	}
 
 	public static double weightParts(Collection<PartDTO> allParts) {
