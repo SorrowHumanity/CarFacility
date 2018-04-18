@@ -70,7 +70,7 @@ public class PalletDTO implements Serializable {
 		for (PartDTO partDTO : parts)
 			sb.append(partDTO + "\n");
 
-		// sb.append(String.format("totalWeight: %d]", getTotalWeightKg()));
+		sb.append(String.format("totalWeight: %d]", getWeightKg()));
 		return sb.toString();
 	}
 

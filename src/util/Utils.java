@@ -13,7 +13,7 @@ import remote.model.pallet.IPallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
 
-public class Utils {
+public final class Utils {
 
 	private Utils() {}
 

@@ -28,7 +28,7 @@ import remote.model.part.IPart;
 import remote.model.part.RemotePart;
 import util.Utils;
 
-public class ServerMain {
+public final class ServerMain {
 
 	private ServerMain() {}
 
