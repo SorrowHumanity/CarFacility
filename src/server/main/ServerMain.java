@@ -28,7 +28,7 @@ public class ServerMain {
 	}
 
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
-		startCarFacilitySystem();
+		bindRemoteComponents();
 
 		// List<IPart> parts = new LinkedList<>();
 		// parts.add(new RemotePart(1, "987", "Mitsubishi Engine", 30.5));
@@ -42,7 +42,7 @@ public class ServerMain {
 		// System.out.println(pallet.getPalletType());
 	}
 
-	private static void startCarFacilitySystem() throws RemoteException, MalformedURLException, NotBoundException {
+	private static void bindRemoteComponents() throws RemoteException, MalformedURLException, NotBoundException {
 		// export registry
 		LocateRegistry.createRegistry(1099);
 
@@ -54,7 +54,6 @@ public class ServerMain {
 		// bind Base objects
 		RegistrationBaseLocator.bindBase(RegistrationBaseLocator.REGISTRATION_BASE_ID);
 		DismantleBaseLocator.bindBase(DismantleBaseLocator.DISMANTLE_BASE_ID);
-
 	}
 
 }
