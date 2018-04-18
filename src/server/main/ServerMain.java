@@ -1,4 +1,4 @@
-package remote.main;
+package server.main;
 
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
@@ -20,7 +20,7 @@ import remote.model.pallet.IPallet;
 import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
-import util.CarFacilityUtils;
+import util.Utils;
 
 public class ServerMain {
 

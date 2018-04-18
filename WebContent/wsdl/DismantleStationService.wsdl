@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://dismantle_station.service.server"
+	xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://dismantle_station.service.server"
+	xmlns:intf="http://dismantle_station.service.server" xmlns:tns1="http://part.dto"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!--WSDL created by Apache Axis version: 1.4 Built on Apr 22, 2006 (06:55:48 
+		PDT) -->
+	<wsdl:types>
+		<schema elementFormDefault="qualified"
+			targetNamespace="http://dismantle_station.service.server" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://part.dto" />
+			<element name="getParts">
+				<complexType>
+					<sequence>
+						<element name="carChassisNumber" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="getPartsResponse">
+				<complexType>
+					<sequence>
+						<element maxOccurs="unbounded" name="getPartsReturn" type="tns1:PartDTO" />
+					</sequence>
+				</complexType>
+			</element>
+		</schema>
+		<schema elementFormDefault="qualified" targetNamespace="http://part.dto"
+			xmlns="http://www.w3.org/2001/XMLSchema">
+			<complexType name="PartDTO">
+				<sequence>
+					<element name="carChassisNumber" nillable="true" type="xsd:string" />
+					<element name="id" type="xsd:int" />
+					<element name="name" nillable="true" type="xsd:string" />
+					<element name="weightKg" type="xsd:double" />
+				</sequence>
+			</complexType>
+		</schema>
+	</wsdl:types>
+
+	<wsdl:message name="getPartsRequest">
+
+		<wsdl:part element="impl:getParts" name="parameters">
+
+		</wsdl:part>
+
+	</wsdl:message>
+
+	<wsdl:message name="getPartsResponse">
+
+		<wsdl:part element="impl:getPartsResponse" name="parameters">
+
+		</wsdl:part>
+
+	</wsdl:message>
+
+	<wsdl:portType name="DismantleStationService">
+
+		<wsdl:operation name="getParts">
+
+			<wsdl:input message="impl:getPartsRequest" name="getPartsRequest">
+
+			</wsdl:input>
+
+			<wsdl:output message="impl:getPartsResponse" name="getPartsResponse">
+
+			</wsdl:output>
+
+		</wsdl:operation>
+
+	</wsdl:portType>
+
+	<wsdl:binding name="DismantleStationServiceSoapBinding"
+		type="impl:DismantleStationService">
+
+		<wsdlsoap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="getParts">
+
+			<wsdlsoap:operation soapAction="" />
+
+			<wsdl:input name="getPartsRequest">
+
+				<wsdlsoap:body use="literal" />
+
+			</wsdl:input>
+
+			<wsdl:output name="getPartsResponse">
+
+				<wsdlsoap:body use="literal" />
+
+			</wsdl:output>
+
+		</wsdl:operation>
+
+	</wsdl:binding>
+
+	<wsdl:service name="DismantleStationServiceService">
+
+		<wsdl:port binding="impl:DismantleStationServiceSoapBinding"
+			name="DismantleStationService">
+
+			<wsdlsoap:address
+				location="http://localhost:8080/CarFacilityServer/services/DismantleStationService" />
+
+		</wsdl:port>
+
+	</wsdl:service>
+
+</wsdl:definitions>

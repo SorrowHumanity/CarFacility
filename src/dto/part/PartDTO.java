@@ -13,11 +13,13 @@ public class PartDTO implements Serializable {
 	private String carChassisNumber, name;
 	private double weightKg;
 
+	public PartDTO() {}
+	
 	public PartDTO(int id, String chassisNumber, String name, double weightKg) {
-		this.id = id;
-		this.carChassisNumber = chassisNumber;
-		this.name = name;
-		this.weightKg = weightKg;
+		setId(id);
+		setCarChassisNumber(chassisNumber);
+		setName(name);
+		setWeightKg(weightKg);
 	}
 	
 	public PartDTO(String chassisNumber, String name, double weightKg) {
@@ -43,6 +45,22 @@ public class PartDTO implements Serializable {
 
 	public String getCarChassisNumber() {
 		return carChassisNumber;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setCarChassisNumber(String carChassisNumber) {
+		this.carChassisNumber = carChassisNumber;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setWeightKg(double weightKg) {
+		this.weightKg = weightKg;
 	}
 
 	@Override

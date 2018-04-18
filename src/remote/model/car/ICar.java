@@ -14,6 +14,6 @@ public interface ICar extends Remote {
 	
 	List<IPart> getParts() throws RemoteException;
 	
-	double getWeight() throws RemoteException;
+	double getWeightKg() throws RemoteException;
 	
 }

@@ -6,26 +6,27 @@ import java.util.List;
 
 import dto.part.PartDTO;
 import remote.model.pallet.IPallet;
-import util.CarFacilityUtils;
+import util.Utils;
 
 public class PalletDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	public static final double MAX_PALLET_WEIGHT_KG = 250;
-	
+
 	private int id;
 	private String palletType;
-	private List<PartDTO> parts;
+	private PartDTO[] parts;
 
-	public PalletDTO(int id, String palletType, List<PartDTO> parts) {
-		this.id = id;
-		this.palletType = palletType;
-		this.parts = parts;
+	public PalletDTO() {}
+
+	public PalletDTO(int id, String palletType, PartDTO[] parts) {
+		setId(id);
+		setPalletType(palletType);
+		setParts(parts);
 	}
 
 	public PalletDTO(IPallet remotePallet) throws RemoteException {
-		this(remotePallet.getId(), remotePallet.getPalletType(), CarFacilityUtils
-																.toDTOParts(remotePallet.getParts()));
+		this(remotePallet.getId(), remotePallet.getPalletType(), Utils.toDTOPartsArray(remotePallet.getParts()));
 	}
 
 	public int getId() {
@@ -36,7 +37,7 @@ public class PalletDTO implements Serializable {
 		return palletType;
 	}
 
-	public List<PartDTO> getParts() {
+	public PartDTO[] getParts() {
 		return parts;
 	}
 
@@ -49,13 +50,26 @@ public class PalletDTO implements Serializable {
 		return totalWeight;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setPalletType(String palletType) {
+		this.palletType = palletType;
+	}
+
+	public void setParts(PartDTO[] parts) {
+		this.parts = parts;
+	}
+
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder(String.format("PalletDTO [id: %d, palletType: %s, \nParts:\n", id, palletType));
-		
-		for (PartDTO partDTO : parts) 
+		StringBuilder sb = new StringBuilder(
+				String.format("PalletDTO [id: %d, palletType: %s, \nParts:\n", id, palletType));
+
+		for (PartDTO partDTO : parts)
 			sb.append(partDTO + "\n");
-		
+
 		sb.append(String.format("totalWeight: %d]", getTotalWeightKg()));
 		return sb.toString();
 	}

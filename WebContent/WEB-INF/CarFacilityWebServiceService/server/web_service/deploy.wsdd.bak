@@ -1,0 +1,55 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from CarFacilityWebServiceService WSDL service -->
+
+  <service name="CarFacilityWebService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://web_service.server"/>
+      <parameter name="wsdlServiceElement" value="CarFacilityWebServiceService"/>
+      <parameter name="schemaQualified" value="http://web_service.server,http://part.dto,http://car.dto"/>
+      <parameter name="wsdlServicePort" value="CarFacilityWebService"/>
+      <parameter name="className" value="server.web_service.CarFacilityWebServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="CarFacilityWebService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getCar" qname="operNS:getCar" xmlns:operNS="http://web_service.server" returnQName="retNS:getCarReturn" xmlns:retNS="http://web_service.server" returnType="rtns:CarDTO" xmlns:rtns="http://car.dto" soapAction="" >
+        <parameter qname="pns:chassisNumber" xmlns:pns="http://web_service.server" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="getParts" qname="operNS:getParts" xmlns:operNS="http://web_service.server" returnQName="retNS:getPartsReturn" xmlns:retNS="http://web_service.server" returnType="rtns:PartDTO" xmlns:rtns="http://part.dto" soapAction="" >
+        <parameter qname="pns:carChassisNumber" xmlns:pns="http://web_service.server" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="getCar getParts"/>
+
+      <typeMapping
+        xmlns:ns="http://car.dto"
+        qname="ns:CarDTO"
+        type="java:dto.car.CarDTO"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://part.dto"
+        qname="ns:PartDTO"
+        type="java:dto.part.PartDTO"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://web_service.server"
+        qname="ns:ArrayOf_tns2_PartDTO"
+        type="java:dto.part.PartDTO[]"
+        innerType="cmp-ns:PartDTO" xmlns:cmp-ns="http://part.dto"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

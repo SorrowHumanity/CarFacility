@@ -12,10 +12,10 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 
 	private static final long serialVersionUID = 1L;
 
-	private DatabaseHelper<PartDTO> partsDB;
+	private DatabaseHelper<PartDTO> partsDb;
 
 	public RemotePartDAOServer() throws RemoteException {
-		partsDB = new DatabaseHelper<>(
+		partsDb = new DatabaseHelper<>(
 				DatabaseHelper.CAR_FACILITY_DB_URL, 
 				DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
@@ -24,7 +24,7 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 	@Override
 	public PartDTO create(String chassisNumber, String name, double weight) throws RemoteException {
 		// create database entry
-		int id = partsDB
+		int id = partsDb
 				.executeUpdateReturningId("INSERT INTO "
 						+ "car_facility_schema.parts (car_chassis_number, name, weight_kg)"
 						+ " VALUES (?, ?, ?) RETURNING id;", chassisNumber, name, weight);
@@ -34,13 +34,13 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 
 	@Override
 	public Collection<PartDTO> read(String chassisNumber) throws RemoteException {
-		return partsDB.map((rs) -> createPart(rs), 
+		return partsDb.map((rs) -> createPart(rs), 
 		"SELECT * FROM car_facility_schema.parts WHERE parts.car_chassis_number = ?;", chassisNumber);
 	}
 
 	@Override
 	public Collection<PartDTO> read(int palletId) throws RemoteException {
-		return partsDB.map((rs) -> createPart(rs),
+		return partsDb.map((rs) -> createPart(rs),
 				"SELECT car_facility_schema.parts.id, car_facility_schema.parts.name,"
 						+ " car_facility_schema.parts.car_chassis_number, car_facility_schema.parts.weight_kg "
 						+ "FROM car_facility_schema.parts, car_facility_schema.contains, car_facility_schema.pallets "
@@ -50,13 +50,13 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 
 	@Override
 	public Collection<PartDTO> readAll() throws RemoteException {
-		return partsDB.map((rs) -> createPart(rs), "SELECT * FROM car_facility_schema.parts;");
+		return partsDb.map((rs) -> createPart(rs), "SELECT * FROM car_facility_schema.parts;");
 	}
 
 	@Override
 	public boolean update(PartDTO partDTO) throws RemoteException {
 		// update database
-		int rowsAffected = partsDB.executeUpdate("UPDATE car_facility_schema.parts" + 
+		int rowsAffected = partsDb.executeUpdate("UPDATE car_facility_schema.parts" + 
 				" SET car_chassis_number = ?, name = ?, weight_kg = ? WHERE id = ?;", 
 				partDTO.getCarChassisNumber(), partDTO.getName(), partDTO.getWeightKg(), partDTO.getId());
 		
@@ -66,7 +66,7 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 	@Override
 	public boolean delete(PartDTO partDTO) throws RemoteException {
 		// update database
-		int rowsAffected = partsDB.executeUpdate("DELETE FROM car_facility_schema.parts WHERE parts.id = ?;",
+		int rowsAffected = partsDb.executeUpdate("DELETE FROM car_facility_schema.parts WHERE parts.id = ?;",
 				partDTO.getId());
 		
 		return rowsAffected != 0;

@@ -90,8 +90,8 @@ public class DatabaseHelper<T> {
 	}
 
 	public T mapSingle(DataMapper<T> mapper, String sql, Object... parameters) throws RemoteException {
-		try (Connection connection = getConnection()) {
-			PreparedStatement stat = prepare(connection, sql, parameters);
+		try (Connection con = getConnection()) {
+			PreparedStatement stat = prepare(con, sql, parameters);
 			ResultSet rs = stat.executeQuery();
 			if (rs.next()) {
 				return mapper.create(rs);
@@ -104,8 +104,8 @@ public class DatabaseHelper<T> {
 	}
 
 	public List<T> map(DataMapper<T> mapper, String sql, Object... parameters) throws RemoteException {
-		try (Connection connection = getConnection()) {
-			PreparedStatement stat = prepare(connection, sql, parameters);
+		try (Connection con = getConnection()) {
+			PreparedStatement stat = prepare(con, sql, parameters);
 			ResultSet rs = stat.executeQuery();
 			LinkedList<T> allObjects = new LinkedList<>();
 			while (rs.next()) {

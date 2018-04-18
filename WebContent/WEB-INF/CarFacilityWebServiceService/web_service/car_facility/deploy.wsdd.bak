@@ -1,0 +1,29 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from CarFacilityWebServiceService WSDL service -->
+
+  <service name="CarFacilityWebService" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://car_facility.web_service"/>
+      <parameter name="wsdlServiceElement" value="CarFacilityWebServiceService"/>
+      <parameter name="schemaQualified" value="http://car_facility.web_service"/>
+      <parameter name="wsdlServicePort" value="CarFacilityWebService"/>
+      <parameter name="className" value="web_service.car_facility.CarFacilityWebServiceSoapBindingImpl"/>
+      <parameter name="wsdlPortType" value="CarFacilityWebService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation name="getCar" qname="operNS:getCar" xmlns:operNS="http://car_facility.web_service" returnQName="retNS:getCarReturn" xmlns:retNS="http://car_facility.web_service" returnType="rtns:anyType" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="pns:chassisNumber" xmlns:pns="http://car_facility.web_service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <parameter name="allowedMethods" value="getCar"/>
+
+  </service>
+</deployment>

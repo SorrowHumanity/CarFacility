@@ -1,8 +1,6 @@
 package remote.base.dismantle_station;
 
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 import remote.dao.pallet.PalletDAOLocator;
@@ -14,12 +12,20 @@ public final class DismantleBaseLocator {
 
 	private DismantleBaseLocator() {}
 
-	public static IDismantleBase lookupBase() throws MalformedURLException, RemoteException, NotBoundException {
-		return (IDismantleBase) Naming.lookup(DISMANTLE_BASE_ID);
+	public static IDismantleBase lookupBase(String id) throws RemoteException {
+		try {
+			return (IDismantleBase) Naming.lookup(id);
+		} catch (Exception e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
 	}
 
-	public static void bindBase(String id) throws RemoteException, MalformedURLException, NotBoundException {
-		Naming.rebind(id, new RemoteDismantleBase(PartDAOLocator.lookupDAO(), PalletDAOLocator.lookupDAO()));
+	public static void bindBase(String id) throws RemoteException {
+		try {
+			Naming.rebind(id, new RemoteDismantleBase(PartDAOLocator.lookupDAO(), PalletDAOLocator.lookupDAO()));
+		} catch (Exception e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
 	}
 
 }

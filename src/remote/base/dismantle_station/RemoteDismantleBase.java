@@ -16,7 +16,7 @@ import remote.model.pallet.IPallet;
 import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
-import util.CarFacilityUtils;
+import util.Utils;
 
 public class RemoteDismantleBase extends UnicastRemoteObject implements IDismantleBase {
 
@@ -34,16 +34,18 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public IPart registerPart(String carChassisNumber, String name, double weight) throws RemoteException {
+	public PartDTO registerPart(String carChassisNumber, String name, double weight) throws RemoteException {
 		// create part in the database
 		PartDTO partDTO = partDAO.create(carChassisNumber, name, weight);
 
-		// cache & return the remote part object;
-		return partCache.put(partDTO.getId(), new RemotePart(partDTO));
+		// cache
+		partCache.put(partDTO.getId(), new RemotePart(partDTO));
+	
+		return partDTO;
 	}
 
 	@Override
-	public List<IPart> getParts(String carChassisNumber) throws RemoteException {
+	public PartDTO[] getParts(String carChassisNumber) throws RemoteException {
 		// read all parts from the database
 		Collection<PartDTO> parts = partDAO.read(carChassisNumber);
 
@@ -62,62 +64,64 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			matchingParts.add(partCache.get(dto.getId()));
 		}
 
-		return matchingParts;
+		return Utils.toDTOPartsArray(matchingParts);
 	}
 
 	@Override
-	public List<IPart> getParts(int palletId) throws RemoteException {
+	public PartDTO[] getParts(int palletId) throws RemoteException {
 		// read all parts from the database
-		Collection<PartDTO> parts = partDAO.read(palletId);
+		Collection<PartDTO> allParts = partDAO.read(palletId);
 
 		// create output collection
-		LinkedList<IPart> matchingParts = new LinkedList<>();
+		LinkedList<PartDTO> output = new LinkedList<>();
 
 		// go through all parts
-		for (PartDTO dto : parts) {
+		for (PartDTO part : allParts) {
 
 			// cache, if it is not already cached
-			if (!partCache.containsKey(dto.getId())) {
-				partCache.put(dto.getId(), new RemotePart(dto));
+			if (!partCache.containsKey(part.getId())) {
+				partCache.put(part.getId(), new RemotePart(part));
 			}
 
 			// add to output collection
-			matchingParts.add(partCache.get(dto.getId()));
+			output.add(part);
 		}
 
-		return matchingParts;
+		return Utils.toArray(output);
 	}
 
 	@Override
-	public List<IPart> getAllParts() throws RemoteException {
+	public PartDTO[] getAllParts() throws RemoteException {
 		// read all parts from the database
-		Collection<PartDTO> parts = partDAO.readAll();
+		Collection<PartDTO> allParts = partDAO.readAll();
 
 		// create output collection
-		LinkedList<IPart> matchingParts = new LinkedList<>();
+		LinkedList<PartDTO> output = new LinkedList<>();
 
 		// go through all parts
-		for (PartDTO dto : parts) {
+		for (PartDTO part : allParts) {
 
 			// cache, if it is not already cached
-			if (!partCache.containsKey(dto.getId())) {
-				partCache.put(dto.getId(), new RemotePart(dto));
+			if (!partCache.containsKey(part.getId())) {
+				partCache.put(part.getId(), new RemotePart(part));
 			}
 
 			// add to output collection
-			matchingParts.add(partCache.get(dto.getId()));
+			output.add(part);
 		}
 
-		return matchingParts;
+		return Utils.toArray(output);
 	}
 
 	@Override
-	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
+	public PalletDTO registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		// create pallet in the database
-		PalletDTO palletDTO = palletDAO.create(palletType, CarFacilityUtils.toDTOParts(parts));
+		PalletDTO palletDTO = palletDAO.create(palletType, Utils.toDTOPartsArray(parts));
 
 		// create remote palet and cache it
-		return palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
+		palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
+	
+		return palletDTO;
 	}
 
 	@Override
@@ -145,7 +149,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public IPallet getPallet(int palletId) throws RemoteException {
+	public PalletDTO getPallet(int palletId) throws RemoteException {
 		// cache, if it is not already cached
 		if (!palletCache.containsKey(palletId)) {
 
@@ -156,16 +160,16 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
 		}
 
-		return palletCache.get(palletId);
+		return new PalletDTO(palletCache.get(palletId));
 	}
 
 	@Override
-	public List<IPallet> getAllPallets() throws RemoteException {
+	public PalletDTO[] getAllPallets() throws RemoteException {
 		// read all parts from the database
 		Collection<PalletDTO> allPallets = palletDAO.readAll();
 
 		// create output collection
-		LinkedList<IPallet> palletList = new LinkedList<>();
+		LinkedList<PalletDTO> output = new LinkedList<>();
 
 		// go through all parts
 		for (PalletDTO pallet : allPallets) {
@@ -176,30 +180,30 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			}
 
 			// add to output collection
-			palletList.add(palletCache.get(pallet.getId()));
+			output.add(pallet);
 		}
 
-		return palletList;
+		return Utils.toArray(output);
 	}
 
 	@Override
-	public List<IPart> dismantleCar(ICar car) throws RemoteException {
+	public PartDTO[] dismantleCar(ICar car) throws RemoteException {
 		// create output collection
-		LinkedList<IPart> carParts = new LinkedList<>();
+		LinkedList<PartDTO> carParts = new LinkedList<>();
 
 		// register all parts
 		for (IPart part : car.getParts()) {
 			// register part
-			IPart remotePart = registerPart(part.getCarChassisNumber(), part.getName(), part.getWeightKg());
+			PartDTO remotePart = registerPart(part.getCarChassisNumber(), part.getName(), part.getWeightKg());
 			
 			// add part to output list
 			carParts.add(remotePart);
 			
 			// add part to pallet
-			addToPallet(remotePart);
+			addToPallet(new RemotePart(remotePart));
 		}
 
-		return carParts;
+		return Utils.toArray(carParts);
 	}
 
 }

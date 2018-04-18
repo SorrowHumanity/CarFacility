@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import dto.part.PartDTO;
-import remote.dao.pallet.PalletEntityConstants;
 
 public class RemotePart extends UnicastRemoteObject implements IPart {
 

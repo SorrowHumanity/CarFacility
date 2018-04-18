@@ -1,7 +1,5 @@
 package remote.dao.car;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.ResultSet;
@@ -13,8 +11,7 @@ import dto.car.CarDTO;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 import remote.base.dismantle_station.DismantleBaseLocator;
-import remote.model.part.IPart;
-import util.CarFacilityUtils;
+import util.Utils;
 
 public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
@@ -31,13 +28,15 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
 	@Override
 	public CarDTO create(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
-		double weight = CarFacilityUtils.weightParts(parts);
+		// weight parts
+		double weight = Utils.weightParts(parts);
 		
+		// update database
 		carDB.executeUpdate(
-				"INSERT INTO car_facility_schema.cars" + " (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
+				"INSERT INTO car_facility_schema.cars (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
 				chassisNumber, model, weight);
 
-		return new CarDTO(chassisNumber, model, parts);
+		return new CarDTO(chassisNumber, model, Utils.toArray(parts));
 	}
 
 	@Override
@@ -48,7 +47,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
 	@Override
 	public Collection<CarDTO> readAll() throws RemoteException {
-		return carDB.map((rs) -> createCar(rs), "SELECT * FROM car_facility_schema.cars");
+		return carDB.map((rs) -> createCar(rs), "SELECT * FROM car_facility_schema.cars;");
 	}
 
 	@Override
@@ -72,9 +71,11 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 		String chassisNumber = rs.getString("chassis_number");
 		String model = rs.getString("model");
 		try {
-			List<IPart> parts = DismantleBaseLocator.lookupBase().getParts(chassisNumber);
-			return new CarDTO(chassisNumber, model, CarFacilityUtils.toDTOParts(parts));
-		} catch (RemoteException | MalformedURLException | NotBoundException e) {
+			PartDTO[] parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID)
+					.getParts(chassisNumber);
+			return new CarDTO(chassisNumber, model, parts);
+		} catch (RemoteException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

@@ -16,7 +16,7 @@ public final class PalletDAOLocator {
 	}
 
 	public static void bindDAO(String id) throws RemoteException, MalformedURLException {
-		Naming.rebind(PALLET_DAO_ID, new RemotePalletDAOServer());
+		Naming.rebind(id, new RemotePalletDAOServer());
 	}
 
 }
