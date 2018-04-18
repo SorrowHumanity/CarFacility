@@ -56,7 +56,7 @@ public class Utils {
 		return array;
 	}
 	
-	public static double weightParts(List<PartDTO> allParts) {
+	public static double weightParts(Collection<PartDTO> allParts) {
 		double totalWeight = 0;
 
 		for (PartDTO part : allParts)
