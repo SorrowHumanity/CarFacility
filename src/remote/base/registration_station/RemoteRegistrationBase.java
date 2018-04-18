@@ -13,7 +13,6 @@ import dto.part.PartDTO;
 import remote.dao.car.ICarDAO;
 import remote.model.car.ICar;
 import remote.model.car.RemoteCar;
-import util.Utils;
 
 public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegistrationBase {
 
@@ -28,18 +27,16 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 	}
 
 	@Override
-	public CarDTO registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
+	public synchronized ICar registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
 		// create database entry
 		CarDTO carDTO = carDAO.create(chassisNumber, model, parts);
 
-		// cache
-		carCache.put(chassisNumber, new RemoteCar(carDTO));
-		
-		return carDTO;
+		// cache and return
+		return carCache.put(chassisNumber, new RemoteCar(carDTO));
 	}
 
 	@Override
-	public CarDTO getCar(String chassisNumber) throws RemoteException {
+	public synchronized ICar getCar(String chassisNumber) throws RemoteException {
 		// check if car is cached
 		if (!carCache.containsKey(chassisNumber)) {
 
@@ -50,16 +47,16 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 			carCache.put(chassisNumber, new RemoteCar(carDTO));
 		}
 
-		return new CarDTO(carCache.get(chassisNumber));
+		return carCache.get(chassisNumber);
 	}
 
 	@Override
-	public CarDTO[] getAllCars() throws RemoteException {
+	public synchronized List<ICar> getAllCars() throws RemoteException {
 		// read all cars from the database
 		Collection<CarDTO> allCars = carDAO.readAll();
 
 		// create output collection
-		LinkedList<CarDTO> carList = new LinkedList<>();
+		LinkedList<ICar> carList = new LinkedList<>();
 
 		// cache if not already cached
 		for (CarDTO car : allCars) {
@@ -67,10 +64,10 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 				carCache.put(car.getChassisNumber(), new RemoteCar(car));
 
 			// add to output collection
-			carList.add(car);
+			carList.add(carCache.get(car.getChassisNumber()));
 		}
 
-		return Utils.toArray(carList);
+		return carList;
 	}
 
 }

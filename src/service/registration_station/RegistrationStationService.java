@@ -12,6 +12,7 @@ import dto.car.CarDTO;
 import dto.part.PartDTO;
 import remote.base.registration_station.IRegistrationBase;
 import remote.base.registration_station.RegistrationBaseLocator;
+import util.Utils;
 
 @WebService
 public class RegistrationStationService {
@@ -23,18 +24,19 @@ public class RegistrationStationService {
 	}
 
 	@WebMethod
-	public CarDTO getCar(String chassisNumber) throws RemoteException {
-		return registrationBase.getCar(chassisNumber);
+	public CarDTO registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
+		return new CarDTO(registrationBase.registerCar(chassisNumber, model, parts));
 	}
 
 	@WebMethod
-	public CarDTO registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
-		return registrationBase.registerCar(chassisNumber, model, parts);
+	public CarDTO getCar(String chassisNumber) throws RemoteException {
+		return new CarDTO(registrationBase.getCar(chassisNumber));
 	}
 
 	@WebMethod
 	public CarDTO[] getAllCars() throws RemoteException {
-		return registrationBase.getAllCars();
+		CarDTO[] allcars = Utils.toCarDTOArray(registrationBase.getAllCars());
+		return allcars;
 	}
 
 }

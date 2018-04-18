@@ -7,10 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 import remote.base.dismantle_station.DismantleBaseLocator;
+import remote.model.part.IPart;
 import util.Utils;
 
 public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
@@ -97,16 +100,15 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	private PalletDTO createPallet(ResultSet rs) throws SQLException, RemoteException, MalformedURLException {
 		int palletId = rs.getInt("id");
 		String palletType = rs.getString("pallet_type");
-		// DismantleBase is required to get all parts for each pallet
-		PartDTO[] parts = null;
 		
+		// DismantleBase is required to get all parts for each pallet
+		List<IPart> parts = null;
 		try {
 			parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID).getParts(palletId);
+			return new PalletDTO(palletId, palletType, Utils.toDTOPartsArray(parts));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
-		
-		return new PalletDTO(palletId, palletType, parts);
 	}
 
 }

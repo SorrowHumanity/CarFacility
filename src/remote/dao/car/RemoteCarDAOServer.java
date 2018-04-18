@@ -11,6 +11,7 @@ import dto.car.CarDTO;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 import remote.base.dismantle_station.DismantleBaseLocator;
+import remote.model.part.IPart;
 import util.Utils;
 
 public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
@@ -70,10 +71,11 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	private CarDTO createCar(ResultSet rs) throws SQLException {
 		String chassisNumber = rs.getString("chassis_number");
 		String model = rs.getString("model");
+		List<IPart> parts = null;
 		try {
-			PartDTO[] parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID)
+			parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID)
 					.getParts(chassisNumber);
-			return new CarDTO(chassisNumber, model, parts);
+			return new CarDTO(chassisNumber, model, Utils.toDTOPartsArray(parts));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			return null;
