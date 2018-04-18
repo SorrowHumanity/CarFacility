@@ -13,7 +13,7 @@ public final class RegistrationBaseLocator {
 
 	public static void bindBase(String id) throws RemoteException {
 		try {
-			Naming.rebind(id, new RemoteRegistrationBase(CarDAOLocator.lookupDAO()));
+			Naming.rebind(id, new RemoteRegistrationBase(CarDAOLocator.lookupDAO(CarDAOLocator.CAR_DAO_ID)));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

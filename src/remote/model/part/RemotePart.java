@@ -20,8 +20,8 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 		this.weightKg = weightKg;
 	}
 
-	public RemotePart(PartDTO partDTO) throws RemoteException {
-		this(partDTO.getId(), partDTO.getCarChassisNumber(), partDTO.getName(), partDTO.getWeightKg());
+	public RemotePart(PartDTO partDto) throws RemoteException {
+		this(partDto.getId(), partDto.getCarChassisNumber(), partDto.getName(), partDto.getWeightKg());
 	}
 
 	@Override

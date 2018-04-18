@@ -8,7 +8,7 @@ import dto.part.PartDTO;
 
 public interface IPartDAO extends Remote {
 
-	PartDTO create(String chassisNumber, String name, double weight) throws RemoteException;
+	PartDTO create(String chassisNumber, String name, double weightKg) throws RemoteException;
 
 	Collection<PartDTO> read(String chassisNumber) throws RemoteException;
 

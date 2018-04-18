@@ -25,14 +25,14 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 		this.weightKg = weightKg;
 	}
 
-	public RemotePallet(PalletDTO palletDTO) throws RemoteException {
-		this(palletDTO.getId(), palletDTO.getPalletType(), Utils.toRemotePartsList(Arrays.asList(palletDTO.getParts())),
-				palletDTO.getWeightKg());
+	public RemotePallet(PalletDTO palletDto) throws RemoteException {
+		this(palletDto.getId(), palletDto.getPalletType(), Utils.toRemotePartsList(Arrays.asList(palletDto.getParts())),
+				palletDto.getWeightKg());
 	}
 
 	@Override
 	public boolean addPart(IPart part) throws RemoteException {
-		weightKg = Double.sum(weightKg, part.getWeightKg());
+		weightKg += part.getWeightKg();
 		return parts.add(part);
 	}
 

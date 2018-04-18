@@ -22,14 +22,14 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 	}
 
 	@Override
-	public PartDTO create(String chassisNumber, String name, double weight) throws RemoteException {
+	public PartDTO create(String chassisNumber, String name, double weightKg) throws RemoteException {
 		// create database entry
 		int id = partsDb
 				.executeUpdateReturningId("INSERT INTO "
 						+ "car_facility_schema.parts (car_chassis_number, name, weight_kg)"
-						+ " VALUES (?, ?, ?) RETURNING id;", chassisNumber, name, weight);
+						+ " VALUES (?, ?, ?) RETURNING id;", chassisNumber, name, weightKg);
 		
-		return new PartDTO(id, chassisNumber, name, weight);
+		return new PartDTO(id, chassisNumber, name, weightKg);
 	}
 
 	@Override
@@ -76,9 +76,9 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 		int id = rs.getInt("id");
 		String carChassisNumber = rs.getString("car_chassis_number");
 		String name = rs.getString("name");
-		double weight = rs.getDouble("weight_kg");
+		double weightKg = rs.getDouble("weight_kg");
 		
-		return new PartDTO(id, carChassisNumber, name, weight);
+		return new PartDTO(id, carChassisNumber, name, weightKg);
 	}
 
 }

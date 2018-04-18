@@ -10,7 +10,7 @@ public interface IPalletDAO extends Remote {
 
 	PalletDTO create(String palletType, PartDTO[] parts) throws RemoteException;
 
-	PalletDTO read(int id) throws RemoteException;
+	PalletDTO read(int palletId) throws RemoteException;
 
 	Collection<PalletDTO> readAll() throws RemoteException;
 

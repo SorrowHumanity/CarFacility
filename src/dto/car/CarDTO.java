@@ -39,15 +39,6 @@ public class CarDTO implements Serializable {
 		return parts;
 	}
 
-	public double getWeightKg() {
-		double totalWeight = 0;
-
-		for (PartDTO part : parts)
-			totalWeight += part.getWeightKg();
-
-		return totalWeight;
-	}
-
 	public void setChassisNumber(String chassisNumber) {
 		this.chassisNumber = chassisNumber;
 	}

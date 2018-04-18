@@ -21,8 +21,8 @@ public class RemoteCar extends UnicastRemoteObject implements ICar {
 		this.parts = parts;
 	}
 
-	public RemoteCar(CarDTO carDTO) throws RemoteException {
-		this(carDTO.getChassisNumber(), carDTO.getModel(), Utils.toRemotePartsList(carDTO.getParts()));
+	public RemoteCar(CarDTO carDto) throws RemoteException {
+		this(carDto.getChassisNumber(), carDto.getModel(), Utils.toRemotePartsList(carDto.getParts()));
 	}
 
 	@Override

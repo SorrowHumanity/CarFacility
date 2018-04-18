@@ -44,7 +44,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	}
 
 	@Override
-	public PalletDTO read(int id) throws RemoteException {
+	public PalletDTO read(int palletId) throws RemoteException {
 		return palletDb.mapSingle((rs) -> {
 			try {
 				return createPallet(rs);
@@ -52,7 +52,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 				e.printStackTrace();
 				return null;
 			}
-		}, "SELECT * FROM car_facility_schema.pallets WHERE pallets.id = ?;", id);
+		}, "SELECT * FROM car_facility_schema.pallets WHERE pallets.id = ?;", palletId);
 	}
 
 	@Override
@@ -68,25 +68,26 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	}
 
 	@Override
-	public boolean update(PalletDTO palletDTO) throws RemoteException {
-		// update entry in pallets entity
+	public boolean update(PalletDTO palletDto) throws RemoteException {
+		// update database
 		int rowsAffected = palletDb.executeUpdate(
 				"UPDATE car_facility_schema.pallets SET pallet_type = ?, total_weight_kg = ? WHERE id = ?;",
-				palletDTO.getPalletType(), palletDTO.getWeightKg(), palletDTO.getId());
+				palletDto.getPalletType(), palletDto.getWeightKg(), palletDto.getId());
 
-		associateParts(palletDTO.getId(), palletDTO.getParts());
+		// update the contents of the pallet
+		associateParts(palletDto.getId(), palletDto.getParts());
 
 		return rowsAffected != 0;
 	}
 
 	@Override
-	public boolean delete(PalletDTO palletDTO) throws RemoteException {
-		// remove all part associations
-		palletDb.executeUpdate("DELETE FROM car_facility_schema.contains" + " WHERE pallet_id = ?;", palletDTO.getId());
+	public boolean delete(PalletDTO palletDto) throws RemoteException {
+		// remove all part associations to the pallet
+		palletDb.executeUpdate("DELETE FROM car_facility_schema.contains WHERE pallet_id = ?;", palletDto.getId());
 
-		// remove entry from pallets entity
+		// remove pallet
 		int rowsAffected = palletDb.executeUpdate("DELETE FROM car_facility_schema.pallets WHERE id = ?;",
-				palletDTO.getId());
+				palletDto.getId());
 
 		return rowsAffected != 0;
 	}
