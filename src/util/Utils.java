@@ -34,7 +34,8 @@ public class Utils {
 	public static IPart[] toRemotePartsArray(List<PartDTO> partDTOParts) throws RemoteException {
 		IPart[] remoteParts = new IPart[partDTOParts.size()];
 		
-		for (int i = 0; i < remoteParts.length; i++)
+		int size = remoteParts.length;
+		for (int i = 0; i < size; i++)
 			remoteParts[i] = new RemotePart(partDTOParts.get(i));
 
 		return remoteParts;
@@ -43,7 +44,8 @@ public class Utils {
 	public static PartDTO[] toDTOPartsArray(List<IPart> remoteParts) throws RemoteException {
 		PartDTO[] partDTOs = new PartDTO[remoteParts.size()];
 		
-		for (int i = 0; i < partDTOs.length; i++) 
+		int size = partDTOs.length;
+		for (int i = 0; i < size; i++) 
 			partDTOs[i] = new PartDTO(remoteParts.get(i));
 		
 		return partDTOs;

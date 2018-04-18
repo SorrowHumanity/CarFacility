@@ -2,8 +2,6 @@ package dto.pallet;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.List;
-
 import dto.part.PartDTO;
 import remote.model.pallet.IPallet;
 import util.Utils;
