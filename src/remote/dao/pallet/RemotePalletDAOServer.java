@@ -34,8 +34,8 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		double weight = Utils.weightParts(Arrays.asList(palletParts));
 		// create pallet
 		int id = palletDb.executeUpdateReturningId(
-				"INSERT INTO car_facility_schema.pallets (pallet_type, total_weight_kg) VALUES (?, ?);", palletType,
-				weight);
+				"INSERT INTO car_facility_schema.pallets (pallet_type, total_weight_kg) VALUES (?, ?) "
+				+ "RETURNING id;", palletType, weight);
 
 		// create associations between the pallet and all the belonging parts
 		associateParts(id, palletParts);
@@ -96,7 +96,8 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		for (PartDTO part : allParts) {
 			palletDb.executeUpdate("INSERT INTO car_facility_schema.contains"
 					+ " (part_id, pallet_id) SELECT ?, ? WHERE NOT EXISTS(SELECT *"
-					+ " FROM car_facility_schema.contains WHERE contains.part_id = ? AND contains.pallet_id = ?);",
+					+ " FROM car_facility_schema.contains WHERE contains.part_id = "
+					+ "? AND contains.pallet_id = ?);",
 					part.getId(), palletId, part.getId(), palletId);
 		}
 	}

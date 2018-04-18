@@ -44,8 +44,7 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 				"SELECT car_facility_schema.parts.id, car_facility_schema.parts.name,"
 						+ " car_facility_schema.parts.car_chassis_number, car_facility_schema.parts.weight_kg "
 						+ "FROM car_facility_schema.parts, car_facility_schema.contains, car_facility_schema.pallets "
-						+ "WHERE contains.pallet_id = ? AND parts.id = contains.part_id;",
-				palletId);
+						+ "WHERE contains.pallet_id = ? AND parts.id = contains.part_id;", palletId);
 	}
 
 	@Override
