@@ -1,8 +1,6 @@
 package remote.dao.pallet;
 
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
 public final class PalletDAOLocator {
@@ -11,12 +9,20 @@ public final class PalletDAOLocator {
 
 	private PalletDAOLocator() {}
 
-	public static IPalletDAO lookupDAO(String id ) throws MalformedURLException, RemoteException, NotBoundException {
-		return (IPalletDAO) Naming.lookup(id);
+	public static IPalletDAO lookupDAO(String id) throws RemoteException {
+		try {
+			return (IPalletDAO) Naming.lookup(id);
+		} catch (Exception e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
 	}
 
-	public static void bindDAO(String id) throws RemoteException, MalformedURLException {
-		Naming.rebind(id, new RemotePalletDAOServer());
+	public static void bindDAO(String id) throws RemoteException {
+		try {
+			Naming.rebind(id, new RemotePalletDAOServer());
+		} catch (Exception e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
 	}
 
 }

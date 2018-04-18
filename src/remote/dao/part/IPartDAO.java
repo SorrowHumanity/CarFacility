@@ -16,8 +16,8 @@ public interface IPartDAO extends Remote {
 
 	Collection<PartDTO> readAll() throws RemoteException;
 
-	boolean update(PartDTO partDTO) throws RemoteException;
+	boolean update(PartDTO partDto) throws RemoteException;
 
-	boolean delete(PartDTO partDTO) throws RemoteException;
+	boolean delete(PartDTO partDto) throws RemoteException;
 
 }

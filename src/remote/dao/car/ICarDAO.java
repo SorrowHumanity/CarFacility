@@ -16,8 +16,8 @@ public interface ICarDAO extends Remote {
 
 	Collection<CarDTO> readAll() throws RemoteException;
 
-	boolean update(CarDTO carDTO) throws RemoteException;
+	boolean update(CarDTO carDto) throws RemoteException;
 
-	boolean delete(CarDTO carDTO) throws RemoteException;
+	boolean delete(CarDTO carDto) throws RemoteException;
 
 }

@@ -30,12 +30,12 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	@Override
 	public CarDTO create(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
 		// weight parts
-		double weight = Utils.weightParts(parts);
+		double weightKg = Utils.weightParts(parts);
 		
 		// update database
 		carDB.executeUpdate(
 				"INSERT INTO car_facility_schema.cars (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
-				chassisNumber, model, weight);
+				chassisNumber, model, weightKg);
 
 		return new CarDTO(chassisNumber, model, Utils.toPartDTOArray(parts));
 	}
@@ -54,15 +54,15 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	@Override
 	public boolean update(CarDTO carDTO) throws RemoteException {
 		int rowsAffected = carDB.executeUpdate(
-				"UPDATE car_facility_schema.cars" + " SET model = ?, weight_kg = ?" + " WHERE chassis_number = ?;",
-				carDTO.getModel(), carDTO.getWeight(), carDTO.getChassisNumber());
+				"UPDATE car_facility_schema.cars" + " SET model = ?, weight_kg = ? WHERE chassis_number = ?;",
+				carDTO.getModel(), carDTO.getWeightKg(), carDTO.getChassisNumber());
 
 		return rowsAffected != 0;
 	}
 
 	@Override
 	public boolean delete(CarDTO carDTO) throws RemoteException {
-		int rowsAffected = carDB.executeUpdate("DELETE FROM car_facility_schema.cars" + " WHERE chassis_number = ?;",
+		int rowsAffected = carDB.executeUpdate("DELETE FROM car_facility_schema.cars WHERE chassis_number = ?;",
 				carDTO.getChassisNumber());
 
 		return rowsAffected != 0;

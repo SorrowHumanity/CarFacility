@@ -14,8 +14,8 @@ public interface IPalletDAO extends Remote {
 
 	Collection<PalletDTO> readAll() throws RemoteException;
 
-	boolean update(PalletDTO palletDTO) throws RemoteException;
+	boolean update(PalletDTO palletDto) throws RemoteException;
 
-	boolean delete(PalletDTO palletDTO) throws RemoteException;
+	boolean delete(PalletDTO palletDto) throws RemoteException;
 
 }

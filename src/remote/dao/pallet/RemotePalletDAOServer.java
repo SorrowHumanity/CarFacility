@@ -23,7 +23,9 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	private DatabaseHelper<PalletDTO> palletDb;
 
 	public RemotePalletDAOServer() throws RemoteException {
-		palletDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
+		palletDb = new DatabaseHelper<>(
+				DatabaseHelper.CAR_FACILITY_DB_URL,
+				DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
 	}
 
@@ -108,9 +110,9 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		try {
 			
 			parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID).getParts(palletId);
-			PalletDTO palletDTO = new PalletDTO(palletId, palletType, Utils.toDTOArray(parts), weightKg);
+			PalletDTO palletDto = new PalletDTO(palletId, palletType, Utils.toDTOArray(parts), weightKg);
 			
-			return palletDTO;
+			return palletDto;
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

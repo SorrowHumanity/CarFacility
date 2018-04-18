@@ -39,7 +39,7 @@ public class CarDTO implements Serializable {
 		return parts;
 	}
 
-	public double getWeight() {
+	public double getWeightKg() {
 		double totalWeight = 0;
 
 		for (PartDTO part : parts)

@@ -12,7 +12,7 @@ public interface IDismantleBase extends Remote {
 
 	List<IPart> dismantleCar(ICar car) throws RemoteException;
 
-	IPart registerPart(String carChassisNumber, String name, double weight) throws RemoteException;
+	IPart registerPart(String carChassisNumber, String name, double weightKg) throws RemoteException;
 
 	List<IPart> getParts(String carChassisNumber) throws RemoteException;
 
@@ -22,10 +22,8 @@ public interface IDismantleBase extends Remote {
 
 	IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException;
 
-	IPallet getPallet(int id) throws RemoteException;
+	IPallet getPallet(int palletId) throws RemoteException;
 
 	List<IPallet> getAllPallets() throws RemoteException;
-
-	boolean addToPallet(IPart carParts) throws RemoteException;
 
 }

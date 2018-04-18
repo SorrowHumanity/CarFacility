@@ -37,6 +37,11 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	@Override
+	public boolean fits(IPart part) throws RemoteException {
+		return typeEquals(part) && hasEnoughVolume(part);
+	}
+
+	@Override
 	public int getId() throws RemoteException {
 		return id;
 	}
@@ -61,24 +66,15 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 		return "RemotePallet [id=" + id + ", palletType=" + palletType + ", parts=" + parts + "]";
 	}
 
-	@Override
-	public boolean palletFits(IPart part) throws RemoteException {
-		System.out.println("PaletTypeEquals: " + partTypeEquals(part));
-		System.out.println("Enough volume: " + hasEnoughVolume(part));
-		return partTypeEquals(part) && hasEnoughVolume(part);
-	}
-
-	private boolean partTypeEquals(IPart part) throws RemoteException {
-		System.out.println(part.getType() + " ?= " + getPalletType());
-		return part.getName().endsWith(getPalletType());
+	private boolean typeEquals(IPart part) throws RemoteException {
+		boolean typeEquals = part.getName().endsWith(getPalletType()); 
+		return typeEquals;
 	}
 
 	private boolean hasEnoughVolume(IPart part) throws RemoteException {
-		System.out.println("Part weight: " + part.getWeightKg());
-		System.out.println("Palelt weight: " + getWeightKg());
 		double combinedWeight = Double.sum(part.getWeightKg(), getWeightKg());
-		System.out.println("Combined weight: " + combinedWeight);
-		return Double.compare(combinedWeight, PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0;
+		boolean hasEnoughVolume = Double.compare(combinedWeight, PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0; 
+		return hasEnoughVolume;
 	}
 
 }

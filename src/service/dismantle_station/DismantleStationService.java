@@ -14,7 +14,6 @@ import remote.base.dismantle_station.IDismantleBase;
 import remote.model.car.RemoteCar;
 import remote.model.pallet.IPallet;
 import remote.model.part.IPart;
-import remote.model.part.RemotePart;
 import util.Utils;
 
 @WebService
@@ -69,11 +68,6 @@ public class DismantleStationService {
 	public PalletDTO[] getAllPallets() throws RemoteException {
 		List<IPallet> remotePallets = dismantleBase.getAllPallets();
 		return Utils.toPalletDTOArray(remotePallets);
-	}
-
-	@WebMethod
-	public boolean addToPallet(PartDTO part) throws RemoteException {
-		return dismantleBase.addToPallet(new RemotePart(part));
 	}
 
 }

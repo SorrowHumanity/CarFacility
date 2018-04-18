@@ -18,6 +18,6 @@ public interface IPallet extends Remote {
 
 	boolean addPart(IPart part) throws RemoteException;
 
-	boolean palletFits(IPart part) throws RemoteException;
+	boolean fits(IPart part) throws RemoteException;
 
 }

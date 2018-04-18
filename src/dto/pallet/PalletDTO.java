@@ -22,7 +22,7 @@ public class PalletDTO implements Serializable {
 		setId(id);
 		setPalletType(palletType);
 		setParts(parts);
-		setWeight(weightKg);
+		setWeightKg(weightKg);
 	}
 
 	public PalletDTO(IPallet remotePallet) throws RemoteException {
@@ -58,7 +58,7 @@ public class PalletDTO implements Serializable {
 		this.parts = parts;
 	}
 	
-	public void setWeight(double weightKg) {
+	public void setWeightKg(double weightKg) {
 		this.weightKg = weightKg;
 	}
 
@@ -67,8 +67,8 @@ public class PalletDTO implements Serializable {
 		StringBuilder sb = new StringBuilder(
 				String.format("PalletDTO [id: %d, palletType: %s, \nParts:\n", id, palletType));
 
-		for (PartDTO partDTO : parts)
-			sb.append(partDTO + "\n");
+		for (PartDTO part : parts)
+			sb.append(part + "\n");
 
 		sb.append(String.format("totalWeight: %d]", getWeightKg()));
 		return sb.toString();
