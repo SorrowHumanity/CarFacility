@@ -40,7 +40,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 		// cache & return
 		partCache.put(partDTO.getId(), new RemotePart(partDTO));
-		
+
 		return partCache.get(partDTO.getId());
 	}
 
@@ -91,7 +91,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public synchronized List<IPart> getAllParts() throws RemoteException {
+	public List<IPart> getAllParts() throws RemoteException {
 		// read all parts from the database
 		Collection<PartDTO> allParts = partDAO.readAll();
 
@@ -116,41 +116,50 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	@Override
 	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		// create pallet in the database
-		PalletDTO palletDTO = palletDAO.create(palletType, Utils.toDTOPartsArray(parts));
+		PalletDTO palletDTO = palletDAO.create(palletType, Utils.toDTOArray(parts));
 
 		// create remote pallet and cache it
 		palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
-	
+
 		return palletCache.get(palletDTO.getId());
 	}
 
 	@Override
-	public  IPallet getPallet(int palletId) throws RemoteException {
+	public IPallet getPallet(int palletId) throws RemoteException {
 		// cache, if it is not already cached
 		if (!palletCache.containsKey(palletId)) {
-	
+
 			// read pallet from database
 			PalletDTO palletDTO = palletDAO.read(palletId);
-	
+
 			// cache pallet
 			palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
 		}
-		
+
 		return palletCache.get(palletId);
 	}
 
 	@Override
 	public boolean addToPallet(IPart part) throws RemoteException {
+		// part is too heavy for any pallet
+		if (isOverweight(part)) return false;
+		
 		// get all available pallets
 		getAllPallets();
-		
+
 		// attempt to add to existing pallet
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
 			IPallet pallet = entry.getValue();
 
 			if (pallet.palletFits(part)) {
+				// add part to pallet
 				pallet.addPart(part);
+				
+				// update database
 				palletDAO.update(new PalletDTO(pallet));
+		
+				// update cache
+				palletCache.put(pallet.getId(), pallet);
 				return true;
 			}
 		}
@@ -159,12 +168,12 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		LinkedList<IPart> remoteParts = new LinkedList<>();
 		remoteParts.add((part));
 		registerPallet(part.getType(), remoteParts);
-		
+
 		return true;
 	}
 
 	@Override
-	public  List<IPallet> getAllPallets() throws RemoteException {
+	public List<IPallet> getAllPallets() throws RemoteException {
 		// read all parts from the database
 		Collection<PalletDTO> allPallets = palletDAO.readAll();
 
@@ -175,9 +184,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		for (PalletDTO pallet : allPallets) {
 
 			// cache, if it is not already cached
-			if (!palletCache.containsKey(pallet.getId())) {
+			if (!palletCache.containsKey(pallet.getId()))
 				palletCache.put(pallet.getId(), new RemotePallet(pallet));
-			}
 
 			// add to output collection
 			matchingParts.add(palletCache.get(pallet.getId()));
@@ -193,18 +201,23 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 		// register all parts
 		for (IPart part : car.getParts()) {
-			
+
 			// register part
 			IPart remotePart = registerPart(part.getCarChassisNumber(), part.getName(), part.getWeightKg());
-			
+
 			// add part to output list
 			carParts.add(remotePart);
-			
+
 			// add part to pallet
 			addToPallet(remotePart);
 		}
 
 		return carParts;
+	}
+	
+	private boolean isOverweight(IPart part) throws RemoteException {
+		boolean isOverweight = Double.compare(part.getWeightKg(), PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0;
+		return isOverweight;
 	}
 
 }

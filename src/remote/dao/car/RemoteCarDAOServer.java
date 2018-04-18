@@ -75,7 +75,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 		try {
 			parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID)
 					.getParts(chassisNumber);
-			return new CarDTO(chassisNumber, model, Utils.toDTOPartsArray(parts));
+			return new CarDTO(chassisNumber, model, Utils.toDTOArray(parts));
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			return null;

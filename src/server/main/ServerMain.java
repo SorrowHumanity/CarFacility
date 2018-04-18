@@ -30,8 +30,7 @@ import util.Utils;
 
 public class ServerMain {
 
-	private ServerMain() {
-	}
+	private ServerMain() {}
 
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
 		bindRemoteComponents();

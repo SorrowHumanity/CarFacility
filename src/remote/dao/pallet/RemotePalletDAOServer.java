@@ -102,15 +102,13 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		int palletId = rs.getInt("id");
 		String palletType = rs.getString("pallet_type");
 		double weightKg = rs.getDouble("total_weight_kg");
-		System.out.println(palletId);
-		System.out.println(palletType);
-		System.out.println(weightKg);
+		
 		// DismantleBase is required to get all parts for each pallet
 		List<IPart> parts = null;
 		try {
 			
 			parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID).getParts(palletId);
-			PalletDTO palletDTO = new PalletDTO(palletId, palletType, Utils.toDTOPartsArray(parts), weightKg);
+			PalletDTO palletDTO = new PalletDTO(palletId, palletType, Utils.toDTOArray(parts), weightKg);
 			
 			return palletDTO;
 		} catch (Exception e) {

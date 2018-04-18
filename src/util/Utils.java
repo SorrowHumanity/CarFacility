@@ -17,23 +17,13 @@ public class Utils {
 
 	private Utils() {}
 
-	public static List<IPart> toRemotePartsList(List<PartDTO> allDTOparts) throws RemoteException {
+	public static List<IPart> toRemotePartsList(List<PartDTO> allParts) throws RemoteException {
 		LinkedList<IPart> allRemoteParts = new LinkedList<>();
 
-		for (PartDTO part : allDTOparts)
+		for (PartDTO part : allParts)
 			allRemoteParts.add(new RemotePart(part));
 
 		return allRemoteParts;
-	}
-
-	public static IPart[] toRemotePartsArray(List<PartDTO> partDTOs) throws RemoteException {
-		int size = partDTOs.size();
-		IPart[] remoteParts = new IPart[size];
-
-		for (int i = 0; i < size; i++)
-			remoteParts[i] = new RemotePart(partDTOs.get(i));
-
-		return remoteParts;
 	}
 
 	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
@@ -46,49 +36,40 @@ public class Utils {
 	
 	}
 
-	public static List<PartDTO> toDTOPartsList(List<IPart> allRemoteParts) throws RemoteException {
-		LinkedList<PartDTO> allDTOParts = new LinkedList<>();
-
-		for (IPart part : allRemoteParts)
-			allDTOParts.add(new PartDTO(part));
-
-		return allDTOParts;
-	}
-
-	public static PartDTO[] toDTOPartsArray(List<IPart> remoteParts) throws RemoteException {
-		int size = remoteParts.size();
-		PartDTO[] partDTOs = new PartDTO[size];
-
-		for (int i = 0; i < size; i++)
-			partDTOs[i] = new PartDTO(remoteParts.get(i));
-
-		return partDTOs;
-	}
-
-	public static CarDTO[] toCarDTOArray(List<ICar> remoteCars) throws RemoteException {
-		int size = remoteCars.size();
+	public static CarDTO[] toCarDTOArray(List<ICar> allCars) throws RemoteException {
+		int size = allCars.size();
 		CarDTO[] carDTOs = new CarDTO[size];
 
 		for (int i = 0; i < size; i++)
-			carDTOs[i] = new CarDTO(remoteCars.get(i));
+			carDTOs[i] = new CarDTO(allCars.get(i));
 
 		return carDTOs;
 	}
 
-	public static PalletDTO[] toPalletDTOArray(List<IPallet> remotePallets) throws RemoteException {
-		int size = remotePallets.size();
+	public static PalletDTO[] toPalletDTOArray(List<IPallet> allPallets) throws RemoteException {
+		int size = allPallets.size();
 		PalletDTO[] palletDTOs = new PalletDTO[size];
 
 		for (int i = 0; i < size; i++)
-			palletDTOs[i] = new PalletDTO(remotePallets.get(i));
+			palletDTOs[i] = new PalletDTO(allPallets.get(i));
 
 		return palletDTOs;
 	}
 
-	public static PartDTO[] toPartDTOArray(List<PartDTO> DTOparts) {
-		PartDTO[] array = new PartDTO[DTOparts.size()];
-		DTOparts.toArray(array);
+	public static PartDTO[] toPartDTOArray(List<PartDTO> allParts) {
+		PartDTO[] array = new PartDTO[allParts.size()];
+		allParts.toArray(array);
 		return array;
+	}
+
+	public static PartDTO[] toDTOArray(List<IPart> allParts) throws RemoteException {
+		int size = allParts.size();
+		PartDTO[] partDTOs = new PartDTO[size];
+	
+		for (int i = 0; i < size; i++)
+			partDTOs[i] = new PartDTO(allParts.get(i));
+	
+		return partDTOs;
 	}
 
 	public static double weightParts(Collection<PartDTO> allParts) {

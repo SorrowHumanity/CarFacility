@@ -29,7 +29,7 @@ public class DismantleStationService {
 	@WebMethod
 	public PartDTO[] dismantleCar(CarDTO car) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.dismantleCar(new RemoteCar(car));
-		return Utils.toDTOPartsArray(remoteParts);
+		return Utils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
@@ -40,19 +40,19 @@ public class DismantleStationService {
 	@WebMethod
 	public PartDTO[] getParts(String carChassisNumber) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(carChassisNumber);
-		return Utils.toDTOPartsArray(remoteParts);
+		return Utils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
 	public PartDTO[] getParts(int palletId) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(palletId); 
-		return Utils.toDTOPartsArray(remoteParts);
+		return Utils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
 	public PartDTO[] getAllParts() throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getAllParts(); 
-		return Utils.toDTOPartsArray(remoteParts);
+		return Utils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
