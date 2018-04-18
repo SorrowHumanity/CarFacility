@@ -29,59 +29,78 @@ public class Utils {
 	public static IPart[] toRemotePartsArray(List<PartDTO> partDTOs) throws RemoteException {
 		int size = partDTOs.size();
 		IPart[] remoteParts = new IPart[size];
-		
+
 		for (int i = 0; i < size; i++)
 			remoteParts[i] = new RemotePart(partDTOs.get(i));
 
 		return remoteParts;
 	}
-	
+
 	public static List<PartDTO> toDTOPartsList(List<IPart> allRemoteParts) throws RemoteException {
 		LinkedList<PartDTO> allDTOParts = new LinkedList<>();
-	
+
 		for (IPart part : allRemoteParts)
 			allDTOParts.add(new PartDTO(part));
-	
+
 		return allDTOParts;
 	}
 
 	public static PartDTO[] toDTOPartsArray(List<IPart> remoteParts) throws RemoteException {
 		int size = remoteParts.size();
 		PartDTO[] partDTOs = new PartDTO[size];
-		
-		for (int i = 0; i < size; i++) 
+
+		for (int i = 0; i < size; i++)
 			partDTOs[i] = new PartDTO(remoteParts.get(i));
-		
+
 		return partDTOs;
 	}
-	
+
 	public static CarDTO[] toCarDTOArray(List<ICar> remoteCars) throws RemoteException {
 		int size = remoteCars.size();
 		CarDTO[] carDTOs = new CarDTO[size];
-		
+
 		for (int i = 0; i < size; i++)
 			carDTOs[i] = new CarDTO(remoteCars.get(i));
-		
+
 		return carDTOs;
 	}
-	
+
 	public static PalletDTO[] toPalletDTOArray(List<IPallet> remotePallets) throws RemoteException {
 		int size = remotePallets.size();
 		PalletDTO[] palletDTOs = new PalletDTO[size];
-		
+
 		for (int i = 0; i < size; i++)
 			palletDTOs[i] = new PalletDTO(remotePallets.get(i));
-		
+
 		return palletDTOs;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public static <T> T[] toArray(Collection<T> list) {
+	public static <T> T[] toArray(List<T> list) {
 		T[] array = (T[]) new Object[list.size()];
-		list.toArray(array);
+
+		for (int i = 0; i < list.size(); i++)
+			array[i] = list.get(i);
+
 		return array;
 	}
-	
+
+	public static PartDTO[] toPartDTOArray(List<PartDTO> DTOparts) {
+		PartDTO[] array = new PartDTO[DTOparts.size()];
+		DTOparts.toArray(array);
+		return array;
+	}
+
+	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
+		LinkedList<IPart> remoteParts = new LinkedList<>();
+		
+		for (PartDTO part : allParts)
+			remoteParts.add(new RemotePart(part));
+		
+		return remoteParts;
+
+	}
+
 	public static double weightParts(Collection<PartDTO> allParts) {
 		double totalWeight = 0;
 

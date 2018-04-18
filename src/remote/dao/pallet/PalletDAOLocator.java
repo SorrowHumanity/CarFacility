@@ -11,8 +11,8 @@ public final class PalletDAOLocator {
 
 	private PalletDAOLocator() {}
 
-	public static IPalletDAO lookupDAO() throws MalformedURLException, RemoteException, NotBoundException {
-		return (IPalletDAO) Naming.lookup(PALLET_DAO_ID);
+	public static IPalletDAO lookupDAO(String id ) throws MalformedURLException, RemoteException, NotBoundException {
+		return (IPalletDAO) Naming.lookup(id);
 	}
 
 	public static void bindDAO(String id) throws RemoteException, MalformedURLException {

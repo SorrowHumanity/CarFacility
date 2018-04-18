@@ -37,7 +37,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 				"INSERT INTO car_facility_schema.cars (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
 				chassisNumber, model, weight);
 
-		return new CarDTO(chassisNumber, model, Utils.toArray(parts));
+		return new CarDTO(chassisNumber, model, Utils.toPartDTOArray(parts));
 	}
 
 	@Override

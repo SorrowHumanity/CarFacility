@@ -23,7 +23,7 @@ public class PartDTO implements Serializable {
 	}
 	
 	public PartDTO(String chassisNumber, String name, double weightKg) {
-		this(0, chassisNumber, name, weightKg);
+		this(-1, chassisNumber, name, weightKg);
 	}
 
 	public PartDTO(IPart remotePart) throws RemoteException {

@@ -34,16 +34,18 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public synchronized IPart registerPart(String carChassisNumber, String name, double weight) throws RemoteException {
+	public IPart registerPart(String carChassisNumber, String name, double weight) throws RemoteException {
 		// create part in the database
 		PartDTO partDTO = partDAO.create(carChassisNumber, name, weight);
 
 		// cache & return
-		return partCache.put(partDTO.getId(), new RemotePart(partDTO));
+		partCache.put(partDTO.getId(), new RemotePart(partDTO));
+		
+		return partCache.get(partDTO.getId());
 	}
 
 	@Override
-	public synchronized List<IPart> getParts(String carChassisNumber) throws RemoteException {
+	public List<IPart> getParts(String carChassisNumber) throws RemoteException {
 		// read all parts from the database
 		Collection<PartDTO> allParts = partDAO.read(carChassisNumber);
 
@@ -66,7 +68,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public synchronized List<IPart> getParts(int palletId) throws RemoteException {
+	public List<IPart> getParts(int palletId) throws RemoteException {
 		// read all parts from the database
 		Collection<PartDTO> allParts = partDAO.read(palletId);
 
@@ -112,16 +114,18 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public synchronized IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
+	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		// create pallet in the database
 		PalletDTO palletDTO = palletDAO.create(palletType, Utils.toDTOPartsArray(parts));
 
 		// create remote pallet and cache it
-		return palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
+		palletCache.put(palletDTO.getId(), new RemotePallet(palletDTO));
+	
+		return palletCache.get(palletDTO.getId());
 	}
 
 	@Override
-	public synchronized IPallet getPallet(int palletId) throws RemoteException {
+	public  IPallet getPallet(int palletId) throws RemoteException {
 		// cache, if it is not already cached
 		if (!palletCache.containsKey(palletId)) {
 	
@@ -136,14 +140,14 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public synchronized boolean addToPallet(IPart part) throws RemoteException {
+	public boolean addToPallet(IPart part) throws RemoteException {
 		// get all available pallets
 		getAllPallets();
-
+		
 		// attempt to add to existing pallet
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
 			IPallet pallet = entry.getValue();
-			System.out.println(pallet);
+
 			if (pallet.palletFits(part)) {
 				pallet.addPart(part);
 				palletDAO.update(new PalletDTO(pallet));
@@ -152,15 +156,15 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		}
 
 		// if there is no extinsting pallet that fits, create a new one
-		LinkedList<IPart> partDTOs = new LinkedList<>();
-		partDTOs.add((part));
-		registerPallet(part.getType(), partDTOs);
+		LinkedList<IPart> remoteParts = new LinkedList<>();
+		remoteParts.add((part));
+		registerPallet(part.getType(), remoteParts);
 		
 		return true;
 	}
 
 	@Override
-	public synchronized List<IPallet> getAllPallets() throws RemoteException {
+	public  List<IPallet> getAllPallets() throws RemoteException {
 		// read all parts from the database
 		Collection<PalletDTO> allPallets = palletDAO.readAll();
 
@@ -183,12 +187,13 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	@Override
-	public synchronized List<IPart> dismantleCar(ICar car) throws RemoteException {
+	public List<IPart> dismantleCar(ICar car) throws RemoteException {
 		// create output collection
 		LinkedList<IPart> carParts = new LinkedList<>();
 
 		// register all parts
 		for (IPart part : car.getParts()) {
+			
 			// register part
 			IPart remotePart = registerPart(part.getCarChassisNumber(), part.getName(), part.getWeightKg());
 			

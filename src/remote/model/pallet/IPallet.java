@@ -14,7 +14,7 @@ public interface IPallet extends Remote {
 
 	List<IPart> getParts() throws RemoteException;
 
-	double getTotalWeightKg() throws RemoteException;
+	double getWeightKg() throws RemoteException;
 
 	boolean addPart(IPart part) throws RemoteException;
 

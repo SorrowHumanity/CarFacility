@@ -11,12 +11,12 @@ public final class PartDAOLocator {
 	
 	private PartDAOLocator() {}
 	
-	public static IPartDAO lookupDAO() throws MalformedURLException, RemoteException, NotBoundException {
-		return (IPartDAO) Naming.lookup(PART_DAO_ID);
+	public static IPartDAO lookupDAO(String id) throws MalformedURLException, RemoteException, NotBoundException {
+		return (IPartDAO) Naming.lookup(id);
 	}
 	
 	public static void bindDAO(String id) throws RemoteException, MalformedURLException {
-		Naming.rebind(PART_DAO_ID, new RemotePartDAOServer());
+		Naming.rebind(id, new RemotePartDAOServer());
 	}
 	
 }

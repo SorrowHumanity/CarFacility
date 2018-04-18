@@ -32,7 +32,9 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 		CarDTO carDTO = carDAO.create(chassisNumber, model, parts);
 
 		// cache and return
-		return carCache.put(chassisNumber, new RemoteCar(carDTO));
+		carCache.put(chassisNumber, new RemoteCar(carDTO));
+		
+		return carCache.get(chassisNumber);
 	}
 
 	@Override

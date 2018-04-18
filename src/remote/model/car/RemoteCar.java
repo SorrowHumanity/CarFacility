@@ -23,8 +23,7 @@ public class RemoteCar extends UnicastRemoteObject implements ICar {
 	}
 
 	public RemoteCar(CarDTO carDTO) throws RemoteException {
-		this(carDTO.getChassisNumber(), carDTO.getModel(), Utils
-				.toRemotePartsList(Arrays.asList(carDTO.getParts())));
+		this(carDTO.getChassisNumber(), carDTO.getModel(), Utils.toRemotePartsList(carDTO.getParts()));
 	}
 
 	@Override
