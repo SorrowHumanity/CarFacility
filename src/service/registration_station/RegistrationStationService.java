@@ -1,7 +1,5 @@
 package service.registration_station;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -12,15 +10,19 @@ import dto.car.CarDTO;
 import dto.part.PartDTO;
 import remote.base.registration_station.IRegistrationBase;
 import remote.base.registration_station.RegistrationBaseLocator;
-import util.Utils;
+import util.CollectionUtils;
 
 @WebService
 public class RegistrationStationService {
 
 	private IRegistrationBase registrationBase;
 
-	public RegistrationStationService() throws MalformedURLException, RemoteException, NotBoundException {
-		registrationBase = RegistrationBaseLocator.lookupBase(RegistrationBaseLocator.REGISTRATION_BASE_ID);
+	public RegistrationStationService() throws RemoteException {
+		try {
+			registrationBase = RegistrationBaseLocator.lookupBase(RegistrationBaseLocator.REGISTRATION_BASE_ID);
+		} catch (Exception e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
 	}
 
 	@WebMethod
@@ -35,7 +37,7 @@ public class RegistrationStationService {
 
 	@WebMethod
 	public CarDTO[] getAllCars() throws RemoteException {
-		CarDTO[] allcars = Utils.toCarDTOArray(registrationBase.getAllCars());
+		CarDTO[] allcars = CollectionUtils.toCarDTOArray(registrationBase.getAllCars());
 		return allcars;
 	}
 

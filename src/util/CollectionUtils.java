@@ -13,9 +13,9 @@ import remote.model.pallet.IPallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
 
-public final class Utils {
+public final class CollectionUtils {
 
-	private Utils() {}
+	private CollectionUtils() {}
 
 	public static List<IPart> toRemotePartsList(List<PartDTO> allParts) throws RemoteException {
 		LinkedList<IPart> allRemoteParts = new LinkedList<>();

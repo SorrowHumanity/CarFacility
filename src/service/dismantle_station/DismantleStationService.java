@@ -14,7 +14,7 @@ import remote.base.dismantle_station.IDismantleBase;
 import remote.model.car.RemoteCar;
 import remote.model.pallet.IPallet;
 import remote.model.part.IPart;
-import util.Utils;
+import util.CollectionUtils;
 
 @WebService
 public class DismantleStationService {
@@ -28,7 +28,7 @@ public class DismantleStationService {
 	@WebMethod
 	public PartDTO[] dismantleCar(CarDTO car) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.dismantleCar(new RemoteCar(car));
-		return Utils.toDTOArray(remoteParts);
+		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
@@ -39,24 +39,24 @@ public class DismantleStationService {
 	@WebMethod
 	public PartDTO[] getParts(String carChassisNumber) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(carChassisNumber);
-		return Utils.toDTOArray(remoteParts);
+		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
 	public PartDTO[] getParts(int palletId) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(palletId); 
-		return Utils.toDTOArray(remoteParts);
+		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
 	public PartDTO[] getAllParts() throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getAllParts(); 
-		return Utils.toDTOArray(remoteParts);
+		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
 	public PalletDTO registerPallet(String palletType, List<PartDTO> parts) throws RemoteException {
-		return new PalletDTO(dismantleBase.registerPallet(palletType, Utils.toRemotePartsList(parts)));
+		return new PalletDTO(dismantleBase.registerPallet(palletType, CollectionUtils.toRemotePartsList(parts)));
 	}
 
 	@WebMethod
@@ -67,7 +67,7 @@ public class DismantleStationService {
 	@WebMethod
 	public PalletDTO[] getAllPallets() throws RemoteException {
 		List<IPallet> remotePallets = dismantleBase.getAllPallets();
-		return Utils.toPalletDTOArray(remotePallets);
+		return CollectionUtils.toPalletDTOArray(remotePallets);
 	}
 
 }

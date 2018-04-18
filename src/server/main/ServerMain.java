@@ -26,7 +26,7 @@ import remote.model.pallet.IPallet;
 import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
-import util.Utils;
+import util.CollectionUtils;
 
 public final class ServerMain {
 

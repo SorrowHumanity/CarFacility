@@ -14,7 +14,7 @@ import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 import remote.base.dismantle_station.DismantleBaseLocator;
 import remote.model.part.IPart;
-import util.Utils;
+import util.CollectionUtils;
 
 public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalletDAO {
 
@@ -31,7 +31,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 
 	@Override
 	public PalletDTO create(String palletType, PartDTO[] palletParts) throws RemoteException {
-		double weight = Utils.weightParts(Arrays.asList(palletParts));
+		double weight = CollectionUtils.weightParts(Arrays.asList(palletParts));
 		// create pallet
 		int id = palletDb.executeUpdateReturningId(
 				"INSERT INTO car_facility_schema.pallets (pallet_type, total_weight_kg) VALUES (?, ?) "
@@ -112,7 +112,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		try {
 			
 			parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID).getParts(palletId);
-			PalletDTO palletDto = new PalletDTO(palletId, palletType, Utils.toDTOArray(parts), weightKg);
+			PalletDTO palletDto = new PalletDTO(palletId, palletType, CollectionUtils.toDTOArray(parts), weightKg);
 			
 			return palletDto;
 		} catch (Exception e) {

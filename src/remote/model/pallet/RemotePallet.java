@@ -7,7 +7,7 @@ import java.util.List;
 
 import dto.pallet.PalletDTO;
 import remote.model.part.IPart;
-import util.Utils;
+import util.CollectionUtils;
 
 public class RemotePallet extends UnicastRemoteObject implements IPallet {
 
@@ -26,7 +26,7 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	public RemotePallet(PalletDTO palletDto) throws RemoteException {
-		this(palletDto.getId(), palletDto.getPalletType(), Utils.toRemotePartsList(Arrays.asList(palletDto.getParts())),
+		this(palletDto.getId(), palletDto.getPalletType(), CollectionUtils.toRemotePartsList(Arrays.asList(palletDto.getParts())),
 				palletDto.getWeightKg());
 	}
 

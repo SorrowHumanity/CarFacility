@@ -13,7 +13,7 @@ import dto.part.PartDTO;
 import persistence.DatabaseHelper;
 import remote.base.dismantle_station.DismantleBaseLocator;
 import remote.model.part.IPart;
-import util.Utils;
+import util.CollectionUtils;
 
 public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
@@ -31,14 +31,14 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	@Override
 	public CarDTO create(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
 		// weight parts
-		double weightKg = Utils.weightParts(parts);
+		double weightKg = CollectionUtils.weightParts(parts);
 		
 		// update database
 		carDb.executeUpdate(
 				"INSERT INTO car_facility_schema.cars (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
 				chassisNumber, model, weightKg);
 
-		return new CarDTO(chassisNumber, model, Utils.toPartDTOArray(parts));
+		return new CarDTO(chassisNumber, model, CollectionUtils.toPartDTOArray(parts));
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	@Override
 	public boolean update(CarDTO carDto) throws RemoteException {
 		// weight parts
-		double weightKg = Utils.weightParts(Arrays.asList(carDto.getParts()));
+		double weightKg = CollectionUtils.weightParts(Arrays.asList(carDto.getParts()));
 		
 		// update database
 		int rowsAffected = carDb.executeUpdate(
@@ -84,7 +84,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 			parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID)
 					.getParts(chassisNumber);
 		
-			return new CarDTO(chassisNumber, model, Utils.toDTOArray(parts));
+			return new CarDTO(chassisNumber, model, CollectionUtils.toDTOArray(parts));
 		
 		} catch (RemoteException e) {
 			e.printStackTrace();

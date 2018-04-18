@@ -6,7 +6,7 @@ import java.util.List;
 
 import dto.car.CarDTO;
 import remote.model.part.IPart;
-import util.Utils;
+import util.CollectionUtils;
 
 public class RemoteCar extends UnicastRemoteObject implements ICar {
 
@@ -22,7 +22,7 @@ public class RemoteCar extends UnicastRemoteObject implements ICar {
 	}
 
 	public RemoteCar(CarDTO carDto) throws RemoteException {
-		this(carDto.getChassisNumber(), carDto.getModel(), Utils.toRemotePartsList(carDto.getParts()));
+		this(carDto.getChassisNumber(), carDto.getModel(), CollectionUtils.toRemotePartsList(carDto.getParts()));
 	}
 
 	@Override

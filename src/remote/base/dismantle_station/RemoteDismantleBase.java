@@ -16,7 +16,7 @@ import remote.model.pallet.IPallet;
 import remote.model.pallet.RemotePallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
-import util.Utils;
+import util.CollectionUtils;
 
 public class RemoteDismantleBase extends UnicastRemoteObject implements IDismantleBase {
 
@@ -113,7 +113,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	@Override
 	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		// create pallet in the database
-		PalletDTO palletDto = palletDao.create(palletType, Utils.toDTOArray(parts));
+		PalletDTO palletDto = palletDao.create(palletType, CollectionUtils.toDTOArray(parts));
 
 		// create remote pallet and cache it
 		palletCache.put(palletDto.getId(), new RemotePallet(palletDto));

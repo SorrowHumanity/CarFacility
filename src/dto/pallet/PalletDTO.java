@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import dto.part.PartDTO;
 import remote.model.pallet.IPallet;
-import util.Utils;
+import util.CollectionUtils;
 
 public class PalletDTO implements Serializable {
 
@@ -26,7 +26,7 @@ public class PalletDTO implements Serializable {
 	}
 
 	public PalletDTO(IPallet remotePallet) throws RemoteException {
-		this(remotePallet.getId(), remotePallet.getPalletType(), Utils.toDTOArray(remotePallet.getParts()),
+		this(remotePallet.getId(), remotePallet.getPalletType(), CollectionUtils.toDTOArray(remotePallet.getParts()),
 				remotePallet.getWeightKg());
 	}
 

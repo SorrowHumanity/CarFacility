@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.Arrays;
 import dto.part.PartDTO;
 import remote.model.car.ICar;
-import util.Utils;
+import util.CollectionUtils;
 
 public class CarDTO implements Serializable {
 
@@ -24,7 +24,7 @@ public class CarDTO implements Serializable {
 
 	public CarDTO(ICar remoteCar) throws RemoteException {
 		this(remoteCar.getChassisNumber(), remoteCar.getModel(), 
-				Utils.toDTOArray(remoteCar.getParts()));
+				CollectionUtils.toDTOArray(remoteCar.getParts()));
 	}
 
 	public String getChassisNumber() {
