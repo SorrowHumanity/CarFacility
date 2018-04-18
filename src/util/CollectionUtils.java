@@ -38,22 +38,22 @@ public final class CollectionUtils {
 
 	public static CarDTO[] toCarDTOArray(List<ICar> allCars) throws RemoteException {
 		int size = allCars.size();
-		CarDTO[] carDTOs = new CarDTO[size];
+		CarDTO[] carDtos = new CarDTO[size];
 
 		for (int i = 0; i < size; i++)
-			carDTOs[i] = new CarDTO(allCars.get(i));
+			carDtos[i] = new CarDTO(allCars.get(i));
 
-		return carDTOs;
+		return carDtos;
 	}
 
 	public static PalletDTO[] toPalletDTOArray(List<IPallet> allPallets) throws RemoteException {
 		int size = allPallets.size();
-		PalletDTO[] palletDTOs = new PalletDTO[size];
+		PalletDTO[] palletDtos = new PalletDTO[size];
 
 		for (int i = 0; i < size; i++)
-			palletDTOs[i] = new PalletDTO(allPallets.get(i));
+			palletDtos[i] = new PalletDTO(allPallets.get(i));
 
-		return palletDTOs;
+		return palletDtos;
 	}
 
 	public static PartDTO[] toPartDTOArray(List<PartDTO> allParts) {
@@ -64,12 +64,12 @@ public final class CollectionUtils {
 
 	public static PartDTO[] toDTOArray(List<IPart> allParts) throws RemoteException {
 		int size = allParts.size();
-		PartDTO[] partDTOs = new PartDTO[size];
+		PartDTO[] partDtos = new PartDTO[size];
 	
 		for (int i = 0; i < size; i++)
-			partDTOs[i] = new PartDTO(allParts.get(i));
+			partDtos[i] = new PartDTO(allParts.get(i));
 	
-		return partDTOs;
+		return partDtos;
 	}
 
 	public static double weightParts(Collection<PartDTO> allParts) {
