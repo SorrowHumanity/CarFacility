@@ -167,7 +167,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		for (IPart part : car.getParts()) {
 
 			// register part
-			IPart remotePart = registerPart(part.getCarChassisNumber(), part.getName(), part.getWeightKg());
+			IPart remotePart = registerPart(part.getCarChassisNumber(),
+					part.getName(), part.getWeightKg());
 
 			// add part to output list
 			carParts.add(remotePart);
@@ -180,7 +181,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 	
 	private boolean addToPallet(IPart part) throws RemoteException {
-		// part is too heavy for standart pallets
+		// part is too heavy for standart pallets (250 kg)
 		if (isOverweight(part)) return false;
 		
 		// get all available pallets
@@ -188,9 +189,11 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	
 		// attempt to add to existing pallet
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
+
 			IPallet pallet = entry.getValue();
 	
 			if (pallet.fits(part)) {
+				
 				// add part to pallet
 				pallet.addPart(part);
 				
