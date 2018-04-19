@@ -9,17 +9,27 @@ public final class PartDAOLocator {
 
 	private PartDAOLocator() {}
 
-	public static IPartDAO lookupDAO(String id) throws RemoteException {
+	/**
+	 * Returns a part data access object
+	 * 
+	 * @return a remote part data access object
+	 **/
+	public static IPartDAO lookupDAO() throws RemoteException {
 		try {
-			return (IPartDAO) Naming.lookup(id);
+			return (IPartDAO) Naming.lookup(PART_DAO_ID);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
 	}
 
-	public static void bindDAO(String id) throws RemoteException {
+	/**
+	 * Binds a remote part data access object
+	 * 
+	 * @throws RemoteException
+	 **/
+	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(id, new RemotePartDAOServer());
+			Naming.rebind(PART_DAO_ID, new RemotePartDAOServer());
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

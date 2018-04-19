@@ -20,7 +20,7 @@ public class DatabaseHelper<T> {
 	public static final String CAR_FACILITY_DB_URL = "jdbc:postgresql://localhost:5432/car_facility_system";
 	public static final String POSTGRES_USERNAME = "postgres";
 	public static final String POSTGRES_PASSWORD = "password";
-	
+
 	public DatabaseHelper(String jdbcURL, String username, String password) throws RemoteException {
 		this.jdbcURL = jdbcURL;
 		this.username = username;
@@ -44,8 +44,7 @@ public class DatabaseHelper<T> {
 		}
 	}
 
-	private PreparedStatement prepare(Connection connection, String sql, Object[] parameters) 
-																				throws SQLException {
+	private PreparedStatement prepare(Connection connection, String sql, Object[] parameters) throws SQLException {
 		PreparedStatement stat = connection.prepareStatement(sql);
 		for (int i = 0; i < parameters.length; i++) {
 			stat.setObject(i + 1, parameters[i]);
@@ -80,7 +79,8 @@ public class DatabaseHelper<T> {
 			// retrieve the generated primary key
 			try (ResultSet output = stat.getGeneratedKeys()) {
 
-				if (!output.next()) return -1; // nothing is returned
+				if (!output.next())
+					return -1; // nothing is returned
 
 				return output.getInt(1);
 			}
@@ -108,14 +108,13 @@ public class DatabaseHelper<T> {
 			PreparedStatement stat = prepare(con, sql, parameters);
 			ResultSet rs = stat.executeQuery();
 			LinkedList<T> allObjects = new LinkedList<>();
-			while (rs.next()) {
+			while (rs.next())
 				allObjects.add(mapper.create(rs));
-			}
 			rs.close();
 			return allObjects;
 		} catch (SQLException e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
 	}
-	
+
 }

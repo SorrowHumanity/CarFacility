@@ -37,11 +37,11 @@ public final class ServerMain {
 
 		LinkedList<PartDTO> parts = new LinkedList<>();
 		parts.add(new PartDTO("newChassisNumber2", "Window", 4.5));
-		ICar car = RegistrationBaseLocator.lookupBase(RegistrationBaseLocator.REGISTRATION_BASE_ID).registerCar(
+		ICar car = RegistrationBaseLocator.lookupBase().registerCar(
 				"newChassisNumber2", "Subaru BRZ", parts);
 		
 		
-		DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID).dismantleCar(car);
+		DismantleBaseLocator.lookupBase().dismantleCar(car);
 
 	}
 
@@ -50,13 +50,13 @@ public final class ServerMain {
 		LocateRegistry.createRegistry(1099);
 
 		// bind DAO objects
-		CarDAOLocator.bindDAO(CarDAOLocator.CAR_DAO_ID);
-		PartDAOLocator.bindDAO(PartDAOLocator.PART_DAO_ID);
-		PalletDAOLocator.bindDAO(PalletDAOLocator.PALLET_DAO_ID);
+		CarDAOLocator.bindDAO();
+		PartDAOLocator.bindDAO();
+		PalletDAOLocator.bindDAO();
 
 		// bind Base objects
-		RegistrationBaseLocator.bindBase(RegistrationBaseLocator.REGISTRATION_BASE_ID);
-		DismantleBaseLocator.bindBase(DismantleBaseLocator.DISMANTLE_BASE_ID);
+		RegistrationBaseLocator.bindBase();
+		DismantleBaseLocator.bindBase();
 	}
 
 }

@@ -1,6 +1,5 @@
 package remote.dao.pallet;
 
-import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.ResultSet;
@@ -102,16 +101,25 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		}
 	}
 
-	private PalletDTO createPallet(ResultSet rs) throws SQLException, RemoteException, MalformedURLException {
-		int palletId = rs.getInt("id");
-		String palletType = rs.getString("pallet_type");
-		double weightKg = rs.getDouble("total_weight_kg");
+	/**
+	 * Creates a pallet data transfer object from a database result set
+	 * 
+	 * @param rs
+	 * 		the result set
+	 * @return a pallet data transfer object
+	 * @throws SQLException
+	 * @throws RemoteException
+	 **/
+	private PalletDTO createPallet(ResultSet rs) throws SQLException, RemoteException {
+		int palletId = rs.getInt(PalletEntityConstants.ID_COLUMN);
+		String palletType = rs.getString(PalletEntityConstants.PALLET_TYPE_COLUMN);
+		double weightKg = rs.getDouble(PalletEntityConstants.TOTAL_WEIGHT_KG_COLUMN);
 		
 		// DismantleBase is required to get all parts for each pallet
 		List<IPart> parts = null;
 		try {
 			
-			parts = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID).getParts(palletId);
+			parts = DismantleBaseLocator.lookupBase().getParts(palletId);
 			PalletDTO palletDto = new PalletDTO(palletId, palletType, CollectionUtils.toDTOArray(parts), weightKg);
 			
 			return palletDto;

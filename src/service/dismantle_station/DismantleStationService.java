@@ -22,7 +22,11 @@ public class DismantleStationService {
 	private IDismantleBase dismantleBase;
 
 	public DismantleStationService() throws RemoteException {
-		dismantleBase = DismantleBaseLocator.lookupBase(DismantleBaseLocator.DISMANTLE_BASE_ID);
+		try {
+			dismantleBase = DismantleBaseLocator.lookupBase();
+		} catch (Exception e) {
+			throw new RemoteException(e.getMessage(), e);
+		}
 	}
 
 	@WebMethod
@@ -44,13 +48,13 @@ public class DismantleStationService {
 
 	@WebMethod
 	public PartDTO[] getParts(int palletId) throws RemoteException {
-		List<IPart> remoteParts = dismantleBase.getParts(palletId); 
+		List<IPart> remoteParts = dismantleBase.getParts(palletId);
 		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
 	public PartDTO[] getAllParts() throws RemoteException {
-		List<IPart> remoteParts = dismantleBase.getAllParts(); 
+		List<IPart> remoteParts = dismantleBase.getAllParts();
 		return CollectionUtils.toDTOArray(remoteParts);
 	}
 

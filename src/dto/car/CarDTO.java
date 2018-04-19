@@ -23,8 +23,7 @@ public class CarDTO implements Serializable {
 	}
 
 	public CarDTO(ICar remoteCar) throws RemoteException {
-		this(remoteCar.getChassisNumber(), remoteCar.getModel(), 
-				CollectionUtils.toDTOArray(remoteCar.getParts()));
+		this(remoteCar.getChassisNumber(), remoteCar.getModel(), CollectionUtils.toDTOArray(remoteCar.getParts()));
 	}
 
 	public String getChassisNumber() {

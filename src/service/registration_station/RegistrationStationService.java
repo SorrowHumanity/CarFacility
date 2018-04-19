@@ -19,7 +19,7 @@ public class RegistrationStationService {
 
 	public RegistrationStationService() throws RemoteException {
 		try {
-			registrationBase = RegistrationBaseLocator.lookupBase(RegistrationBaseLocator.REGISTRATION_BASE_ID);
+			registrationBase = RegistrationBaseLocator.lookupBase();
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

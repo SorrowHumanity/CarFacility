@@ -2,7 +2,6 @@ package remote.model.pallet;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Arrays;
 import java.util.List;
 
 import dto.pallet.PalletDTO;
@@ -26,7 +25,7 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	public RemotePallet(PalletDTO palletDto) throws RemoteException {
-		this(palletDto.getId(), palletDto.getPalletType(), CollectionUtils.toRemotePartsList(Arrays.asList(palletDto.getParts())),
+		this(palletDto.getId(), palletDto.getPalletType(), CollectionUtils.toRemotePartsList(palletDto.getParts()),
 				palletDto.getWeightKg());
 	}
 
@@ -66,14 +65,31 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 		return "RemotePallet [id=" + id + ", palletType=" + palletType + ", parts=" + parts + "]";
 	}
 
+	/**
+	 * Checks if a part's type is the same as the type of the pallet
+	 * 
+	 * @param part
+	 *            the part
+	 * @return true, if the types match. Otherwise, false
+	 * @throws RemoteException
+	 **/
 	private boolean typeEquals(IPart part) throws RemoteException {
-		boolean typeEquals = part.getName().endsWith(getPalletType()); 
+		boolean typeEquals = part.getName().endsWith(getPalletType());
 		return typeEquals;
 	}
 
+	/**
+	 * Checks if the pallet has enough remaining volume to fit a part
+	 * 
+	 * @param part
+	 *            the part
+	 * @return true, if the pallet has enough volume to fit the part. Otherwise,
+	 *         false
+	 * @throws RemoteException
+	 **/
 	private boolean hasEnoughVolume(IPart part) throws RemoteException {
 		double combinedWeight = Double.sum(part.getWeightKg(), getWeightKg());
-		boolean hasEnoughVolume = Double.compare(combinedWeight, PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0; 
+		boolean hasEnoughVolume = Double.compare(combinedWeight, PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0;
 		return hasEnoughVolume;
 	}
 

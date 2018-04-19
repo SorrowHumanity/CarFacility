@@ -27,7 +27,7 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 	}
 
 	@Override
-	public synchronized ICar registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
+	public ICar registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
 		// create database entry
 		CarDTO carDto = carDao.create(chassisNumber, model, parts);
 

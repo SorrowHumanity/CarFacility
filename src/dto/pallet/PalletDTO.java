@@ -9,7 +9,7 @@ import util.CollectionUtils;
 public class PalletDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	public static final double MAX_PALLET_WEIGHT_KG = 250.0;
 
 	private int id;
@@ -58,7 +58,7 @@ public class PalletDTO implements Serializable {
 	public void setParts(PartDTO[] parts) {
 		this.parts = parts;
 	}
-	
+
 	public void setWeightKg(double weightKg) {
 		this.weightKg = weightKg;
 	}

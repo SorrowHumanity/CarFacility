@@ -180,6 +180,16 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		return carParts;
 	}
 	
+	/**
+	 * Adds a part to a pallet. If there is no existing pallet that fits the part,
+	 * a new pallet is created and registered for the part
+	 * 
+	 *  @param part
+	 *  		the part
+	 *  @return true, if the part is successfully added to a pallet. Otherwise, the part is 
+	 *  			too heavy (above 250 kg) for the standart pallets
+	 * @throws RemoteException
+	 **/
 	private boolean addToPallet(IPart part) throws RemoteException {
 		// part is too heavy for standart pallets (250 kg)
 		if (isOverweight(part)) return false;
@@ -206,7 +216,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			}
 		}
 	
-		// if there is no extinsting pallet that fits, create a new one
+		// if there is no existing pallet that fits, create a new one
 		LinkedList<IPart> palletParts = new LinkedList<>();
 		palletParts.add((part));
 		registerPallet(part.getType(), palletParts);
@@ -214,6 +224,14 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		return true;
 	}
 
+	/**
+	 * Verifies that the part passed as a parameter fits the weight limits of the standart pallets
+	 * 
+	 * @param part 
+	 * 			the part
+	 * @return true, if the part fits the weight standarts. Otherwise, false 
+	 * @throws RemoteException
+	 **/
 	private boolean isOverweight(IPart part) throws RemoteException {
 		boolean isOverweight = Double.compare(part.getWeightKg(), PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0;
 		return isOverweight;

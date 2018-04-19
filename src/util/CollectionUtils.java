@@ -28,12 +28,12 @@ public final class CollectionUtils {
 
 	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
 		LinkedList<IPart> remoteParts = new LinkedList<>();
-	
+
 		for (PartDTO part : allParts)
 			remoteParts.add(new RemotePart(part));
-	
+
 		return remoteParts;
-	
+
 	}
 
 	public static CarDTO[] toCarDTOArray(List<ICar> allCars) throws RemoteException {
@@ -56,7 +56,7 @@ public final class CollectionUtils {
 		return palletDtos;
 	}
 
-	public static PartDTO[] toPartDTOArray(List<PartDTO> allParts) {
+	public static PartDTO[] toPartDTOArray(Collection<PartDTO> allParts) {
 		int size = allParts.size();
 		PartDTO[] array = new PartDTO[size];
 		allParts.toArray(array);
@@ -66,10 +66,10 @@ public final class CollectionUtils {
 	public static PartDTO[] toDTOArray(List<IPart> allParts) throws RemoteException {
 		int size = allParts.size();
 		PartDTO[] partDtos = new PartDTO[size];
-	
+
 		for (int i = 0; i < size; i++)
 			partDtos[i] = new PartDTO(allParts.get(i));
-	
+
 		return partDtos;
 	}
 

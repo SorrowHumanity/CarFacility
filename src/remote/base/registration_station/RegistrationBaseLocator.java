@@ -11,17 +11,28 @@ public final class RegistrationBaseLocator {
 
 	private RegistrationBaseLocator() {}
 
-	public static void bindBase(String id) throws RemoteException {
+	/**
+	 * Binds a remote registration base
+	 * 
+	 * @throws RemoteException
+	 **/
+	public static void bindBase() throws RemoteException {
 		try {
-			Naming.rebind(id, new RemoteRegistrationBase(CarDAOLocator.lookupDAO(CarDAOLocator.CAR_DAO_ID)));
+			Naming.rebind(REGISTRATION_BASE_ID, new RemoteRegistrationBase(CarDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
 	}
 
-	public static IRegistrationBase lookupBase(String id) throws RemoteException {
+	/**
+	 * Returns a remote registration base
+	 * 
+	 * @return a reference to remote registration base
+	 * @throws RemoteException
+	 **/
+	public static IRegistrationBase lookupBase() throws RemoteException {
 		try {
-			return (IRegistrationBase) Naming.lookup(id);
+			return (IRegistrationBase) Naming.lookup(REGISTRATION_BASE_ID);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

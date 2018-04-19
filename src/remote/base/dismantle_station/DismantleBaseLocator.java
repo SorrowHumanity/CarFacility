@@ -12,18 +12,31 @@ public final class DismantleBaseLocator {
 
 	private DismantleBaseLocator() {}
 
-	public static IDismantleBase lookupBase(String id) throws RemoteException {
+	/**
+	 * Returns a reference to the remote dismantle base
+	 * 
+	 * @return a reference to remote dismantle base object
+	 * @throws RemoteException
+	 **/
+	public static IDismantleBase lookupBase() throws RemoteException {
 		try {
-			return (IDismantleBase) Naming.lookup(id);
+			return (IDismantleBase) Naming.lookup(DISMANTLE_BASE_ID);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
 	}
 
-	public static void bindBase(String id) throws RemoteException {
+	/**
+	 * Binds a remote dismantle base to the specified id
+	 * 
+	 * @param id
+	 *            the id
+	 * @throws RemoteException
+	 **/
+	public static void bindBase() throws RemoteException {
 		try {
-			Naming.rebind(id, new RemoteDismantleBase(PartDAOLocator.lookupDAO(PartDAOLocator.PART_DAO_ID),
-					PalletDAOLocator.lookupDAO(PalletDAOLocator.PALLET_DAO_ID)));
+			Naming.rebind(DISMANTLE_BASE_ID,
+					new RemoteDismantleBase(PartDAOLocator.lookupDAO(), PalletDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

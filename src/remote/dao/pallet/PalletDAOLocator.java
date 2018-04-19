@@ -9,17 +9,28 @@ public final class PalletDAOLocator {
 
 	private PalletDAOLocator() {}
 
-	public static IPalletDAO lookupDAO(String id) throws RemoteException {
+	/**
+	 * Returns a reference to a remote pallet data access object
+	 * 
+	 * @return a remote pallet data access object
+	 * @throws RemoteException
+	 **/
+	public static IPalletDAO lookupDAO() throws RemoteException {
 		try {
-			return (IPalletDAO) Naming.lookup(id);
+			return (IPalletDAO) Naming.lookup(PALLET_DAO_ID);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
 	}
 
-	public static void bindDAO(String id) throws RemoteException {
+	/**
+	 * Binds a reference to a remote pallet data access object
+	 * 
+	 * @throws RemoteException
+	 **/
+	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(id, new RemotePalletDAOServer());
+			Naming.rebind(PALLET_DAO_ID, new RemotePalletDAOServer());
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
