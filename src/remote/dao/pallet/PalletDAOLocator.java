@@ -3,6 +3,8 @@ package remote.dao.pallet;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
+import remote.dao.part.PartDAOLocator;
+
 public final class PalletDAOLocator {
 
 	public static final String PALLET_DAO_ID = "RemotePalletDAO";
@@ -30,7 +32,7 @@ public final class PalletDAOLocator {
 	 **/
 	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(PALLET_DAO_ID, new RemotePalletDAOServer());
+			Naming.rebind(PALLET_DAO_ID, new RemotePalletDAOServer(PartDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

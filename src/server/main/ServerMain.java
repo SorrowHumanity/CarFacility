@@ -4,29 +4,11 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import dto.car.CarDTO;
-import dto.part.PartDTO;
 import remote.base.dismantle_station.DismantleBaseLocator;
-import remote.base.dismantle_station.IDismantleBase;
-import remote.base.dismantle_station.RemoteDismantleBase;
 import remote.base.registration_station.RegistrationBaseLocator;
 import remote.dao.car.CarDAOLocator;
-import remote.dao.pallet.IPalletDAO;
 import remote.dao.pallet.PalletDAOLocator;
-import remote.dao.pallet.PalletEntityConstants;
-import remote.dao.part.IPartDAO;
 import remote.dao.part.PartDAOLocator;
-import remote.model.car.ICar;
-import remote.model.car.RemoteCar;
-import remote.model.pallet.IPallet;
-import remote.model.pallet.RemotePallet;
-import remote.model.part.IPart;
-import remote.model.part.RemotePart;
-import util.CollectionUtils;
 
 public final class ServerMain {
 
@@ -34,15 +16,6 @@ public final class ServerMain {
 
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
 		bindRemoteComponents();
-
-		LinkedList<PartDTO> parts = new LinkedList<>();
-		parts.add(new PartDTO("newChassisNumber2", "Window", 4.5));
-		ICar car = RegistrationBaseLocator.lookupBase().registerCar(
-				"newChassisNumber2", "Subaru BRZ", parts);
-		
-		
-		DismantleBaseLocator.lookupBase().dismantleCar(car);
-
 	}
 
 	private static void bindRemoteComponents() throws RemoteException, MalformedURLException, NotBoundException {
@@ -50,8 +23,8 @@ public final class ServerMain {
 		LocateRegistry.createRegistry(1099);
 
 		// bind DAO objects
-		CarDAOLocator.bindDAO();
 		PartDAOLocator.bindDAO();
+		CarDAOLocator.bindDAO();
 		PalletDAOLocator.bindDAO();
 
 		// bind Base objects
