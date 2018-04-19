@@ -95,7 +95,8 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		for (PartDTO part : allParts) {
 			palletDb.executeUpdate("INSERT INTO car_facility_schema.contains"
 					+ " (part_id, pallet_id) SELECT ?, ? WHERE NOT EXISTS(SELECT *"
-					+ " FROM car_facility_schema.contains WHERE contains.part_id = " + "? AND contains.pallet_id = ?);",
+					+ " FROM car_facility_schema.contains WHERE contains.part_id = " 
+					+ "? AND contains.pallet_id = ?);",
 					part.getId(), palletId, part.getId(), palletId);
 		}
 	}
