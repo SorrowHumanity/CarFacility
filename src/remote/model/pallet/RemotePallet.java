@@ -13,6 +13,8 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 
 	private static final long serialVersionUID = 1L;
 
+	public static final double MAX_PALLET_WEIGHT_CAPACITY = 250.0;
+	
 	private int id;
 	private String palletType;
 	private List<IPart> parts;
@@ -32,12 +34,16 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 
 	@Override
 	public boolean addPart(IPart part) throws RemoteException {
+		if (part == null) return false;
+		
 		weightKg += part.getWeightKg();
 		return parts.add(part);
 	}
 
 	@Override
 	public boolean removePart(IPart part) throws RemoteException {
+		if (part == null) return false;
+		
 		weightKg -= part.getWeightKg();
 		for (int i = 0; i < parts.size(); i++)
 			if (Objects.equals(parts.get(i).getId(), part.getId()))
@@ -109,7 +115,7 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	 **/
 	private boolean hasEnoughVolume(IPart part) throws RemoteException {
 		double combinedWeight = Double.sum(part.getWeightKg(), getWeightKg());
-		boolean hasEnoughVolume = Double.compare(combinedWeight, PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0;
+		boolean hasEnoughVolume = Double.compare(combinedWeight, MAX_PALLET_WEIGHT_CAPACITY) <= 0;
 		return hasEnoughVolume;
 	}
 

@@ -25,7 +25,8 @@ public class RemotePartDAOServer extends UnicastRemoteObject implements IPartDAO
 	public PartDTO create(String chassisNumber, String name, double weightKg) throws RemoteException {
 		// create database entry
 		int id = partDb.executeUpdateReturningId("INSERT INTO "
-				+ "car_facility_schema.parts (car_chassis_number, name, weight_kg)" + " VALUES (?, ?, ?) RETURNING id;",
+				+ "car_facility_schema.parts (car_chassis_number, name, weight_kg)" 
+				+ " VALUES (?, ?, ?) RETURNING id;",
 				chassisNumber, name, weightKg);
 
 		return new PartDTO(id, chassisNumber, name, weightKg);

@@ -62,7 +62,15 @@ public interface IPallet extends Remote {
 	 * @throws RemoteException
 	 **/
 	boolean fits(IPart part) throws RemoteException;
-	
+
+	/**
+	 * Checks if the pallet contains a part
+	 * 
+	 * @param part
+	 *            the part
+	 * @return true, if the pallet contains the part. Otherwise, false
+	 * @throws RemoteException
+	 **/
 	boolean containsPart(IPart part) throws RemoteException;
 
 }

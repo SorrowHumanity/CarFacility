@@ -54,5 +54,5 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 		return "RemotePart [id=" + id + ", carChassisNumber=" + carChassisNumber + ", name=" + name + ", weightKg="
 				+ weightKg + "]";
 	}
-	
+
 }

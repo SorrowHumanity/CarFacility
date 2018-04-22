@@ -22,7 +22,9 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	private DatabaseHelper<CarDTO> carDb;
 
 	public RemoteCarDAOServer(IPartDAO partDao) throws RemoteException {
-		carDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
+		carDb = new DatabaseHelper<>(
+				DatabaseHelper.CAR_FACILITY_DB_URL, 
+				DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
 		this.partDao = partDao;
 	}
@@ -36,7 +38,9 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 		carDb.executeUpdate("INSERT INTO car_facility_schema.cars (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
 				chassisNumber, model, weightKg);
 
-		return new CarDTO(chassisNumber, model, CollectionUtils.toPartDTOArray(parts));
+		PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
+		 
+		return new CarDTO(chassisNumber, model, partDtos);
 	}
 
 	@Override
@@ -76,7 +80,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	 * Creates a car object from a database result set
 	 * 
 	 * @param rs
-	 *            the restult set
+	 *            the result set
 	 * @return a car data transfer object
 	 * @throws SQLException
 	 **/

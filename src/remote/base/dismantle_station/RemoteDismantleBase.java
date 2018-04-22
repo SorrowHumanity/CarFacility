@@ -93,7 +93,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		Collection<PartDTO> allParts = partDao.readAll();
 
 		// create output collection
-		LinkedList<IPart> matchingParts = new LinkedList<>();
+		LinkedList<IPart> partList = new LinkedList<>();
 
 		// go through all parts
 		for (PartDTO part : allParts) {
@@ -103,10 +103,10 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 				partCache.put(part.getId(), new RemotePart(part));
 
 			// add to output collection
-			matchingParts.add(partCache.get(part.getId()));
+			partList.add(partCache.get(part.getId()));
 		}
 
-		return matchingParts;
+		return partList;
 	}
 
 	@Override
@@ -141,7 +141,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		Collection<PalletDTO> allPallets = palletDao.readAll();
 
 		// create output collection
-		LinkedList<IPallet> matchingParts = new LinkedList<>();
+		LinkedList<IPallet> partList = new LinkedList<>();
 
 		// go through all parts
 		for (PalletDTO pallet : allPallets) {
@@ -151,10 +151,10 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 				palletCache.put(pallet.getId(), new RemotePallet(pallet));
 
 			// add to output collection
-			matchingParts.add(palletCache.get(pallet.getId()));
+			partList.add(palletCache.get(pallet.getId()));
 		}
 
-		return matchingParts;
+		return partList;
 	}
 
 	@Override
@@ -179,51 +179,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		return carParts;
 	}
 	
-	/**
-	 * Adds a part to a pallet. If there is no existing pallet that fits the part,
-	 * a new pallet is created and registered for the part
-	 * 
-	 *  @param part
-	 *  		the part
-	 *  @return true, if the part is successfully added to a pallet. Otherwise, the part is 
-	 *  			too heavy (above 250 kg) for the standart pallets
-	 * @throws RemoteException
-	 **/
-	private boolean addToPallet(IPart part) throws RemoteException {
-		// part is too heavy for standart pallets (250 kg)
-		if (isOverweight(part)) return false;
-		
-		// get all available pallets
-		getAllPallets();
-	
-		// attempt to add to existing pallet
-		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
-
-			IPallet pallet = entry.getValue();
-	
-			if (pallet != null && pallet.fits(part)) {
-				
-				// add part to pallet
-				pallet.addPart(part);
-				
-				// update database
-				palletDao.update(new PalletDTO(pallet));
-		
-				// update cache
-				palletCache.put(pallet.getId(), pallet);
-				
-				return true;
-			}
-		}
-	
-		// if there is no existing pallet that fits, create a new one
-		LinkedList<IPart> palletParts = new LinkedList<>();
-		palletParts.add((part));
-		registerPallet(part.getType(), palletParts);
-	
-		return true;
-	}
-	
+	@Override
 	public int removeFromPallet(IPart part) throws RemoteException {
 		// get all available pallets
 		getAllPallets();
@@ -255,6 +211,51 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 
 	/**
+	 * Adds a part to a pallet. If there is no existing pallet that fits the part,
+	 * a new pallet is created and registered for the part
+	 * 
+	 *  @param part
+	 *  		the part
+	 *  @return true, if the part is successfully added to a pallet. Otherwise, the part is 
+	 *  			too heavy (above 250 kg) for the standard pallets
+	 * @throws RemoteException
+	 **/
+	private boolean addToPallet(IPart part) throws RemoteException {
+		// part is too heavy for standard pallets (250 kg)
+		if (isOverweight(part)) return false;
+		
+		// get all available pallets
+		getAllPallets();
+	
+		// attempt to add to existing pallet
+		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
+
+			IPallet pallet = entry.getValue();
+	
+			if (pallet != null && pallet.fits(part)) {
+				
+				// add part to pallet
+				pallet.addPart(part);
+				
+				// update database
+				palletDao.update(new PalletDTO(pallet));
+		
+				// update cache
+				palletCache.put(pallet.getId(), pallet);
+				
+				return true;
+			}
+		}
+	
+		// if there is no existing pallet that fits, create a new one
+		LinkedList<IPart> palletParts = new LinkedList<>();
+		palletParts.add(part);
+		registerPallet(part.getType(), palletParts);
+	
+		return true;
+	}
+	
+	/**
 	 * Verifies that the part passed as a parameter fits the weight limits of the standards pallets
 	 * 
 	 * @param part 
@@ -263,7 +264,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	 * @throws RemoteException
 	 **/
 	private boolean isOverweight(IPart part) throws RemoteException {
-		boolean isOverweight = Double.compare(part.getWeightKg(), PalletDTO.MAX_PALLET_WEIGHT_KG) <= 0;
+		boolean isOverweight = Double.compare(part.getWeightKg(), RemotePallet.MAX_PALLET_WEIGHT_CAPACITY) <= 0;
 		return isOverweight;
 	}
 

@@ -11,6 +11,12 @@ public final class ShipmentDAOLocator {
 
 	private ShipmentDAOLocator() {}
 
+	/**
+	 * Returns a reference to a remote shipment data access object from the registry 
+	 * 
+	 * @return a remote shipment dao
+	 * @throws RemoteException
+	 **/
 	public static IShipmentDAO lookupDAO() throws RemoteException {
 		try {
 			return (IShipmentDAO) Naming.lookup(SHIPMENT_DAO_ID);
@@ -19,6 +25,11 @@ public final class ShipmentDAOLocator {
 		}
 	}
 
+	/**
+	 * Binds a remote shipment data access object to the registry 
+	 *
+	 * @throws RemoteException 
+	 **/
 	public static void bindDAO() throws RemoteException {
 		try {
 			Naming.rebind(SHIPMENT_DAO_ID, new RemoteShipmentDAOServer(PartDAOLocator.lookupDAO()));

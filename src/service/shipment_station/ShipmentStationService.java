@@ -14,6 +14,7 @@ import util.CollectionUtils;
 
 @WebService
 public class ShipmentStationService implements IShipmentStationService {
+	
 	private IShipmentBase shipmentBase;
 
 	public ShipmentStationService() throws RemoteException {

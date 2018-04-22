@@ -1,6 +1,5 @@
 package remote.dao.shipment;
 
-import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.ResultSet;
@@ -120,7 +119,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		}
 	}
 
-	private ShipmentDTO createShipment(ResultSet rs) throws SQLException, RemoteException, MalformedURLException {
+	private ShipmentDTO createShipment(ResultSet rs) throws SQLException, RemoteException {
 		int shipmentId = rs.getInt(ShipmentEntityConstants.ID_COLUMN);
 		String receiverFirstName = rs.getString(ShipmentEntityConstants.FIRST_NAME_COLUMN);
 		String receiverLastName = rs.getString(ShipmentEntityConstants.LAST_NAME_COLUMN);

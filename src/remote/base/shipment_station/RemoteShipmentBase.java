@@ -17,7 +17,7 @@ import remote.model.shipment.IShipment;
 import remote.model.shipment.RemoteShipment;
 
 public class RemoteShipmentBase extends UnicastRemoteObject implements IShipmentBase {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private Map<Integer, IShipment> shipmentCache = new HashMap<>();
@@ -30,16 +30,18 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 	}
 
 	@Override
-	public synchronized IShipment registerShipment(List<PartDTO> parts, String receiverFirstName, String receiverLastName) throws RemoteException {
+	public synchronized IShipment registerShipment(List<PartDTO> parts, String receiverFirstName,
+			String receiverLastName) throws RemoteException {
 		// get map of the pallet ids of the pallets from which the parts come
-		Map<Integer, Integer> palletIds = getPalletIds(parts);
-		
+		// key(part id), value(pallet id)
+		Map<Integer, Integer> palletIds = takeParts(parts);
+
 		// create database entry
 		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, parts, palletIds);
-		
+
 		// cache and return
 		shipmentCache.put(shipmentDto.getId(), new RemoteShipment(shipmentDto));
-		
+
 		return shipmentCache.get(shipmentDto.getId());
 	}
 
@@ -77,14 +79,27 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 
 		return shipmentList;
 	}
-	
-	private Map<Integer, Integer> getPalletIds(List<PartDTO> parts) throws RemoteException {
+
+	/**
+	 * Removes the parts that are going to be shipped from the pallets
+	 * they belong to
+	 * 
+	 * @param parts
+	 *            the parts to be removed from the pallets
+	 * @return a map of all part ids and the pallet which they come from
+	 * @throws RemoteException
+	 **/
+	private Map<Integer, Integer> takeParts(List<PartDTO> parts) throws RemoteException {
 		// key(part id), value(pallet id)
-		HashMap<Integer, Integer> palletIdMap = new HashMap<>();
+		HashMap<Integer, Integer> idMap = new HashMap<>();
+
 		for (PartDTO part : parts) {
+			// remove part from it's pallet
 			int palletId = dismantleBase.removeFromPallet(new RemotePart(part));
-			palletIdMap.put(part.getId(), palletId);
+			
+			// save the id of the pallet the part comes from
+			idMap.put(part.getId(), palletId);
 		}
-		return palletIdMap;
+		return idMap;
 	}
 }

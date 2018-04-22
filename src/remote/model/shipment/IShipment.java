@@ -21,14 +21,15 @@ public interface IShipment extends Remote {
 	List<IPart> getShippedParts() throws RemoteException;
 
 	/**
-	 * @return the reciever first name value
+	 * @return the receiver first name value
 	 * @throws RemoteException
 	 **/
 	String getReceiverFirstName() throws RemoteException;
 
 	/**
-	 * @return the reciever last name value
+	 * @return the receiver last name value
 	 * @throws RemoteException
 	 **/
 	String getReceiverLastName() throws RemoteException;
+	
 }
