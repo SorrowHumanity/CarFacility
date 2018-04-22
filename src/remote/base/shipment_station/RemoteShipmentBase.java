@@ -52,7 +52,7 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 	}
 
 	@Override
-	public List<IShipment> getAllShipments() throws RemoteException {
+	public synchronized List<IShipment> getAllShipments() throws RemoteException {
 		// read all cars from the database
 		Collection<ShipmentDTO> allShipments = shipmentDao.readAll();
 

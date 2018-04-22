@@ -24,7 +24,6 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 	private Map<Integer, IPart> partCache = new HashMap<>();
 	private Map<Integer, IPallet> palletCache = new HashMap<>();
-
 	private IPartDAO partDao;
 	private IPalletDAO palletDao;
 

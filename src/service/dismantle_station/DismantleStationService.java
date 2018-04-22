@@ -71,8 +71,8 @@ public class DismantleStationService implements IDismantleStationService {
 
 	@WebMethod
 	@Override
-	public PalletDTO getPallet(int id) throws RemoteException {
-		return new PalletDTO(dismantleBase.getPallet(id));
+	public PalletDTO getPallet(int palletId) throws RemoteException {
+		return new PalletDTO(dismantleBase.getPallet(palletId));
 	}
 
 	@WebMethod

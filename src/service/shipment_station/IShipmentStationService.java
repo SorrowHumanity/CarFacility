@@ -11,7 +11,7 @@ public interface IShipmentStationService {
 	ShipmentDTO registerShipment(List<PartDTO> parts, String receiverFirstName, String receiverLastName)
 			throws RemoteException;
 
-	ShipmentDTO getShipment(int id) throws RemoteException;
+	ShipmentDTO getShipment(int shipementId) throws RemoteException;
 
 	ShipmentDTO[] getAllShipments() throws RemoteException;
 

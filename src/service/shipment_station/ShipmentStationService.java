@@ -33,8 +33,8 @@ public class ShipmentStationService implements IShipmentStationService {
 
 	@WebMethod
 	@Override
-	public ShipmentDTO getShipment(int id) throws RemoteException {
-		return new ShipmentDTO(shipmentBase.getShipment(id));
+	public ShipmentDTO getShipment(int shipmentId) throws RemoteException {
+		return new ShipmentDTO(shipmentBase.getShipment(shipmentId));
 	}
 
 	@WebMethod

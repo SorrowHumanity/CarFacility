@@ -51,6 +51,8 @@ public class RemoteShipment extends UnicastRemoteObject implements IShipment {
 
 	@Override
 	public String toString() {
-		return "RemoteShipment [id=" + id + ", parts=" + parts + "]";
+		return "RemoteShipment [id=" + id + ", parts=" + parts + ", receiverFirstName=" + receiverFirstName
+				+ ", receiverLastName=" + receiverLastName + "]";
 	}
+
 }

@@ -21,7 +21,7 @@ public interface IDismantleStationService {
 
 	PalletDTO registerPallet(String palletType, List<PartDTO> parts) throws RemoteException;
 
-	PalletDTO getPallet(int id) throws RemoteException;
+	PalletDTO getPallet(int palletId) throws RemoteException;
 
 	PalletDTO[] getAllPallets() throws RemoteException;
 

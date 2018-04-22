@@ -24,11 +24,10 @@ CREATE TABLE car_facility_schema.contains (
   PRIMARY KEY (part_id, pallet_id)
 );
 
-
 CREATE TABLE car_facility_schema.shipments (
   id                  SERIAL PRIMARY KEY UNIQUE NOT NULL,
-  reciever_first_name VARCHAR(50),
-  reciever_last_name  VARCHAR(50)
+  receiver_first_name VARCHAR(50),
+  receiver_last_name  VARCHAR(50)
 );
 
 CREATE TABLE car_facility_schema.requests (
