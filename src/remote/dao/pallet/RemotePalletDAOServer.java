@@ -20,9 +20,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	private DatabaseHelper<PalletDTO> palletDb;
 
 	public RemotePalletDAOServer(IPartDAO partDao) throws RemoteException {
-		palletDb = new DatabaseHelper<>(
-				DatabaseHelper.CAR_FACILITY_DB_URL,
-				DatabaseHelper.POSTGRES_USERNAME,
+		palletDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
 		this.partDao = partDao;
 	}
@@ -91,13 +89,20 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		return rowsAffected != 0;
 	}
 
-	private void associateParts(int palletId, PartDTO[] allParts) throws RemoteException {
+	private void associateParts(int palletId, PartDTO... allParts) throws RemoteException {
 		for (PartDTO part : allParts) {
 			palletDb.executeUpdate("INSERT INTO car_facility_schema.contains"
 					+ " (part_id, pallet_id) SELECT ?, ? WHERE NOT EXISTS(SELECT *"
-					+ " FROM car_facility_schema.contains WHERE contains.part_id = " 
-					+ "? AND contains.pallet_id = ?);",
+					+ " FROM car_facility_schema.contains WHERE contains.part_id = " + "? AND contains.pallet_id = ?);",
 					part.getId(), palletId, part.getId(), palletId);
+		}
+	}
+
+	@Override
+	public void removePartAssociations(int palletId, PartDTO... allParts) throws RemoteException {
+		for (PartDTO part : allParts) {
+			palletDb.executeUpdate("DELETE FROM car_facility_schema.contains WHERE pallet_id = ? AND "
+					+ "part_id = ?;", palletId, part.getId());
 		}
 	}
 

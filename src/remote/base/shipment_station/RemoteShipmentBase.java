@@ -10,7 +10,9 @@ import java.util.Map;
 
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
+import remote.base.dismantle_station.IDismantleBase;
 import remote.dao.shipment.IShipmentDAO;
+import remote.model.part.RemotePart;
 import remote.model.shipment.IShipment;
 import remote.model.shipment.RemoteShipment;
 
@@ -20,16 +22,21 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 
 	private Map<Integer, IShipment> shipmentCache = new HashMap<>();
 	private IShipmentDAO shipmentDao;
+	private IDismantleBase dismantleBase;
 
-	public RemoteShipmentBase(IShipmentDAO shipmentDao) throws RemoteException {
+	public RemoteShipmentBase(IShipmentDAO shipmentDao, IDismantleBase dismantleBase) throws RemoteException {
 		this.shipmentDao = shipmentDao;
+		this.dismantleBase = dismantleBase;
 	}
 
 	@Override
 	public synchronized IShipment registerShipment(List<PartDTO> parts, String receiverFirstName, String receiverLastName) throws RemoteException {
+		// get map of the pallet ids of the pallets from which the parts come
+		Map<Integer, Integer> palletIds = getPalletIds(parts);
+		
 		// create database entry
-		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, parts);
-
+		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, parts, palletIds);
+		
 		// cache and return
 		shipmentCache.put(shipmentDto.getId(), new RemoteShipment(shipmentDto));
 		
@@ -38,13 +45,13 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 
 	@Override
 	public synchronized IShipment getShipment(int shipmentId) throws RemoteException {
-		// check if car is cached
+		// check if shipment is cached
 		if (!shipmentCache.containsKey(shipmentId)) {
 
-			// read car from the database
+			// read shipment from the database
 			ShipmentDTO shipmentDto = shipmentDao.read(shipmentId);
 
-			// cache car
+			// cache shipment
 			shipmentCache.put(shipmentId, new RemoteShipment(shipmentDto));
 		}
 
@@ -53,7 +60,7 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 
 	@Override
 	public synchronized List<IShipment> getAllShipments() throws RemoteException {
-		// read all cars from the database
+		// read all shipment from the database
 		Collection<ShipmentDTO> allShipments = shipmentDao.readAll();
 
 		// create output collection
@@ -69,5 +76,15 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 		}
 
 		return shipmentList;
+	}
+	
+	private Map<Integer, Integer> getPalletIds(List<PartDTO> parts) throws RemoteException {
+		// key(part id), value(pallet id)
+		HashMap<Integer, Integer> palletIdMap = new HashMap<>();
+		for (PartDTO part : parts) {
+			int palletId = dismantleBase.removeFromPallet(new RemotePart(part));
+			palletIdMap.put(part.getId(), palletId);
+		}
+		return palletIdMap;
 	}
 }

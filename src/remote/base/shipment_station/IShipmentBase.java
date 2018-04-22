@@ -15,9 +15,9 @@ public interface IShipmentBase extends Remote {
 	 * @param parts
 	 *            the parts of the shipment
 	 * @param receiverFirstName
-	 *            the first name of the reciever
+	 *            the first name of the receiver
 	 * @param receiverLastName
-	 *            the last name of the reciever
+	 *            the last name of the receiver
 	 * @return a remote shipment object
 	 * @throws RemoteException
 	 **/

@@ -3,6 +3,7 @@ package remote.base.shipment_station;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
+import remote.base.dismantle_station.DismantleBaseLocator;
 import remote.dao.shipment.ShipmentDAOLocator;
 
 public class ShipmentBaseLocator {
@@ -13,7 +14,8 @@ public class ShipmentBaseLocator {
 
 	public static void bindBase() throws RemoteException {
 		try {
-			Naming.rebind(SHIPMENT_BASE_ID, new RemoteShipmentBase(ShipmentDAOLocator.lookupDAO()));
+			Naming.rebind(SHIPMENT_BASE_ID, new RemoteShipmentBase(ShipmentDAOLocator.lookupDAO(),
+					DismantleBaseLocator.lookupBase()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

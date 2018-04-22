@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
@@ -30,16 +31,19 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 	}
 
 	@Override
-	public ShipmentDTO create(String receiverFirstName, String receiverLastName, List<PartDTO> parts)
-			throws RemoteException {
+	public ShipmentDTO create(String receiverFirstName, String receiverLastName, List<PartDTO> parts,
+			Map<Integer, Integer> partAssociations) throws RemoteException {
 		int id = shipmentDb.executeUpdateReturningId(
 				"INSERT INTO car_facility_schema.shipments (receiver_first_name, receiver_last_name)"
 						+ " VALUES (?, ?) RETURNING id;",
 				receiverFirstName, receiverLastName);
 
+		// convert to DTO
 		PartDTO[] partsArray = CollectionUtils.toPartDTOArray(parts);
 
-		associateParts(id, partsArray);
+		// associate all parts to the shipment, and include reference to the pallet
+		// source
+		associatePartsOnCreate(id, partsArray, partAssociations);
 
 		return new ShipmentDTO(id, partsArray, receiverFirstName, receiverLastName);
 	}
@@ -76,7 +80,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 				shipmentDto.getReceiverFirstName(), shipmentDto.getReceiverLastName(), shipmentDto.getId());
 
 		// update the contents of the shipment
-		associateParts(shipmentDto.getId(), shipmentDto.getParts());
+		associatePartsOnUpdate(shipmentDto.getId(), shipmentDto.getParts());
 
 		return rowsAffected != 0;
 	}
@@ -84,7 +88,8 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 	@Override
 	public boolean delete(ShipmentDTO shipmentDto) throws RemoteException {
 		// remove all part associations to the shipment
-		shipmentDb.executeUpdate("DELETE FROM car_facility_schema.requests WHERE shipments_id = ?;", shipmentDto.getId());
+		shipmentDb.executeUpdate("DELETE FROM car_facility_schema.requests WHERE shipments_id = ?;",
+				shipmentDto.getId());
 
 		// remove shipment
 		int rowsAffected = shipmentDb.executeUpdate("DELETE FROM car_facility_schema.shipments WHERE id = ?;",
@@ -93,12 +98,25 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		return rowsAffected != 0;
 	}
 
-	private void associateParts(int shipmentId, PartDTO[] allParts) throws RemoteException {
+	private void associatePartsOnUpdate(int shipmentId, PartDTO[] allParts) throws RemoteException {
 		for (PartDTO part : allParts) {
 			shipmentDb.executeUpdate("INSERT INTO car_facility_schema.requests"
 					+ " (part_id, shipment_id) SELECT ?, ? WHERE NOT EXISTS(SELECT *"
 					+ " FROM car_facility_schema.requests WHERE requests.part_id = "
 					+ "? AND requests.shipment_id = ?);", part.getId(), shipmentId, part.getId(), shipmentId);
+		}
+	}
+
+	private void associatePartsOnCreate(int shipmentId, PartDTO[] allParts, Map<Integer, Integer> partAssociations)
+			throws RemoteException {
+		for (PartDTO part : allParts) {
+			int palletId = partAssociations.get(part.getId());
+			shipmentDb.executeUpdate(
+					"INSERT INTO car_facility_schema.requests"
+							+ " (part_id, shipment_id, pallet_id) SELECT ?, ?, ? WHERE NOT EXISTS(SELECT *"
+							+ " FROM car_facility_schema.requests WHERE requests.part_id = "
+							+ "? AND requests.shipment_id = ? AND requests.pallet_id = ?);",
+					part.getId(), shipmentId, palletId, part.getId(), shipmentId, palletId);
 		}
 	}
 
@@ -108,12 +126,13 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		String receiverLastName = rs.getString(ShipmentEntityConstants.LAST_NAME_COLUMN);
 
 		try {
-
+			// read the pallet's parts
 			Collection<PartDTO> parts = partDao.read(shipmentId);
-			ShipmentDTO shipmentDto = new ShipmentDTO(shipmentId, CollectionUtils.toPartDTOArray(parts), receiverFirstName,
-					receiverLastName);
-
-			return shipmentDto;
+			
+			// convert to DTOs
+			PartDTO[] partDTOs = CollectionUtils.toPartDTOArray(parts);
+			
+			return new ShipmentDTO(shipmentId, partDTOs, receiverFirstName, receiverLastName);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

@@ -33,5 +33,6 @@ CREATE TABLE car_facility_schema.shipments (
 CREATE TABLE car_facility_schema.requests (
   part_id     INT REFERENCES car_facility_schema.parts (id) ON DELETE SET NULL ON UPDATE CASCADE,
   shipment_id INT REFERENCES car_facility_schema.shipments (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  pallet_id   INT REFERENCES car_facility_schema.pallets (id) ON DELETE SET NULL ON UPDATE CASCADE,
   PRIMARY KEY (part_id, shipment_id)
 );

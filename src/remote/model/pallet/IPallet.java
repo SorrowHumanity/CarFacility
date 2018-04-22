@@ -43,6 +43,16 @@ public interface IPallet extends Remote {
 	boolean addPart(IPart part) throws RemoteException;
 
 	/**
+	 * Removes a part from the pallet and updates the pallet weight value
+	 * 
+	 * @param part
+	 *            the part to be removed
+	 * @return true, if the removal is successful. Otherwise, false
+	 * @throws RemoteException
+	 **/
+	boolean removePart(IPart part) throws RemoteException;
+
+	/**
 	 * Checks if a part is can be added to the pallet according to two constraints:
 	 * weight and part type
 	 * 
@@ -52,5 +62,7 @@ public interface IPallet extends Remote {
 	 * @throws RemoteException
 	 **/
 	boolean fits(IPart part) throws RemoteException;
+	
+	boolean containsPart(IPart part) throws RemoteException;
 
 }

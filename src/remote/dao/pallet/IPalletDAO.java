@@ -61,5 +61,7 @@ public interface IPalletDAO extends Remote {
 	 * @throws RemoteException
 	 **/
 	boolean delete(PalletDTO palletDto) throws RemoteException;
+	
+	void removePartAssociations(int palletId, PartDTO... allParts) throws RemoteException;
 
 }

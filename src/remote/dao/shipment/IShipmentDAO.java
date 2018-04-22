@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
@@ -22,7 +23,8 @@ public interface IShipmentDAO extends Remote {
 	 * @return a shipment data transfer object
 	 * @throws RemoteException
 	 **/
-	ShipmentDTO create(String receiverFirstName, String receiverLastName, List<PartDTO> parts) throws RemoteException;
+	ShipmentDTO create(String receiverFirstName, String receiverLastName, List<PartDTO> parts,
+			Map<Integer, Integer> palletAssociations) throws RemoteException;
 
 	/**
 	 * Reads the shipment entry from the shipment entity and its belonging parts

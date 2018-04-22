@@ -94,4 +94,6 @@ public interface IDismantleBase extends Remote {
 	 **/
 	List<IPallet> getAllPallets() throws RemoteException;
 
+	int removeFromPallet(IPart part) throws RemoteException;
+
 }

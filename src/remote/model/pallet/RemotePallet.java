@@ -3,6 +3,7 @@ package remote.model.pallet;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Objects;
 
 import dto.pallet.PalletDTO;
 import remote.model.part.IPart;
@@ -36,8 +37,27 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	@Override
+	public boolean removePart(IPart part) throws RemoteException {
+		weightKg -= part.getWeightKg();
+		for (int i = 0; i < parts.size(); i++)
+			if (Objects.equals(parts.get(i).getId(), part.getId()))
+				return parts.remove(i) != null;
+
+		return false;
+	}
+
+	@Override
 	public boolean fits(IPart part) throws RemoteException {
 		return typeEquals(part) && hasEnoughVolume(part);
+	}
+
+	@Override
+	public boolean containsPart(IPart part) throws RemoteException {
+		for (IPart p : parts)
+			if (Objects.equals(p.getId(), part.getId()))
+				return true;
+
+		return false;
 	}
 
 	@Override

@@ -201,7 +201,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 			IPallet pallet = entry.getValue();
 	
-			if (pallet.fits(part)) {
+			if (pallet != null && pallet.fits(part)) {
 				
 				// add part to pallet
 				pallet.addPart(part);
@@ -211,6 +211,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		
 				// update cache
 				palletCache.put(pallet.getId(), pallet);
+				
 				return true;
 			}
 		}
@@ -222,13 +223,43 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	
 		return true;
 	}
+	
+	public int removeFromPallet(IPart part) throws RemoteException {
+		// get all available pallets
+		getAllPallets();
+		
+		// find the pallet that contains the part
+		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
+			
+			IPallet pallet = entry.getValue();
+			
+			if (pallet!= null && pallet.containsPart(part)) {
+				
+				// remove part from pallet
+				pallet.removePart(part);
+				
+				// update database
+				palletDao.update(new PalletDTO(pallet));
+				palletDao.removePartAssociations(pallet.getId(), new PartDTO(part));
+				
+				// update cache
+				palletCache.put(pallet.getId(), pallet);
+				partCache.remove(part.getId(), part);
+				
+				// return pallet id
+				return pallet.getId();
+			}
+		}
+		
+		return -1;
+	}
 
 	/**
-	 * Verifies that the part passed as a parameter fits the weight limits of the standart pallets
+	 * Verifies that the part passed as a parameter fits the weight limits of the standards pallets
 	 * 
 	 * @param part 
 	 * 			the part
-	 * @return true, if the part fits the weight standarts. Otherwise, false 
+	 * @return true, if the part fits the weight standards. Otherwise, false 
 	 * @throws RemoteException
 	 **/
 	private boolean isOverweight(IPart part) throws RemoteException {
