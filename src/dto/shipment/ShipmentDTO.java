@@ -14,11 +14,9 @@ public class ShipmentDTO implements Serializable {
 
 	private int id;
 	private PartDTO[] parts;
-	private String receiverFirstName;
-	private String receiverLastName;
+	private String receiverFirstName, receiverLastName;
 
-	public ShipmentDTO() {
-	}
+	public ShipmentDTO() {}
 
 	public ShipmentDTO(int id, PartDTO[] parts, String receiverFirstName, String receiverLastName) {
 		setId(id);
@@ -66,6 +64,8 @@ public class ShipmentDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "ShipmentDTO [id=" + id + ", parts=" + Arrays.toString(parts) + "]";
+		return "ShipmentDTO [id=" + id + ", parts=" + Arrays.toString(parts) + ", receiverFirstName="
+				+ receiverFirstName + ", receiverLastName=" + receiverLastName + "]";
 	}
+
 }

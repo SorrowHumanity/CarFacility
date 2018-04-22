@@ -14,20 +14,21 @@ public class RemoteShipment extends UnicastRemoteObject implements IShipment {
 
 	private int id;
 	private List<IPart> parts;
-	private String receiverFirstName;
-	private String receiverLastName;
+	private String receiverFirstName, receiverLastName;
 
-	public RemoteShipment(int id, List<IPart> parts, String receiverFirstName, String receiverLastName) throws RemoteException {
+	public RemoteShipment(int id, List<IPart> parts, String receiverFirstName, String receiverLastName)
+			throws RemoteException {
 		this.id = id;
 		this.parts = parts;
-		this.receiverFirstName=receiverFirstName;
-		this.receiverLastName=receiverLastName;
+		this.receiverFirstName = receiverFirstName;
+		this.receiverLastName = receiverLastName;
 	}
 
 	public RemoteShipment(ShipmentDTO remoteShipment) throws RemoteException {
 		this(remoteShipment.getId(), CollectionUtils.toRemotePartsList(remoteShipment.getParts()),
 				remoteShipment.getReceiverFirstName(), remoteShipment.getReceiverLastName());
 	}
+
 	@Override
 	public int getId() throws RemoteException {
 		return id;
@@ -47,7 +48,7 @@ public class RemoteShipment extends UnicastRemoteObject implements IShipment {
 	public String getReceiverLastName() throws RemoteException {
 		return receiverLastName;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "RemoteShipment [id=" + id + ", parts=" + parts + "]";

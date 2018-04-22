@@ -11,33 +11,35 @@ import java.util.List;
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
 import persistence.DatabaseHelper;
-import remote.base.dismantle_station.DismantleBaseLocator;
-import remote.base.shipment_station.ShipmentBaseLocator;
-import remote.model.part.IPart;
+import remote.dao.part.IPartDAO;
 import util.CollectionUtils;
 
 public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShipmentDAO {
 
 	private static final long serialVersionUID = 1L;
 
+	private IPartDAO partDao;
 	private DatabaseHelper<ShipmentDTO> shipmentDb;
 
-	public RemoteShipmentDAOServer() throws RemoteException {
-		shipmentDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
+	public RemoteShipmentDAOServer(IPartDAO partDao) throws RemoteException {
+		shipmentDb = new DatabaseHelper<>(
+				DatabaseHelper.CAR_FACILITY_DB_URL,
+				DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
+		this.partDao = partDao;
 	}
 
 	@Override
 	public ShipmentDTO create(String receiverFirstName, String receiverLastName, List<PartDTO> parts)
 			throws RemoteException {
 		int id = shipmentDb.executeUpdateReturningId(
-				"INSERT INTO " + "car_facility_schema.shipments (receiver_first_name, receiver_last_name)"
+				"INSERT INTO car_facility_schema.shipments (receiver_first_name, receiver_last_name)"
 						+ " VALUES (?, ?) RETURNING id;",
 				receiverFirstName, receiverLastName);
 
 		PartDTO[] partsArray = CollectionUtils.toPartDTOArray(parts);
 
-		associateShipments(id, partsArray);
+		associateParts(id, partsArray);
 
 		return new ShipmentDTO(id, partsArray, receiverFirstName, receiverLastName);
 	}
@@ -74,7 +76,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 				shipmentDto.getReceiverFirstName(), shipmentDto.getReceiverLastName(), shipmentDto.getId());
 
 		// update the contents of the shipment
-		associateShipments(shipmentDto.getId(), shipmentDto.getParts());
+		associateParts(shipmentDto.getId(), shipmentDto.getParts());
 
 		return rowsAffected != 0;
 	}
@@ -91,7 +93,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		return rowsAffected != 0;
 	}
 
-	private void associateShipments(int shipmentId, PartDTO[] allParts) throws RemoteException {
+	private void associateParts(int shipmentId, PartDTO[] allParts) throws RemoteException {
 		for (PartDTO part : allParts) {
 			shipmentDb.executeUpdate("INSERT INTO car_facility_schema.requests"
 					+ " (part_id, shipment_id) SELECT ?, ? WHERE NOT EXISTS(SELECT *"
@@ -100,20 +102,15 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	@SuppressWarnings("unchecked")
 	private ShipmentDTO createShipment(ResultSet rs) throws SQLException, RemoteException, MalformedURLException {
-		int shipmentId = rs.getInt("id");
-		String receiverFirstName = rs.getString("receiver_first_name");
-		String receiverLastName = rs.getString("receiver_last_name");
+		int shipmentId = rs.getInt(ShipmentEntityConstants.ID_COLUMN);
+		String receiverFirstName = rs.getString(ShipmentEntityConstants.FIRST_NAME_COLUMN);
+		String receiverLastName = rs.getString(ShipmentEntityConstants.LAST_NAME_COLUMN);
 
-		List<IPart> parts = null;
 		try {
 
-			parts = (List<IPart>) ShipmentBaseLocator.lookupBase();
-			ShipmentDTO shipmentDto = new ShipmentDTO(shipmentId, CollectionUtils.toDTOArray(parts), receiverFirstName,
+			Collection<PartDTO> parts = partDao.read(shipmentId);
+			ShipmentDTO shipmentDto = new ShipmentDTO(shipmentId, CollectionUtils.toPartDTOArray(parts), receiverFirstName,
 					receiverLastName);
 
 			return shipmentDto;
@@ -121,8 +118,5 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 			throw new RemoteException(e.getMessage(), e);
 		}
 	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

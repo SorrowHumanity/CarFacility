@@ -46,8 +46,20 @@ public interface IPartDAO extends Remote {
 	Collection<PartDTO> read(int palletId) throws RemoteException;
 
 	/**
+	 * Reads all part entries from the parts entity that belong to the pallet with
+	 * the shipment id specified as a parameter and returns a collection of data
+	 * transfer objects
+	 * 
+	 * @param shipmentId
+	 *            the id of the shipment that the parts belong to
+	 * @return a collection of part data trasnfer objects
+	 * @throws RemoteException
+	 **/
+	Collection<PartDTO> read(Integer shipmentId) throws RemoteException;
+
+	/**
 	 * Reads all part entries from the parts entity and returns a collection of part
-	 * data transfer objcets
+	 * data transfer objects
 	 * 
 	 * @return a collection of part data transfer objects
 	 * @throws RemoteException

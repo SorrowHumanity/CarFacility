@@ -17,7 +17,7 @@ import remote.model.part.IPart;
 import util.CollectionUtils;
 
 @WebService
-public class DismantleStationService {
+public class DismantleStationService implements IDismantleStationService {
 
 	private IDismantleBase dismantleBase;
 
@@ -30,45 +30,53 @@ public class DismantleStationService {
 	}
 
 	@WebMethod
+	@Override
 	public PartDTO[] dismantleCar(CarDTO car) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.dismantleCar(new RemoteCar(car));
 		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
+	@Override
 	public PartDTO registerPart(String carChassisNumber, String name, double weight) throws RemoteException {
 		return new PartDTO(dismantleBase.registerPart(carChassisNumber, name, weight));
 	}
 
 	@WebMethod
+	@Override
 	public PartDTO[] getParts(String carChassisNumber) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(carChassisNumber);
 		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
+	@Override
 	public PartDTO[] getParts(int palletId) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(palletId);
 		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
+	@Override
 	public PartDTO[] getAllParts() throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getAllParts();
 		return CollectionUtils.toDTOArray(remoteParts);
 	}
 
 	@WebMethod
+	@Override
 	public PalletDTO registerPallet(String palletType, List<PartDTO> parts) throws RemoteException {
 		return new PalletDTO(dismantleBase.registerPallet(palletType, CollectionUtils.toRemotePartsList(parts)));
 	}
 
 	@WebMethod
+	@Override
 	public PalletDTO getPallet(int id) throws RemoteException {
 		return new PalletDTO(dismantleBase.getPallet(id));
 	}
 
 	@WebMethod
+	@Override
 	public PalletDTO[] getAllPallets() throws RemoteException {
 		List<IPallet> remotePallets = dismantleBase.getAllPallets();
 		return CollectionUtils.toPalletDTOArray(remotePallets);

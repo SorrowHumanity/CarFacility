@@ -19,7 +19,6 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 	private static final long serialVersionUID = 1L;
 
 	private Map<String, ICar> carCache = new HashMap<>();
-
 	private ICarDAO carDao;
 
 	public RemoteRegistrationBase(ICarDAO carDao) throws RemoteException {
@@ -27,7 +26,7 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 	}
 
 	@Override
-	public ICar registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
+	public synchronized ICar registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
 		// create database entry
 		CarDTO carDto = carDao.create(chassisNumber, model, parts);
 
@@ -38,7 +37,7 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 	}
 
 	@Override
-	public ICar getCar(String chassisNumber) throws RemoteException {
+	public synchronized ICar getCar(String chassisNumber) throws RemoteException {
 		// check if car is cached
 		if (!carCache.containsKey(chassisNumber)) {
 
@@ -53,7 +52,7 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 	}
 
 	@Override
-	public List<ICar> getAllCars() throws RemoteException {
+	public synchronized List<ICar> getAllCars() throws RemoteException {
 		// read all cars from the database
 		Collection<CarDTO> allCars = carDao.readAll();
 

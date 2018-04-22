@@ -19,7 +19,6 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 	private static final long serialVersionUID = 1L;
 
 	private Map<Integer, IShipment> shipmentCache = new HashMap<>();
-
 	private IShipmentDAO shipmentDao;
 
 	public RemoteShipmentBase(IShipmentDAO shipmentDao) throws RemoteException {
@@ -27,29 +26,29 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 	}
 
 	@Override
-	public synchronized IShipment registerShipment(int id, List<PartDTO> parts, String receiverFirstName, String receiverLastName) throws RemoteException {
+	public synchronized IShipment registerShipment(List<PartDTO> parts, String receiverFirstName, String receiverLastName) throws RemoteException {
 		// create database entry
 		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, parts);
 
 		// cache and return
-		shipmentCache.put(id, new RemoteShipment(shipmentDto));
+		shipmentCache.put(shipmentDto.getId(), new RemoteShipment(shipmentDto));
 		
-		return shipmentCache.get(id);
+		return shipmentCache.get(shipmentDto.getId());
 	}
 
 	@Override
-	public IShipment getShipment(int id) throws RemoteException {
+	public synchronized IShipment getShipment(int shipmentId) throws RemoteException {
 		// check if car is cached
-		if (!shipmentCache.containsKey(id)) {
+		if (!shipmentCache.containsKey(shipmentId)) {
 
 			// read car from the database
-			ShipmentDTO shipmentDto = shipmentDao.read(id);
+			ShipmentDTO shipmentDto = shipmentDao.read(shipmentId);
 
 			// cache car
-			shipmentCache.put(id, new RemoteShipment(shipmentDto));
+			shipmentCache.put(shipmentId, new RemoteShipment(shipmentDto));
 		}
 
-		return shipmentCache.get(id);
+		return shipmentCache.get(shipmentId);
 	}
 
 	@Override

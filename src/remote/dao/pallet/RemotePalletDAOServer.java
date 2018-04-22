@@ -115,7 +115,6 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		String palletType = rs.getString(PalletEntityConstants.PALLET_TYPE_COLUMN);
 		double weightKg = rs.getDouble(PalletEntityConstants.TOTAL_WEIGHT_KG_COLUMN);
 
-		// DismantleBase is required to get all parts for each pallet
 		try {
 
 			Collection<PartDTO> parts = partDao.read(palletId);

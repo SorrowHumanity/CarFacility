@@ -23,3 +23,16 @@ CREATE TABLE car_facility_schema.contains (
   pallet_id INT REFERENCES car_facility_schema.pallets (id) ON DELETE SET NULL ON UPDATE CASCADE,
   PRIMARY KEY (part_id, pallet_id)
 );
+
+
+CREATE TABLE car_facility_schema.shipments (
+  id                  SERIAL PRIMARY KEY UNIQUE NOT NULL,
+  reciever_first_name VARCHAR(50),
+  reciever_last_name  VARCHAR(50)
+);
+
+CREATE TABLE car_facility_schema.requests (
+  part_id     INT REFERENCES car_facility_schema.parts (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  shipment_id INT REFERENCES car_facility_schema.shipments (id) ON DELETE SET NULL ON UPDATE CASCADE,
+  PRIMARY KEY (part_id, shipment_id)
+);

@@ -6,6 +6,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import remote.base.dismantle_station.DismantleBaseLocator;
 import remote.base.registration_station.RegistrationBaseLocator;
+import remote.base.shipment_station.IShipmentBase;
 import remote.base.shipment_station.ShipmentBaseLocator;
 import remote.dao.car.CarDAOLocator;
 import remote.dao.pallet.PalletDAOLocator;
@@ -18,6 +19,8 @@ public final class ServerMain {
 
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
 		bindRemoteComponents();
+		IShipmentBase shipBase = ShipmentBaseLocator.lookupBase();
+		
 	}
 
 	private static void bindRemoteComponents() throws RemoteException, MalformedURLException, NotBoundException {
