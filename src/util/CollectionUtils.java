@@ -8,10 +8,12 @@ import java.util.List;
 import dto.car.CarDTO;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
+import dto.shipment.ShipmentDTO;
 import remote.model.car.ICar;
 import remote.model.pallet.IPallet;
 import remote.model.part.IPart;
 import remote.model.part.RemotePart;
+import remote.model.shipment.IShipment;
 
 public final class CollectionUtils {
 
@@ -73,6 +75,16 @@ public final class CollectionUtils {
 		return partDtos;
 	}
 
+	public static ShipmentDTO[] toShipmentDTOArray(List<IShipment> allShipments) throws RemoteException {
+		int size = allShipments.size();
+		ShipmentDTO[] shipmentDtos = new ShipmentDTO[size];
+
+		for (int i = 0; i < size; i++)
+			shipmentDtos[i] = new ShipmentDTO(allShipments.get(i));
+
+		return shipmentDtos;
+	}
+	
 	public static double weightParts(Collection<PartDTO> allParts) {
 		double totalWeight = 0;
 

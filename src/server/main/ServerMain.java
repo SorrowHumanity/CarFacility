@@ -6,9 +6,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import remote.base.dismantle_station.DismantleBaseLocator;
 import remote.base.registration_station.RegistrationBaseLocator;
+import remote.base.shipment_station.ShipmentBaseLocator;
 import remote.dao.car.CarDAOLocator;
 import remote.dao.pallet.PalletDAOLocator;
 import remote.dao.part.PartDAOLocator;
+import remote.dao.shipment.ShipmentDAOLocator;
 
 public final class ServerMain {
 
@@ -26,10 +28,12 @@ public final class ServerMain {
 		PartDAOLocator.bindDAO();
 		CarDAOLocator.bindDAO();
 		PalletDAOLocator.bindDAO();
+		ShipmentDAOLocator.bindDAO();
 
 		// bind Base objects
 		RegistrationBaseLocator.bindBase();
 		DismantleBaseLocator.bindBase();
+		ShipmentBaseLocator.bindBase();
 	}
 
 }
