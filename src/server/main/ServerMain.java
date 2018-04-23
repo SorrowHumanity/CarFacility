@@ -31,14 +31,16 @@ public final class ServerMain {
 		IDismantleBase disBase = DismantleBaseLocator.lookupBase();
 		IShipmentBase shipBase = ShipmentBaseLocator.lookupBase();
 		
-		IPallet pallet = disBase.getPallet(10);
+		IPallet pallet = disBase.getPallet(11);
+		IPallet pallet1 = disBase.getPallet(9);
 		List<IPart> parts = pallet.getParts();
 		IPart p = parts.get(0);
 		IPart p1 = parts.get(1);
 		LinkedList<PartDTO> list = new LinkedList<>();
 		list.add(new PartDTO(p));
 		list.add(new PartDTO(p1));
-		shipBase.registerShipment(list, "Misho", "Shamara"); // Big Sha motherfucker
+		list.add(new PartDTO(pallet1.getParts().get(0)));
+		shipBase.registerShipment(list, "Vlado", "Kuzov"); 
 	}
 
 	private static void bindRemoteComponents() throws RemoteException, MalformedURLException, NotBoundException {
