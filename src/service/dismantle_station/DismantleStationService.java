@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
 
 import dto.car.CarDTO;
 import dto.pallet.PalletDTO;
@@ -17,6 +18,7 @@ import remote.model.part.IPart;
 import util.CollectionUtils;
 
 @WebService
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
 public class DismantleStationService implements IDismantleStationService {
 
 	private IDismantleBase dismantleBase;
