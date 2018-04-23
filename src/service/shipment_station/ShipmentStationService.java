@@ -7,8 +7,8 @@ import javax.jws.WebService;
 
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
-import remote.base.shipment_station.IShipmentBase;
-import remote.base.shipment_station.RemoteShipmentBaseLocator;
+import remote.base.shipping.IShipmentBase;
+import remote.base.shipping.RemoteShipmentBaseLocator;
 import remote.model.shipment.IShipment;
 import util.CollectionUtils;
 

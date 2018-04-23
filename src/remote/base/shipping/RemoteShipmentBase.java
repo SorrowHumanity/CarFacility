@@ -1,4 +1,4 @@
-package remote.base.shipment_station;
+package remote.base.shipping;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -10,7 +10,7 @@ import java.util.Map;
 
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
-import remote.base.dismantle_station.IDismantleBase;
+import remote.base.dismantle.IDismantleBase;
 import remote.dao.shipment.IShipmentDAO;
 import remote.model.part.RemotePart;
 import remote.model.shipment.IShipment;

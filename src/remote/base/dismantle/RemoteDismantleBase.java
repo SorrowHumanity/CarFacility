@@ -1,4 +1,4 @@
-package remote.base.dismantle_station;
+package remote.base.dismantle;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

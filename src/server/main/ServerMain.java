@@ -8,12 +8,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import dto.part.PartDTO;
-import remote.base.dismantle_station.DismantleBaseLocator;
-import remote.base.dismantle_station.IDismantleBase;
-import remote.base.registration_station.IRegistrationBase;
-import remote.base.registration_station.RegistrationBaseLocator;
-import remote.base.shipment_station.IShipmentBase;
-import remote.base.shipment_station.RemoteShipmentBaseLocator;
+import remote.base.dismantle.DismantleBaseLocator;
+import remote.base.dismantle.IDismantleBase;
+import remote.base.registration.IRegistrationBase;
+import remote.base.registration.RegistrationBaseLocator;
+import remote.base.shipping.IShipmentBase;
+import remote.base.shipping.RemoteShipmentBaseLocator;
 import remote.dao.car.CarDAOLocator;
 import remote.dao.pallet.PalletDAOLocator;
 import remote.dao.part.PartDAOLocator;

@@ -1,9 +1,9 @@
-package remote.base.shipment_station;
+package remote.base.shipping;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-import remote.base.dismantle_station.DismantleBaseLocator;
+import remote.base.dismantle.DismantleBaseLocator;
 import remote.dao.shipment.RemoteShipmentDAOLocator;
 
 public class RemoteShipmentBaseLocator {

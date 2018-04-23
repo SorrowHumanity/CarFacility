@@ -1,4 +1,4 @@
-package remote.base.dismantle_station;
+package remote.base.dismantle;
 
 import java.rmi.Naming;
 import java.rmi.RemoteException;

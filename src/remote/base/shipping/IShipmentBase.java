@@ -1,4 +1,4 @@
-package remote.base.shipment_station;
+package remote.base.shipping;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

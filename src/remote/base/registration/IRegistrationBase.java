@@ -1,4 +1,4 @@
-package remote.base.registration_station;
+package remote.base.registration;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

@@ -8,8 +8,8 @@ import javax.jws.soap.SOAPBinding;
 
 import dto.car.CarDTO;
 import dto.part.PartDTO;
-import remote.base.registration_station.IRegistrationBase;
-import remote.base.registration_station.RegistrationBaseLocator;
+import remote.base.registration.IRegistrationBase;
+import remote.base.registration.RegistrationBaseLocator;
 import remote.model.car.ICar;
 import util.CollectionUtils;
 
