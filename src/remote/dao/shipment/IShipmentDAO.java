@@ -43,7 +43,7 @@ public interface IShipmentDAO extends Remote {
 	 * 
 	 * @param shipmentId
 	 *            the shioment id
-	 * @return a shipment data transfer object
+	 * @return a collection of shipment data transfer objects
 	 * @throws RemoteException
 	 **/
 	Collection<ShipmentDTO> readAll() throws RemoteException;

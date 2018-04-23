@@ -5,11 +5,11 @@ import java.rmi.RemoteException;
 
 import remote.dao.part.PartDAOLocator;
 
-public final class ShipmentDAOLocator {
+public final class RemoteShipmentDAOLocator {
 
 	public static final String SHIPMENT_DAO_ID = "RemoteShipmentDAO";
 
-	private ShipmentDAOLocator() {}
+	private RemoteShipmentDAOLocator() {}
 
 	/**
 	 * Returns a reference to a remote shipment data access object from the registry 

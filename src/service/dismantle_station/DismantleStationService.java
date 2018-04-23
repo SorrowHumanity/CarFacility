@@ -39,7 +39,8 @@ public class DismantleStationService implements IDismantleStationService {
 	@WebMethod
 	@Override
 	public PartDTO registerPart(String carChassisNumber, String name, double weight) throws RemoteException {
-		return new PartDTO(dismantleBase.registerPart(carChassisNumber, name, weight));
+		IPart part = dismantleBase.registerPart(carChassisNumber, name, weight);
+		return new PartDTO(part);
 	}
 
 	@WebMethod
@@ -51,7 +52,7 @@ public class DismantleStationService implements IDismantleStationService {
 
 	@WebMethod
 	@Override
-	public PartDTO[] getParts(int palletId) throws RemoteException {
+	public PartDTO[] getPalletParts(int palletId) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(palletId);
 		return CollectionUtils.toDTOArray(remoteParts);
 	}
@@ -65,14 +66,16 @@ public class DismantleStationService implements IDismantleStationService {
 
 	@WebMethod
 	@Override
-	public PalletDTO registerPallet(String palletType, List<PartDTO> parts) throws RemoteException {
-		return new PalletDTO(dismantleBase.registerPallet(palletType, CollectionUtils.toRemotePartsList(parts)));
+	public PalletDTO registerPallet(String palletType, PartDTO[] parts) throws RemoteException {
+		IPallet pallet = dismantleBase.registerPallet(palletType, CollectionUtils.toRemotePartsList(parts));
+		return new PalletDTO(pallet);
 	}
 
 	@WebMethod
 	@Override
 	public PalletDTO getPallet(int palletId) throws RemoteException {
-		return new PalletDTO(dismantleBase.getPallet(palletId));
+		IPallet pallet = dismantleBase.getPallet(palletId);
+		return new PalletDTO(pallet);
 	}
 
 	@WebMethod

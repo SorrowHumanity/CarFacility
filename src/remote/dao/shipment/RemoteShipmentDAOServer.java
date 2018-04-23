@@ -78,9 +78,6 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 				"UPDATE car_facility_schema.shipments SET receiver_first_name = ?, receiver_last_name = ? WHERE id = ?;",
 				shipmentDto.getReceiverFirstName(), shipmentDto.getReceiverLastName(), shipmentDto.getId());
 
-		// update the contents of the shipment
-		associatePartsOnUpdate(shipmentDto.getId(), shipmentDto.getParts());
-
 		return rowsAffected != 0;
 	}
 
@@ -95,15 +92,6 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 				shipmentDto.getId());
 
 		return rowsAffected != 0;
-	}
-
-	private void associatePartsOnUpdate(int shipmentId, PartDTO[] allParts) throws RemoteException {
-		for (PartDTO part : allParts) {
-			shipmentDb.executeUpdate("INSERT INTO car_facility_schema.requests"
-					+ " (part_id, shipment_id) SELECT ?, ? WHERE NOT EXISTS(SELECT *"
-					+ " FROM car_facility_schema.requests WHERE requests.part_id = "
-					+ "? AND requests.shipment_id = ?);", part.getId(), shipmentId, part.getId(), shipmentId);
-		}
 	}
 
 	private void associatePartsOnCreate(int shipmentId, PartDTO[] allParts, Map<Integer, Integer> partAssociations)

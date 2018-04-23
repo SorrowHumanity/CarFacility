@@ -1,25 +1,25 @@
 package service.shipment_station;
 
 import java.rmi.RemoteException;
-import java.util.List;
-
+import java.util.Arrays;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
 import remote.base.shipment_station.IShipmentBase;
-import remote.base.shipment_station.ShipmentBaseLocator;
+import remote.base.shipment_station.RemoteShipmentBaseLocator;
+import remote.model.shipment.IShipment;
 import util.CollectionUtils;
 
 @WebService
 public class ShipmentStationService implements IShipmentStationService {
-	
+
 	private IShipmentBase shipmentBase;
 
 	public ShipmentStationService() throws RemoteException {
 		try {
-			shipmentBase = ShipmentBaseLocator.lookupBase();
+			shipmentBase = RemoteShipmentBaseLocator.lookupBase();
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
@@ -27,15 +27,17 @@ public class ShipmentStationService implements IShipmentStationService {
 
 	@WebMethod
 	@Override
-	public ShipmentDTO registerShipment(List<PartDTO> parts, String receiverFirstName, String receiverLastName)
+	public ShipmentDTO registerShipment(PartDTO[] parts, String receiverFirstName, String receiverLastName)
 			throws RemoteException {
-		return new ShipmentDTO(shipmentBase.registerShipment(parts, receiverFirstName, receiverLastName));
+		IShipment shipment = shipmentBase.registerShipment(Arrays.asList(parts), receiverFirstName, receiverLastName);
+		return new ShipmentDTO(shipment);
 	}
 
 	@WebMethod
 	@Override
 	public ShipmentDTO getShipment(int shipmentId) throws RemoteException {
-		return new ShipmentDTO(shipmentBase.getShipment(shipmentId));
+		IShipment shipment = shipmentBase.getShipment(shipmentId);
+		return new ShipmentDTO(shipment);
 	}
 
 	@WebMethod

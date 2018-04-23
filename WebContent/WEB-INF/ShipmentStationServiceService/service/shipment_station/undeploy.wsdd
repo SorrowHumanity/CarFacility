@@ -9,7 +9,7 @@
 <undeployment
     xmlns="http://xml.apache.org/axis/wsdd/">
 
-  <!-- Services from RegistrationStationServiceService WSDL service -->
+  <!-- Services from ShipmentStationServiceService WSDL service -->
 
-  <service name="RegistrationStationService"/>
+  <service name="ShipmentStationService"/>
 </undeployment>
