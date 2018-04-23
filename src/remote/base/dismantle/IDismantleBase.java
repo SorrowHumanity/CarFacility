@@ -11,7 +11,7 @@ import remote.model.part.IPart;
 public interface IDismantleBase extends Remote {
 
 	/**
-	 * Dismantles a car and registers each seperate part in the system
+	 * Dismantles a car and registers each separate part in the system
 	 * 
 	 * @param car
 	 *            the car to be dismantled
@@ -94,6 +94,15 @@ public interface IDismantleBase extends Remote {
 	 **/
 	List<IPallet> getAllPallets() throws RemoteException;
 
+	/**
+	 * Removes a part from a pallet and returns the id of the pallet from which the
+	 * part was removed
+	 * 
+	 * @param part
+	 *            the part
+	 * @return the pallet id from which the part was removed
+	 * @throws RemoteException
+	 **/
 	int removeFromPallet(IPart part) throws RemoteException;
 
 }

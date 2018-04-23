@@ -42,7 +42,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 
 		// associate all parts to the shipment, and include reference to the pallet
 		// source
-		associatePartsOnCreate(id, partsArray, partAssociations);
+		associateParts(id, partsArray, partAssociations);
 
 		return new ShipmentDTO(id, partsArray, receiverFirstName, receiverLastName);
 	}
@@ -94,7 +94,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		return rowsAffected != 0;
 	}
 
-	private void associatePartsOnCreate(int shipmentId, PartDTO[] allParts, Map<Integer, Integer> partAssociations)
+	private void associateParts(int shipmentId, PartDTO[] allParts, Map<Integer, Integer> partAssociations)
 			throws RemoteException {
 		for (PartDTO part : allParts) {
 			int palletId = partAssociations.get(part.getId());

@@ -19,6 +19,9 @@ public final class CollectionUtils {
 
 	private CollectionUtils() {}
 
+	/**
+	 * Converts a list of DTO parts to a list of remote parts
+	 **/
 	public static List<IPart> toRemotePartsList(List<PartDTO> allParts) throws RemoteException {
 		LinkedList<IPart> allRemoteParts = new LinkedList<>();
 
@@ -28,6 +31,9 @@ public final class CollectionUtils {
 		return allRemoteParts;
 	}
 
+	/**
+	 * Converts an array of DTO parts to a list of remote parts
+	 **/
 	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
 		LinkedList<IPart> remoteParts = new LinkedList<>();
 
@@ -38,6 +44,9 @@ public final class CollectionUtils {
 
 	}
 
+	/**
+	 * Converts a list of remote cars to an array of DTO cars
+	 **/
 	public static CarDTO[] toCarDTOArray(List<ICar> allCars) throws RemoteException {
 		int size = allCars.size();
 		CarDTO[] carDtos = new CarDTO[size];
@@ -48,6 +57,9 @@ public final class CollectionUtils {
 		return carDtos;
 	}
 
+	/**
+	 * Converts a list of remote pallets to an array of DTO pallets
+	 **/
 	public static PalletDTO[] toPalletDTOArray(List<IPallet> allPallets) throws RemoteException {
 		int size = allPallets.size();
 		PalletDTO[] palletDtos = new PalletDTO[size];
@@ -58,6 +70,9 @@ public final class CollectionUtils {
 		return palletDtos;
 	}
 
+	/**
+	 * Converts a collection of DTO parts to an array of DTO parts
+	 **/
 	public static PartDTO[] toPartDTOArray(Collection<PartDTO> allParts) {
 		int size = allParts.size();
 		PartDTO[] array = new PartDTO[size];
@@ -65,6 +80,9 @@ public final class CollectionUtils {
 		return array;
 	}
 
+	/**
+	 * Converts a list of remote parts to an array of DTO parts
+	 **/
 	public static PartDTO[] toDTOArray(List<IPart> allParts) throws RemoteException {
 		int size = allParts.size();
 		PartDTO[] partDtos = new PartDTO[size];
@@ -75,6 +93,9 @@ public final class CollectionUtils {
 		return partDtos;
 	}
 
+	/**
+	 * Converts a list of remote shipments to an an array of DTO shipments
+	 **/
 	public static ShipmentDTO[] toShipmentDTOArray(List<IShipment> allShipments) throws RemoteException {
 		int size = allShipments.size();
 		ShipmentDTO[] shipmentDtos = new ShipmentDTO[size];
@@ -84,7 +105,10 @@ public final class CollectionUtils {
 
 		return shipmentDtos;
 	}
-	
+
+	/**
+	 * Calculates the weight of a collection of parts
+	 **/
 	public static double weightParts(Collection<PartDTO> allParts) {
 		double totalWeight = 0;
 
