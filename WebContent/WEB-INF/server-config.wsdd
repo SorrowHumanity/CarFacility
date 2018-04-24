@@ -7,8 +7,8 @@
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
-  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:requestFlow>
    <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
     <ns1:parameter name="scope" value="session"/>
@@ -32,27 +32,27 @@
   <ns1:parameter name="allowedMethods" value="getVersion"/>
   <ns1:parameter name="className" value="org.apache.axis.Version"/>
  </ns1:service>
- <ns1:service name="ShipmentStationService" provider="java:RPC" style="wrapped" use="literal">
-  <ns3:operation name="getAllShipments" qname="ns1:getAllShipments" returnQName="ns1:getAllShipmentsReturn" returnType="ns2:ShipmentDTO" soapAction="" xmlns:ns1="http://shipment_station.service" xmlns:ns2="http://shipment.dto" xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
-  <ns1:operation name="getShipment" qname="ns3:getShipment" returnQName="ns3:getShipmentReturn" returnType="ns4:ShipmentDTO" soapAction="" xmlns:ns3="http://shipment_station.service" xmlns:ns4="http://shipment.dto">
-   <ns1:parameter qname="ns3:shipmentId" type="xsd:int" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+ <ns1:service name="RegistrationStationService" provider="java:RPC" style="wrapped" use="literal">
+  <ns3:operation name="registerCar" qname="ns1:registerCar" returnQName="ns1:registerCarReturn" returnType="ns2:CarDTO" soapAction="" xmlns:ns1="http://registration_station.service" xmlns:ns2="http://car.dto" xmlns:ns3="http://xml.apache.org/axis/wsdd/">
+   <ns3:parameter qname="ns1:chassisNumber" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns3:parameter qname="ns1:model" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+   <ns4:parameter qname="ns1:parts" type="ns3:PartDTO" xmlns:ns3="http://part.dto" xmlns:ns4="http://xml.apache.org/axis/wsdd/"/>
+  </ns3:operation>
+  <ns1:operation name="getCar" qname="ns4:getCar" returnQName="ns4:getCarReturn" returnType="ns5:CarDTO" soapAction="" xmlns:ns4="http://registration_station.service" xmlns:ns5="http://car.dto">
+   <ns1:parameter qname="ns4:chassisNumber" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
-  <ns1:operation name="registerShipment" qname="ns5:registerShipment" returnQName="ns5:registerShipmentReturn" returnType="ns6:ShipmentDTO" soapAction="" xmlns:ns5="http://shipment_station.service" xmlns:ns6="http://shipment.dto">
-   <ns1:parameter qname="ns5:parts" type="ns7:PartDTO" xmlns:ns7="http://part.dto"/>
-   <ns1:parameter qname="ns5:receiverFirstName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter qname="ns5:receiverLastName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  </ns1:operation>
-  <ns1:parameter name="allowedMethods" value="getShipment registerShipment getAllShipments"/>
+  <ns1:operation name="getAllCars" qname="ns6:getAllCars" returnQName="ns6:getAllCarsReturn" returnType="ns7:CarDTO" soapAction="" xmlns:ns6="http://registration_station.service" xmlns:ns7="http://car.dto"/>
+  <ns1:parameter name="allowedMethods" value="getCar registerCar getAllCars"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="wsdlPortType" value="ShipmentStationService"/>
-  <ns1:parameter name="className" value="service.shipment_station.ShipmentStationService"/>
-  <ns1:parameter name="wsdlServicePort" value="ShipmentStationService"/>
-  <ns1:parameter name="schemaQualified" value="http://shipment_station.service,http://shipment.dto,http://part.dto"/>
-  <ns1:parameter name="wsdlTargetNamespace" value="http://shipment_station.service"/>
-  <ns1:parameter name="wsdlServiceElement" value="ShipmentStationServiceService"/>
-  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns8:ShipmentDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:dto.shipment.ShipmentDTO" xmlns:ns8="http://shipment.dto"/>
+  <ns1:parameter name="wsdlPortType" value="RegistrationStationService"/>
+  <ns1:parameter name="className" value="service.registration_station.RegistrationStationService"/>
+  <ns1:parameter name="wsdlServicePort" value="RegistrationStationService"/>
+  <ns1:parameter name="schemaQualified" value="http://registration_station.service,http://part.dto,http://car.dto"/>
+  <ns1:parameter name="wsdlTargetNamespace" value="http://registration_station.service"/>
+  <ns1:parameter name="wsdlServiceElement" value="RegistrationStationServiceService"/>
+  <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns8:CarDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:dto.car.CarDTO" xmlns:ns8="http://car.dto"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns9:PartDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:dto.part.PartDTO" xmlns:ns9="http://part.dto"/>
-  <ns1:arrayMapping innerType="ns11:PartDTO" languageSpecificType="java:dto.part.PartDTO[]" qname="ns10:ArrayOf_tns2_PartDTO" xmlns:ns10="http://shipment_station.service" xmlns:ns11="http://part.dto"/>
+  <ns1:arrayMapping innerType="ns11:PartDTO" languageSpecificType="java:dto.part.PartDTO[]" qname="ns10:ArrayOf_tns1_PartDTO" xmlns:ns10="http://registration_station.service" xmlns:ns11="http://part.dto"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>

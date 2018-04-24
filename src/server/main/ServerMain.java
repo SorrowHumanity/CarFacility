@@ -4,6 +4,9 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
+import java.util.Arrays;
+
+import dto.part.PartDTO;
 import remote.base.dismantle.DismantleBaseLocator;
 import remote.base.dismantle.IDismantleBase;
 import remote.base.registration.IRegistrationBase;
@@ -14,6 +17,8 @@ import remote.dao.car.CarDAOLocator;
 import remote.dao.pallet.PalletDAOLocator;
 import remote.dao.part.PartDAOLocator;
 import remote.dao.shipment.RemoteShipmentDAOLocator;
+import remote.model.car.ICar;
+import remote.model.car.RemoteCar;
 
 public final class ServerMain {
 
@@ -21,10 +26,6 @@ public final class ServerMain {
 
 	public static void main(String[] args) throws RemoteException, MalformedURLException, NotBoundException {
 		bindRemoteComponents();
-		IRegistrationBase regBase = RegistrationBaseLocator.lookupBase();
-		IDismantleBase disBase = DismantleBaseLocator.lookupBase();
-		IShipmentBase shipBase = RemoteShipmentBaseLocator.lookupBase();
-		
 	}
 
 	private static void bindRemoteComponents() throws RemoteException, MalformedURLException, NotBoundException {

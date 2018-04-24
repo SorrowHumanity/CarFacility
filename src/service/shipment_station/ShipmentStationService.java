@@ -4,8 +4,6 @@ import java.rmi.RemoteException;
 import java.util.Arrays;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
 import remote.base.shipping.IShipmentBase;
@@ -14,7 +12,6 @@ import remote.model.shipment.IShipment;
 import util.CollectionUtils;
 
 @WebService
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
 public class ShipmentStationService implements IShipmentStationService {
 
 	private IShipmentBase shipmentBase;

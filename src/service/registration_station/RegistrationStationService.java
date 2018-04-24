@@ -4,8 +4,6 @@ import java.rmi.RemoteException;
 import java.util.Arrays;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import dto.car.CarDTO;
 import dto.part.PartDTO;
 import remote.base.registration.IRegistrationBase;
@@ -14,7 +12,6 @@ import remote.model.car.ICar;
 import util.CollectionUtils;
 
 @WebService
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT)
 public class RegistrationStationService implements IRegistrationStationService {
 
 	private IRegistrationBase registrationBase;
