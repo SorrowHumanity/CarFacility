@@ -3,13 +3,13 @@ package remote.dao.car;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-import remote.dao.part.PartDAOLocator;
+import remote.dao.part.RemotePartDAOLocator;
 
-public final class CarDAOLocator {
+public final class RemoteCarDAOLocator {
 
 	public static final String CAR_DAO_ID = "RemoteCarDAO";
 
-	private CarDAOLocator() {}
+	private RemoteCarDAOLocator() {}
 
 	/**
 	 * Returns a reference, a stub, for the car data access object associated with
@@ -35,7 +35,7 @@ public final class CarDAOLocator {
 	 **/
 	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(CAR_DAO_ID, new RemoteCarDAOServer(PartDAOLocator.lookupDAO()));
+			Naming.rebind(CAR_DAO_ID, new RemoteCarDAOServer(RemotePartDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

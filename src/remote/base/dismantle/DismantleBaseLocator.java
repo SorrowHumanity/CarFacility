@@ -3,8 +3,8 @@ package remote.base.dismantle;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-import remote.dao.pallet.PalletDAOLocator;
-import remote.dao.part.PartDAOLocator;
+import remote.dao.pallet.RemotePalletDAOLocator;
+import remote.dao.part.RemotePartDAOLocator;
 
 public final class DismantleBaseLocator {
 
@@ -36,7 +36,7 @@ public final class DismantleBaseLocator {
 	public static void bindBase() throws RemoteException {
 		try {
 			Naming.rebind(DISMANTLE_BASE_ID,
-					new RemoteDismantleBase(PartDAOLocator.lookupDAO(), PalletDAOLocator.lookupDAO()));
+					new RemoteDismantleBase(RemotePartDAOLocator.lookupDAO(), RemotePalletDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

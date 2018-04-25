@@ -3,7 +3,7 @@ package remote.base.registration;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-import remote.dao.car.CarDAOLocator;
+import remote.dao.car.RemoteCarDAOLocator;
 
 public final class RegistrationBaseLocator {
 
@@ -18,7 +18,7 @@ public final class RegistrationBaseLocator {
 	 **/
 	public static void bindBase() throws RemoteException {
 		try {
-			Naming.rebind(REGISTRATION_BASE_ID, new RemoteRegistrationBase(CarDAOLocator.lookupDAO()));
+			Naming.rebind(REGISTRATION_BASE_ID, new RemoteRegistrationBase(RemoteCarDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

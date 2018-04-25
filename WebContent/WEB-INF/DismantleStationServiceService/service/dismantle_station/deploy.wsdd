@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from DismantleStationServiceService WSDL service -->
+
+  <service name="DismantleStationService" provider="java:RPC" style="rpc" use="encoded">
+      <parameter name="wsdlTargetNamespace" value="http://dismantle_station.service"/>
+      <parameter name="wsdlServiceElement" value="DismantleStationServiceService"/>
+      <parameter name="schemaUnqualified" value="http://pallet.dto,http://part.dto,http://car.dto,http://dismantle_station.service"/>
+      <parameter name="wsdlServicePort" value="DismantleStationService"/>
+      <parameter name="className" value="service.dismantle_station.DismantleStationService"/>
+      <parameter name="wsdlPortType" value="DismantleStationService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://dismantle_station.service" xmlns:rtns="http://dismantle_station.service" xmlns:tns2="http://part.dto" name="getParts" qname="operNS:getParts" returnQName="getPartsReturn" returnType="rtns:ArrayOf_tns1_PartDTO" returnItemType="tns2:PartDTO" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="carChassisNumber" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://dismantle_station.service" xmlns:rtns="http://dismantle_station.service" xmlns:tns2="http://part.dto" name="dismantleCar" qname="operNS:dismantleCar" returnQName="dismantleCarReturn" returnType="rtns:ArrayOf_tns1_PartDTO" returnItemType="tns2:PartDTO" soapAction="">
+        <parameter xmlns:tns="http://car.dto" qname="car" type="tns:CarDTO"/>
+      </operation>
+      <operation xmlns:operNS="http://dismantle_station.service" xmlns:rtns="http://dismantle_station.service" xmlns:tns2="http://part.dto" name="getPalletParts" qname="operNS:getPalletParts" returnQName="getPalletPartsReturn" returnType="rtns:ArrayOf_tns1_PartDTO" returnItemType="tns2:PartDTO" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="palletId" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://dismantle_station.service" xmlns:rtns="http://part.dto" name="registerPart" qname="operNS:registerPart" returnQName="registerPartReturn" returnType="rtns:PartDTO" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="carChassisNumber" type="tns:string"/>
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="name" type="tns:string"/>
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="weight" type="tns:double"/>
+      </operation>
+      <operation xmlns:operNS="http://dismantle_station.service" xmlns:rtns="http://dismantle_station.service" xmlns:tns2="http://part.dto" name="getAllParts" qname="operNS:getAllParts" returnQName="getAllPartsReturn" returnType="rtns:ArrayOf_tns1_PartDTO" returnItemType="tns2:PartDTO" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://dismantle_station.service" xmlns:rtns="http://pallet.dto" name="getPallet" qname="operNS:getPallet" returnQName="getPalletReturn" returnType="rtns:PalletDTO" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="palletId" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://dismantle_station.service" xmlns:rtns="http://dismantle_station.service" xmlns:tns2="http://pallet.dto" name="getAllPallets" qname="operNS:getAllPallets" returnQName="getAllPalletsReturn" returnType="rtns:ArrayOf_tns3_PalletDTO" returnItemType="tns2:PalletDTO" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://dismantle_station.service" xmlns:rtns="http://pallet.dto" name="registerPallet" qname="operNS:registerPallet" returnQName="registerPalletReturn" returnType="rtns:PalletDTO" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="palletType" type="tns:string"/>
+        <parameter xmlns:tns="http://dismantle_station.service" qname="parts" type="tns:ArrayOf_tns1_PartDTO"/>
+      </operation>
+      <parameter name="allowedMethods" value="registerPart registerPallet dismantleCar getAllPallets getPalletParts getAllParts getPallet getParts"/>
+
+      <typeMapping xmlns:ns="http://pallet.dto" qname="ns:PalletDTO" type="java:dto.pallet.PalletDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <arrayMapping xmlns:ns="http://dismantle_station.service" xmlns:cmp-ns="http://part.dto" qname="ns:ArrayOf_tns1_PartDTO" type="java:dto.part.PartDTO[]" innerType="cmp-ns:PartDTO" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <typeMapping xmlns:ns="http://car.dto" qname="ns:CarDTO" type="java:dto.car.CarDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <typeMapping xmlns:ns="http://part.dto" qname="ns:PartDTO" type="java:dto.part.PartDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <arrayMapping xmlns:ns="http://dismantle_station.service" xmlns:cmp-ns="http://pallet.dto" qname="ns:ArrayOf_tns3_PalletDTO" type="java:dto.pallet.PalletDTO[]" innerType="cmp-ns:PalletDTO" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </service>
+</deployment>

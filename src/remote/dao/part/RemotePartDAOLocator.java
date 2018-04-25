@@ -3,11 +3,11 @@ package remote.dao.part;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-public final class PartDAOLocator {
+public final class RemotePartDAOLocator {
 
 	public static final String PART_DAO_ID = "RemotePartDAO";
 
-	private PartDAOLocator() {}
+	private RemotePartDAOLocator() {}
 
 	/**
 	 * Returns a part data access object

@@ -23,19 +23,21 @@ public class RegistrationStationService implements IRegistrationStationService {
 			throw new RemoteException(e.getMessage(), e);
 		}
 	}
-
+ 
 	@WebMethod
 	@Override
 	public CarDTO registerCar(String chassisNumber, String model, PartDTO[] parts) throws RemoteException {
 		ICar car = registrationBase.registerCar(chassisNumber, model, Arrays.asList(parts));
-		return new CarDTO(car);
+		CarDTO carDto = new CarDTO(car);
+		return carDto;
 	}
 
 	@WebMethod
 	@Override
 	public CarDTO getCar(String chassisNumber) throws RemoteException {
 		ICar car = registrationBase.getCar(chassisNumber);
-		return new CarDTO(car);
+		CarDTO carDto = new CarDTO(car);
+		return carDto;
 	}
 
 	@WebMethod

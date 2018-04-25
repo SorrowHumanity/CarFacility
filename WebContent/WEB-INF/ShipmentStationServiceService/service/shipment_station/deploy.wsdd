@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ShipmentStationServiceService WSDL service -->
+
+  <service name="ShipmentStationService" provider="java:RPC" style="rpc" use="encoded">
+      <parameter name="wsdlTargetNamespace" value="http://shipment_station.service"/>
+      <parameter name="wsdlServiceElement" value="ShipmentStationServiceService"/>
+      <parameter name="schemaUnqualified" value="http://shipment_station.service,http://shipment.dto,http://part.dto"/>
+      <parameter name="wsdlServicePort" value="ShipmentStationService"/>
+      <parameter name="className" value="service.shipment_station.ShipmentStationService"/>
+      <parameter name="wsdlPortType" value="ShipmentStationService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://shipment_station.service" xmlns:rtns="http://shipment_station.service" xmlns:tns2="http://shipment.dto" name="getAllShipments" qname="operNS:getAllShipments" returnQName="getAllShipmentsReturn" returnType="rtns:ArrayOf_tns1_ShipmentDTO" returnItemType="tns2:ShipmentDTO" soapAction="">
+      </operation>
+      <operation xmlns:operNS="http://shipment_station.service" xmlns:rtns="http://shipment.dto" name="registerShipment" qname="operNS:registerShipment" returnQName="registerShipmentReturn" returnType="rtns:ShipmentDTO" soapAction="">
+        <parameter xmlns:tns="http://shipment_station.service" qname="parts" type="tns:ArrayOf_tns2_PartDTO"/>
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="receiverFirstName" type="tns:string"/>
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="receiverLastName" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://shipment_station.service" xmlns:rtns="http://shipment.dto" name="getShipment" qname="operNS:getShipment" returnQName="getShipmentReturn" returnType="rtns:ShipmentDTO" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="shipmentId" type="tns:int"/>
+      </operation>
+      <parameter name="allowedMethods" value="getShipment registerShipment getAllShipments"/>
+
+      <arrayMapping xmlns:ns="http://shipment_station.service" xmlns:cmp-ns="http://part.dto" qname="ns:ArrayOf_tns2_PartDTO" type="java:dto.part.PartDTO[]" innerType="cmp-ns:PartDTO" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <typeMapping xmlns:ns="http://part.dto" qname="ns:PartDTO" type="java:dto.part.PartDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <typeMapping xmlns:ns="http://shipment.dto" qname="ns:ShipmentDTO" type="java:dto.shipment.ShipmentDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <arrayMapping xmlns:ns="http://shipment_station.service" xmlns:cmp-ns="http://shipment.dto" qname="ns:ArrayOf_tns1_ShipmentDTO" type="java:dto.shipment.ShipmentDTO[]" innerType="cmp-ns:ShipmentDTO" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </service>
+</deployment>

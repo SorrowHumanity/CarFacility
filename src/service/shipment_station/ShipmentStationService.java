@@ -29,14 +29,16 @@ public class ShipmentStationService implements IShipmentStationService {
 	public ShipmentDTO registerShipment(PartDTO[] parts, String receiverFirstName, String receiverLastName)
 			throws RemoteException {
 		IShipment shipment = shipmentBase.registerShipment(Arrays.asList(parts), receiverFirstName, receiverLastName);
-		return new ShipmentDTO(shipment);
+		ShipmentDTO shipmentDto = new ShipmentDTO(shipment);
+		return shipmentDto;
 	}
 
 	@WebMethod
 	@Override
 	public ShipmentDTO getShipment(int shipmentId) throws RemoteException {
 		IShipment shipment = shipmentBase.getShipment(shipmentId);
-		return new ShipmentDTO(shipment);
+		ShipmentDTO shipmentDto = new ShipmentDTO(shipment);
+		return shipmentDto;
 	}
 
 	@WebMethod

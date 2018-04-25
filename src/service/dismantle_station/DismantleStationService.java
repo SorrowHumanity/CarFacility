@@ -32,56 +32,65 @@ public class DismantleStationService implements IDismantleStationService {
 	@Override
 	public PartDTO[] dismantleCar(CarDTO car) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.dismantleCar(new RemoteCar(car));
-		return CollectionUtils.toDTOArray(remoteParts);
+		PartDTO[] partDtos = CollectionUtils.toDTOArray(remoteParts); 
+		return partDtos;
 	}
 
 	@WebMethod
 	@Override
 	public PartDTO registerPart(String carChassisNumber, String name, double weight) throws RemoteException {
 		IPart part = dismantleBase.registerPart(carChassisNumber, name, weight);
-		return new PartDTO(part);
+		PartDTO partDto = new PartDTO(part); 
+		return partDto;
 	}
 
 	@WebMethod
 	@Override
 	public PartDTO[] getParts(String carChassisNumber) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(carChassisNumber);
-		return CollectionUtils.toDTOArray(remoteParts);
+		PartDTO[] partDtos = CollectionUtils.toDTOArray(remoteParts); 
+		return partDtos;
 	}
 
 	@WebMethod
 	@Override
 	public PartDTO[] getPalletParts(int palletId) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(palletId);
-		return CollectionUtils.toDTOArray(remoteParts);
+		PartDTO[] partDtos = CollectionUtils.toDTOArray(remoteParts); 
+		return partDtos;
 	}
 
 	@WebMethod
 	@Override
 	public PartDTO[] getAllParts() throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getAllParts();
-		return CollectionUtils.toDTOArray(remoteParts);
+		PartDTO[] partDtos = CollectionUtils.toDTOArray(remoteParts); 
+		return partDtos;
 	}
 
 	@WebMethod
 	@Override
 	public PalletDTO registerPallet(String palletType, PartDTO[] parts) throws RemoteException {
-		IPallet pallet = dismantleBase.registerPallet(palletType, CollectionUtils.toRemotePartsList(parts));
-		return new PalletDTO(pallet);
+		List<IPart> remoteParts = CollectionUtils.toRemotePartsList(parts);
+		IPallet pallet = dismantleBase.registerPallet(palletType, remoteParts);
+		PalletDTO palletDto = new PalletDTO(pallet); 
+		return palletDto;
 	}
 
 	@WebMethod
 	@Override
 	public PalletDTO getPallet(int palletId) throws RemoteException {
 		IPallet pallet = dismantleBase.getPallet(palletId);
-		return new PalletDTO(pallet);
+		PalletDTO palletDto = new PalletDTO(pallet); 
+		return palletDto;
 	}
 
 	@WebMethod
 	@Override
 	public PalletDTO[] getAllPallets() throws RemoteException {
 		List<IPallet> remotePallets = dismantleBase.getAllPallets();
-		return CollectionUtils.toPalletDTOArray(remotePallets);
+		PalletDTO[] allPallets = CollectionUtils.toPalletDTOArray(remotePallets);
+		return allPallets;
 	}
 
 }

@@ -161,10 +161,12 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	public List<IPart> dismantleCar(ICar car) throws RemoteException {
 		// create output collection
 		LinkedList<IPart> carParts = new LinkedList<>();
-
+		
+		// get all available pallets
+		getAllPallets();
+			
 		// register all parts
 		for (IPart part : car.getParts()) {
-
 			// register part
 			IPart remotePart = registerPart(part.getCarChassisNumber(),
 					part.getName(), part.getWeightKg());
@@ -221,19 +223,14 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	 * @throws RemoteException
 	 **/
 	private boolean addToPallet(IPart part) throws RemoteException {
-		// part is too heavy for standard pallets (250 kg)
+		// part is too heavy for standard pallets
 		if (isOverweight(part)) return false;
 		
-		// get all available pallets
-		getAllPallets();
-	
 		// attempt to add to existing pallet
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
 
 			IPallet pallet = entry.getValue();
-	
 			if (pallet != null && pallet.fits(part)) {
-				
 				// add part to pallet
 				pallet.addPart(part);
 				
@@ -251,7 +248,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		LinkedList<IPart> palletParts = new LinkedList<>();
 		palletParts.add(part);
 		registerPallet(part.getType(), palletParts);
-	
+		
 		return true;
 	}
 	
@@ -264,7 +261,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	 * @throws RemoteException
 	 **/
 	private boolean isOverweight(IPart part) throws RemoteException {
-		boolean isOverweight = Double.compare(part.getWeightKg(), RemotePallet.MAX_PALLET_WEIGHT_CAPACITY) <= 0;
+		boolean isOverweight = Double.compare(part.getWeightKg(),
+				RemotePallet.MAX_PALLET_WEIGHT_CAPACITY) >= 0;
 		return isOverweight;
 	}
 

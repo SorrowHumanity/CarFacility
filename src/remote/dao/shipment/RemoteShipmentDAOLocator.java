@@ -3,7 +3,7 @@ package remote.dao.shipment;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-import remote.dao.part.PartDAOLocator;
+import remote.dao.part.RemotePartDAOLocator;
 
 public final class RemoteShipmentDAOLocator {
 
@@ -32,7 +32,7 @@ public final class RemoteShipmentDAOLocator {
 	 **/
 	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(SHIPMENT_DAO_ID, new RemoteShipmentDAOServer(PartDAOLocator.lookupDAO()));
+			Naming.rebind(SHIPMENT_DAO_ID, new RemoteShipmentDAOServer(RemotePartDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
