@@ -131,10 +131,5 @@ public class TrackerDAO implements ITrackerDAO {
 
 		return record;
 	}
-
-	public static void main(String[] args) throws RemoteException {
-		ITrackerDAO dao = TrackerDAO.getInstance();
-		System.out.println(dao.readRecords(new Integer(5)));
-	}
-
+	
 }
