@@ -191,7 +191,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			
 			IPallet pallet = entry.getValue();
 			
-			if (pallet!= null && pallet.containsPart(part)) {
+			if (pallet != null && pallet.containsPart(part)) {
 				
 				// remove part from pallet
 				pallet.removePart(part);
