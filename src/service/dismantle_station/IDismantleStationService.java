@@ -5,6 +5,10 @@ import dto.car.CarDTO;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 
+/**
+ * Javadoc is the same as the one for IDismantleBase, with the exception that
+ * IDismantleStationService uses DTO objects
+ **/
 public interface IDismantleStationService {
 
 	PartDTO[] dismantleCar(CarDTO carDto) throws RemoteException;

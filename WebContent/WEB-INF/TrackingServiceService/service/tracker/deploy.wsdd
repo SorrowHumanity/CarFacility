@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from TrackingServiceService WSDL service -->
+
+  <service name="TrackingService" provider="java:RPC" style="rpc" use="encoded">
+      <parameter name="wsdlTargetNamespace" value="http://tracker.service"/>
+      <parameter name="wsdlServiceElement" value="TrackingServiceService"/>
+      <parameter name="wsdlServicePort" value="TrackingService"/>
+      <parameter name="className" value="service.tracker.TrackingService"/>
+      <parameter name="wsdlPortType" value="TrackingService"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://tracker.service" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="trackShipment" qname="operNS:trackShipment" returnQName="trackShipmentReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="shipmentId" type="tns:int"/>
+      </operation>
+      <operation xmlns:operNS="http://tracker.service" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="trackCar" qname="operNS:trackCar" returnQName="trackCarReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="carChassisNumber" type="tns:string"/>
+      </operation>
+      <operation xmlns:operNS="http://tracker.service" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="trackPart" qname="operNS:trackPart" returnQName="trackPartReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="partId" type="tns:int"/>
+      </operation>
+      <parameter name="allowedMethods" value="trackCar trackPart trackShipment"/>
+
+  </service>
+</deployment>

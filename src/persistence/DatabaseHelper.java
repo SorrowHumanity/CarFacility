@@ -79,7 +79,7 @@ public class DatabaseHelper<T> {
 			// retrieve the generated primary key
 			try (ResultSet output = stat.getGeneratedKeys()) {
 
-				if (!output.next()) return -1; // nothing is returned
+				if (!output.next()) return -1; // no key has been generated
 
 				return output.getInt(1);
 			}
