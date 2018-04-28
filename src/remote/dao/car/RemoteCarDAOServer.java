@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,7 +31,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	@Override
 	public CarDTO create(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
 		// weight parts
-		double weightKg = CollectionUtils.weightParts(parts);
+		double weightKg = parts.stream().mapToDouble(PartDTO::getWeightKg).sum();
 
 		// update database
 		carDb.executeUpdate("INSERT INTO car_facility_schema.cars (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
@@ -56,13 +55,10 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
 	@Override
 	public boolean update(CarDTO updatedCarDto) throws RemoteException {
-		// weight parts
-		double weightKg = CollectionUtils.weightParts(Arrays.asList(updatedCarDto.getParts()));
-
 		// update database
 		int rowsAffected = carDb.executeUpdate(
 				"UPDATE car_facility_schema.cars SET model = ?, weight_kg = ? WHERE chassis_number = ?;",
-				updatedCarDto.getModel(), weightKg, updatedCarDto.getChassisNumber());
+				updatedCarDto.getModel(), updatedCarDto.getWeightKg(), updatedCarDto.getChassisNumber());
 
 		return rowsAffected != 0;
 	}

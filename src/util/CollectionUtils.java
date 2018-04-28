@@ -20,19 +20,6 @@ public final class CollectionUtils {
 	private CollectionUtils() {}
 
 	/**
-	 * Converts a list of DTO parts to a list of remote parts
-	 **/
-	public static List<IPart> toRemotePartsList(List<PartDTO> allParts) throws RemoteException {
-		int size = allParts.size();
-		ArrayList<IPart> allRemoteParts = new ArrayList<>(size);
-
-		for (PartDTO part : allParts)
-			allRemoteParts.add(new RemotePart(part));
-
-		return allRemoteParts;
-	}
-
-	/**
 	 * Converts an array of DTO parts to a list of remote parts
 	 **/
 	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
@@ -43,7 +30,6 @@ public final class CollectionUtils {
 			remoteParts.add(new RemotePart(part));
 
 		return remoteParts;
-
 	}
 
 	/**
@@ -116,18 +102,6 @@ public final class CollectionUtils {
 			partDtos.add(new PartDTO(part));
 		
 		return partDtos;
-	}
-
-	/**
-	 * Calculates the weight of a collection of parts
-	 **/
-	public static double weightParts(Collection<PartDTO> allParts) {
-		double totalWeight = 0;
-
-		for (PartDTO part : allParts)
-			totalWeight += part.getWeightKg();
-
-		return totalWeight;
 	}
 
 }

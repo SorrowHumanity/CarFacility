@@ -49,6 +49,15 @@ public class CarDTO implements Serializable {
 	public void setParts(PartDTO[] parts) {
 		this.parts = parts;
 	}
+	
+	public double getWeightKg() {
+		double totalWeight = 0;
+
+		for (PartDTO part : parts)
+			totalWeight += part.getWeightKg();
+
+		return totalWeight;
+	}
 
 	@Override
 	public String toString() {

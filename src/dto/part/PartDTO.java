@@ -47,7 +47,7 @@ public class PartDTO implements Serializable {
 	}
 	
 	public String getType() {
-		return name.substring(name.lastIndexOf(" ") + 1);
+		return name.substring(name.lastIndexOf(" ") + 1); // type of the part is always the last word of the name of each part
 	}
 
 	public void setId(int id) {

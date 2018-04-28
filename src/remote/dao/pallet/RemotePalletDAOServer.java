@@ -28,9 +28,9 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	}
 
 	@Override
-	public PalletDTO create(String palletType, PartDTO[] palletParts) throws RemoteException {
+	public PalletDTO create(String palletType, PartDTO[] parts) throws RemoteException {
 		// weight the parts
-		double weightKg = CollectionUtils.weightParts(Arrays.asList(palletParts));
+		double weightKg = Arrays.stream(parts).mapToDouble(PartDTO::getWeightKg).sum();
 		
 		// create pallet
 		int id = palletDb.executeUpdateReturningId(
@@ -39,9 +39,9 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 				palletType, weightKg);
 
 		// create associations between the pallet and all the belonging parts
-		associateParts(id, palletParts);
+		associateParts(id, parts);
 
-		return new PalletDTO(id, palletType, palletParts, weightKg);
+		return new PalletDTO(id, palletType, parts, weightKg);
 	}
 
 	@Override
