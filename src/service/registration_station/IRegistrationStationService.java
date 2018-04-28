@@ -6,7 +6,7 @@ import dto.part.PartDTO;
 
 /**
  * Javadoc is the same as the one for IRegistrationBase, with the exception that
- * IRegistrationStationService uses DTO objects
+ * IRegistrationStationService uses DTO objects as parameters and return types
  **/
 public interface IRegistrationStationService {
 

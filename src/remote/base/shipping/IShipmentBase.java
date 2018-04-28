@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import dto.part.PartDTO;
+import remote.model.part.IPart;
 import remote.model.shipment.IShipment;
 
 public interface IShipmentBase extends Remote {
@@ -21,7 +21,7 @@ public interface IShipmentBase extends Remote {
 	 * @return a remote shipment object
 	 * @throws RemoteException
 	 **/
-	IShipment registerShipment(List<PartDTO> parts, String receiverFirstName, String receiverLastName)
+	IShipment registerShipment(List<IPart> parts, String receiverFirstName, String receiverLastName)
 			throws RemoteException;
 
 	/**

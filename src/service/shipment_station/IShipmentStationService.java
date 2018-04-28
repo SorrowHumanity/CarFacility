@@ -6,7 +6,7 @@ import dto.shipment.ShipmentDTO;
 
 /**
  * Javadoc is the same as the one for IShipmentBase, with the exception that
- * IShipmentStationService uses DTO objects
+ * IShipmentStationService uses DTO objects as parameters and return types
  **/
 public interface IShipmentStationService {
 

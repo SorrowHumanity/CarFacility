@@ -1,8 +1,8 @@
 package util;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import dto.car.CarDTO;
@@ -23,7 +23,8 @@ public final class CollectionUtils {
 	 * Converts a list of DTO parts to a list of remote parts
 	 **/
 	public static List<IPart> toRemotePartsList(List<PartDTO> allParts) throws RemoteException {
-		LinkedList<IPart> allRemoteParts = new LinkedList<>();
+		int size = allParts.size();
+		ArrayList<IPart> allRemoteParts = new ArrayList<>(size);
 
 		for (PartDTO part : allParts)
 			allRemoteParts.add(new RemotePart(part));
@@ -35,7 +36,8 @@ public final class CollectionUtils {
 	 * Converts an array of DTO parts to a list of remote parts
 	 **/
 	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
-		LinkedList<IPart> remoteParts = new LinkedList<>();
+		int size = allParts.length;
+		ArrayList<IPart> remoteParts = new ArrayList<>(size);
 
 		for (PartDTO part : allParts)
 			remoteParts.add(new RemotePart(part));
@@ -104,6 +106,16 @@ public final class CollectionUtils {
 			shipmentDtos[i] = new ShipmentDTO(allShipments.get(i));
 
 		return shipmentDtos;
+	}
+	
+	public static List<PartDTO> toDTOList(List<IPart> parts) throws RemoteException {
+		int size = parts.size();
+		ArrayList<PartDTO> partDtos = new ArrayList<>(size);
+		
+		for (IPart part : parts) 
+			partDtos.add(new PartDTO(part));
+		
+		return partDtos;
 	}
 
 	/**

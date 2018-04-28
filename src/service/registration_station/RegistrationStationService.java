@@ -1,7 +1,6 @@
 package service.registration_station;
 
 import java.rmi.RemoteException;
-import java.util.Arrays;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import dto.car.CarDTO;
@@ -23,11 +22,11 @@ public class RegistrationStationService implements IRegistrationStationService {
 			throw new RemoteException(e.getMessage(), e);
 		}
 	}
- 
+
 	@WebMethod
 	@Override
 	public CarDTO registerCar(String chassisNumber, String model, PartDTO[] parts) throws RemoteException {
-		ICar car = registrationBase.registerCar(chassisNumber, model, Arrays.asList(parts));
+		ICar car = registrationBase.registerCar(chassisNumber, model, CollectionUtils.toRemotePartsList(parts));
 		CarDTO carDto = new CarDTO(car);
 		return carDto;
 	}

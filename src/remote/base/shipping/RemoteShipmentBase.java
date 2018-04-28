@@ -2,19 +2,20 @@ package remote.base.shipping;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import remote.model.part.*;
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
 import remote.base.dismantle.IDismantleBase;
 import remote.dao.shipment.IShipmentDAO;
-import remote.model.part.RemotePart;
 import remote.model.shipment.IShipment;
 import remote.model.shipment.RemoteShipment;
+import util.CollectionUtils;
 
 public class RemoteShipmentBase extends UnicastRemoteObject implements IShipmentBase {
 
@@ -30,14 +31,15 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 	}
 
 	@Override
-	public synchronized IShipment registerShipment(List<PartDTO> parts, String receiverFirstName,
-			String receiverLastName) throws RemoteException {
+	public synchronized IShipment registerShipment(List<IPart> parts, String receiverFirstName, String receiverLastName)
+			throws RemoteException {
 		// get map of the pallet ids of the pallets from which the parts come
 		// key(part id), value(pallet id)
 		Map<Integer, Integer> palletIds = takeParts(parts);
 
 		// create database entry
-		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, parts, palletIds);
+		List<PartDTO> partDtos = CollectionUtils.toDTOList(parts);
+		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, partDtos, palletIds);
 
 		// cache and return
 		shipmentCache.put(shipmentDto.getId(), new RemoteShipment(shipmentDto));
@@ -66,7 +68,8 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 		Collection<ShipmentDTO> allShipments = shipmentDao.readAll();
 
 		// create output collection
-		LinkedList<IShipment> shipmentList = new LinkedList<>();
+		int size = allShipments.size();
+		ArrayList<IShipment> shipmentList = new ArrayList<>(size); // avoid arraylist expansion
 
 		// cache if not already cached
 		for (ShipmentDTO shipment : allShipments) {
@@ -81,22 +84,23 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 	}
 
 	/**
-	 * Removes the parts that are going to be shipped from the pallets
-	 * they belong to
+	 * Removes the parts that are going to be shipped from the pallets they belong
+	 * to
 	 * 
 	 * @param parts
 	 *            the parts to be removed from the pallets
 	 * @return a map of all part ids and the pallet which they come from
 	 * @throws RemoteException
 	 **/
-	private Map<Integer, Integer> takeParts(List<PartDTO> parts) throws RemoteException {
+	private Map<Integer, Integer> takeParts(List<IPart> parts) throws RemoteException {
+		int size = parts.size();
 		// key(part id), value(pallet id)
-		HashMap<Integer, Integer> idMap = new HashMap<>();
+		HashMap<Integer, Integer> idMap = new HashMap<>(size);
 
-		for (PartDTO part : parts) {
+		for (IPart part : parts) {
 			// remove part from it's pallet
-			int palletId = dismantleBase.removeFromPallet(new RemotePart(part));
-			
+			int palletId = dismantleBase.removeFromPallet(part);
+
 			// save the id of the pallet the part comes from
 			idMap.put(part.getId(), palletId);
 		}

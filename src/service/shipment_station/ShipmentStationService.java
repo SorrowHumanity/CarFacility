@@ -1,13 +1,15 @@
 package service.shipment_station;
 
 import java.rmi.RemoteException;
-import java.util.Arrays;
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
 import remote.base.shipping.IShipmentBase;
 import remote.base.shipping.RemoteShipmentBaseLocator;
+import remote.model.part.IPart;
 import remote.model.shipment.IShipment;
 import util.CollectionUtils;
 
@@ -28,7 +30,8 @@ public class ShipmentStationService implements IShipmentStationService {
 	@Override
 	public ShipmentDTO registerShipment(PartDTO[] parts, String receiverFirstName, String receiverLastName)
 			throws RemoteException {
-		IShipment shipment = shipmentBase.registerShipment(Arrays.asList(parts), receiverFirstName, receiverLastName);
+		List<IPart> remoteParts = CollectionUtils.toRemotePartsList(parts);
+		IShipment shipment = shipmentBase.registerShipment(remoteParts, receiverFirstName, receiverLastName);
 		ShipmentDTO shipmentDto = new ShipmentDTO(shipment);
 		return shipmentDto;
 	}

@@ -2,17 +2,19 @@ package remote.base.registration;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import dto.car.CarDTO;
 import dto.part.PartDTO;
+import remote.model.part.IPart;
 import remote.dao.car.ICarDAO;
 import remote.model.car.ICar;
 import remote.model.car.RemoteCar;
+import util.CollectionUtils;
 
 public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegistrationBase {
 
@@ -26,9 +28,11 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 	}
 
 	@Override
-	public synchronized ICar registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
+	public synchronized ICar registerCar(String chassisNumber, String model, List<IPart> parts) throws RemoteException {
+		List<PartDTO> partDtos = CollectionUtils.toDTOList(parts);
+		
 		// create database entry
-		CarDTO carDto = carDao.create(chassisNumber, model, parts);
+		CarDTO carDto = carDao.create(chassisNumber, model, partDtos);
 
 		// cache and return
 		carCache.put(chassisNumber, new RemoteCar(carDto));
@@ -57,7 +61,8 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 		Collection<CarDTO> allCars = carDao.readAll();
 
 		// create output collection
-		LinkedList<ICar> carList = new LinkedList<>();
+		int size = allCars.size();
+		ArrayList<ICar> carList = new ArrayList<>(size); // avoid arraylist expansion
 
 		// cache if not already cached
 		for (CarDTO car : allCars) {

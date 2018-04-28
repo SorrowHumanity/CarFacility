@@ -2,6 +2,7 @@ package remote.base.dismantle;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -49,7 +50,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		Collection<PartDTO> allParts = partDao.read(carChassisNumber);
 
 		// create output collection
-		LinkedList<IPart> matchingParts = new LinkedList<>();
+		int size = allParts.size();
+		ArrayList<IPart> matchingParts = new ArrayList<>(size);
 
 		// go through all parts
 		for (PartDTO part : allParts) {
@@ -71,7 +73,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		Collection<PartDTO> allParts = partDao.read(palletId);
 
 		// create output collection
-		LinkedList<IPart> matchingParts = new LinkedList<>();
+		int size = allParts.size();
+		ArrayList<IPart> matchingParts = new ArrayList<>(size); // avoid arraylist expansion
 
 		// go through all parts
 		for (PartDTO part : allParts) {
@@ -93,7 +96,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		Collection<PartDTO> allParts = partDao.readAll();
 
 		// create output collection
-		LinkedList<IPart> partList = new LinkedList<>();
+		int size = allParts.size();
+		ArrayList<IPart> partList = new ArrayList<>(size);
 
 		// go through all parts
 		for (PartDTO part : allParts) {
@@ -141,7 +145,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		Collection<PalletDTO> allPallets = palletDao.readAll();
 
 		// create output collection
-		LinkedList<IPallet> partList = new LinkedList<>();
+		int size = allPallets.size();
+		ArrayList<IPallet> partList = new ArrayList<>(size);
 
 		// go through all parts
 		for (PalletDTO pallet : allPallets) {
@@ -160,7 +165,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	@Override
 	public List<IPart> dismantleCar(ICar car) throws RemoteException {
 		// create output collection
-		LinkedList<IPart> carParts = new LinkedList<>();
+		int size = car.getParts().size();
+		ArrayList<IPart> carParts = new ArrayList<>(size);
 		
 		// get all available pallets
 		getAllPallets();

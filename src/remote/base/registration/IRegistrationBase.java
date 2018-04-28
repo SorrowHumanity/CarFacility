@@ -4,8 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import dto.part.PartDTO;
 import remote.model.car.ICar;
+import remote.model.part.IPart;
 
 public interface IRegistrationBase extends Remote {
 
@@ -21,7 +21,7 @@ public interface IRegistrationBase extends Remote {
 	 * @return the newly registered car
 	 * @throws RemoteException
 	 **/
-	ICar registerCar(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException;
+	ICar registerCar(String chassisNumber, String model, List<IPart> parts) throws RemoteException;
 
 	/**
 	 * Retrieves a car with the chassis number passed as a parameter

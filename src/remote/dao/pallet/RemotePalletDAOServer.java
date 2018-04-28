@@ -93,23 +93,20 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 		return rowsAffected != 0;
 	}
 
+	@Override
+	public void removePartAssociations(int palletId, PartDTO... parts) throws RemoteException {
+		for (PartDTO part : parts) 
+			palletDb.executeUpdate("DELETE FROM car_facility_schema.contains WHERE pallet_id = ? AND "
+					+ "part_id = ?;", palletId, part.getId());
+	}
+
 	private void associateParts(int palletId, PartDTO... parts) throws RemoteException {
-		for (PartDTO part : parts) {
+		for (PartDTO part : parts) 
 			palletDb.executeUpdate("INSERT INTO car_facility_schema.contains"
 					+ " (part_id, pallet_id) SELECT ?, ? WHERE NOT EXISTS(SELECT *"
 					+ " FROM car_facility_schema.contains WHERE contains.part_id = " 
 					+ "? AND contains.pallet_id = ?);",
 					part.getId(), palletId, part.getId(), palletId);
-		}
-	}
-
-	@Override
-	public boolean removePartAssociations(int palletId, PartDTO... parts) throws RemoteException {
-		for (PartDTO part : parts) 
-			palletDb.executeUpdate("DELETE FROM car_facility_schema.contains WHERE pallet_id = ? AND "
-					+ "part_id = ?;", palletId, part.getId());
-		
-		return true;
 	}
 
 	/**

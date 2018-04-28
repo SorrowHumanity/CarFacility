@@ -23,14 +23,14 @@
  <ns1:handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
  <ns1:handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
  <ns1:service name="TrackingService" provider="java:RPC">
-  <ns2:operation name="trackShipment" qname="ns1:trackShipment" returnQName="trackShipmentReturn" returnType="xsd:string" soapAction="" xmlns:ns1="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
-   <ns2:parameter name="shipmentId" type="xsd:int"/>
+  <ns2:operation name="trackCar" qname="ns1:trackCar" returnQName="trackCarReturn" returnType="xsd:string" soapAction="" xmlns:ns1="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
+   <ns2:parameter name="carChassisNumber" type="xsd:string"/>
   </ns2:operation>
-  <ns1:operation name="trackCar" qname="ns2:trackCar" returnQName="trackCarReturn" returnType="xsd:string" soapAction="" xmlns:ns2="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter name="carChassisNumber" type="xsd:string"/>
-  </ns1:operation>
-  <ns1:operation name="trackPart" qname="ns3:trackPart" returnQName="trackPartReturn" returnType="xsd:string" soapAction="" xmlns:ns3="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ns1:operation name="trackPart" qname="ns2:trackPart" returnQName="trackPartReturn" returnType="xsd:string" soapAction="" xmlns:ns2="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
    <ns1:parameter name="partId" type="xsd:int"/>
+  </ns1:operation>
+  <ns1:operation name="trackShipment" qname="ns3:trackShipment" returnQName="trackShipmentReturn" returnType="xsd:string" soapAction="" xmlns:ns3="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter name="shipmentId" type="xsd:int"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="trackCar trackPart trackShipment"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>

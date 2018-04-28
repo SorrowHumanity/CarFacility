@@ -37,18 +37,16 @@ public class DatabaseHelper<T> {
 	}
 
 	protected Connection getConnection() throws SQLException {
-		if (username == null) {
+		if (username == null) 
 			return DriverManager.getConnection(jdbcURL);
-		} else {
+		 else 
 			return DriverManager.getConnection(jdbcURL, username, password);
-		}
 	}
 
 	private PreparedStatement prepare(Connection connection, String sql, Object[] parameters) throws SQLException {
 		PreparedStatement stat = connection.prepareStatement(sql);
-		for (int i = 0; i < parameters.length; i++) {
+		for (int i = 0; i < parameters.length; i++) 
 			stat.setObject(i + 1, parameters[i]);
-		}
 		return stat;
 	}
 
@@ -92,11 +90,10 @@ public class DatabaseHelper<T> {
 		try (Connection con = getConnection()) {
 			PreparedStatement stat = prepare(con, sql, parameters);
 			ResultSet rs = stat.executeQuery();
-			if (rs.next()) {
+			if (rs.next()) 
 				return mapper.create(rs);
-			} else {
+			else 
 				return null;
-			}
 		} catch (SQLException e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

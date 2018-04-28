@@ -45,6 +45,10 @@ public class PartDTO implements Serializable {
 	public String getCarChassisNumber() {
 		return carChassisNumber;
 	}
+	
+	public String getType() {
+		return name.substring(name.lastIndexOf(" ") + 1);
+	}
 
 	public void setId(int id) {
 		this.id = id;
