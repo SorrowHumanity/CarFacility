@@ -26,7 +26,7 @@ public class TrackerDAO implements ITrackerDAO {
 	/**
 	 * Singleton implementation
 	 * 
-	 * @return an instance of a tracker data access object
+	 * @return instance of a tracker data access object
 	 * @throws RemoteException
 	 **/
 	public static ITrackerDAO getInstance() throws RemoteException {
@@ -56,7 +56,7 @@ public class TrackerDAO implements ITrackerDAO {
 	}
 
 	@Override
-	public String readRecords(Integer shipmentId) throws RemoteException {
+	public String readRecords(int shipmentId) throws RemoteException {
 		List<String> recordList = carFacilityDb.map((rs) -> createRecord(rs),
 				"SELECT (SELECT car_facility_schema.cars.model AS model"
 						+ " FROM car_facility_schema.cars, car_facility_schema.parts"

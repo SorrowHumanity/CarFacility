@@ -24,6 +24,6 @@ public interface ITrackerDAO {
 	 * @return a string of records
 	 * @throws RemoteException
 	 **/
-	String readRecords(Integer shipmentId) throws RemoteException;
+	String readRecords(int shipmentId) throws RemoteException;
 
 }
