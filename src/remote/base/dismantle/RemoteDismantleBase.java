@@ -47,7 +47,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	@Override
 	public List<IPart> getParts(String carChassisNumber) throws RemoteException {
 		// read all parts from the database
-		Collection<PartDTO> allParts = partDao.read(carChassisNumber);
+		Collection<PartDTO> allParts = partDao.readCarParts(carChassisNumber);
 
 		// create output collection
 		int size = allParts.size();
@@ -70,7 +70,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	@Override
 	public List<IPart> getParts(int palletId) throws RemoteException {
 		// read all parts from the database
-		Collection<PartDTO> allParts = partDao.read(palletId);
+		Collection<PartDTO> allParts = partDao.readPalletParts(palletId);
 
 		// create output collection
 		int size = allParts.size();
@@ -174,7 +174,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		// register all parts
 		for (IPart part : car.getParts()) {
 			// register part
-			IPart remotePart = registerPart(part.getCarChassisNumber(),
+			IPart remotePart = registerPart(car.getChassisNumber(),
 					part.getName(), part.getWeightKg());
 
 			// add part to output list

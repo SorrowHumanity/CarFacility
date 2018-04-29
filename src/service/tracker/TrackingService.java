@@ -25,12 +25,6 @@ public class TrackingService implements ITrackingService {
 
 	@WebMethod
 	@Override
-	public String trackPart(int partId) throws RemoteException {
-		return trackerDao.readRecords(partId);
-	}
-
-	@WebMethod
-	@Override
 	public String trackShipment(Integer shipmentId) throws RemoteException {
 		return trackerDao.readRecords(shipmentId);
 	}

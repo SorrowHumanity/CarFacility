@@ -31,7 +31,7 @@ public interface IPartDAO extends Remote {
 	 * @return a collection of part data transfer objects
 	 * @throws RemoteException
 	 **/
-	Collection<PartDTO> read(String carChassisNumber) throws RemoteException;
+	Collection<PartDTO> readCarParts(String carChassisNumber) throws RemoteException;
 
 	/**
 	 * Reads all part entries from the parts entity that belong to the pallet with
@@ -43,7 +43,7 @@ public interface IPartDAO extends Remote {
 	 * @return a collection of part data trasnfer objects
 	 * @throws RemoteException
 	 **/
-	Collection<PartDTO> read(int palletId) throws RemoteException;
+	Collection<PartDTO> readPalletParts(int palletId) throws RemoteException;
 
 	/**
 	 * Reads all part entries from the parts entity that belong to the pallet with
@@ -55,7 +55,7 @@ public interface IPartDAO extends Remote {
 	 * @return a collection of part data trasnfer objects
 	 * @throws RemoteException
 	 **/
-	Collection<PartDTO> read(Integer shipmentId) throws RemoteException;
+	Collection<PartDTO> readShipmentParts(int shipmentId) throws RemoteException;
 
 	/**
 	 * Reads all part entries from the parts entity and returns a collection of part

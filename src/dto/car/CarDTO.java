@@ -12,8 +12,9 @@ public class CarDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String chassisNumber, model;
-	private PartDTO[] parts;
+	private PartDTO[] parts; // DTOs have arrays as parameters, because they are used in the web services
 
+	// no-arg constructor for deserialization (XML to Object)
 	public CarDTO() {}
 
 	public CarDTO(String chassisNumber, String model, PartDTO[] parts) {

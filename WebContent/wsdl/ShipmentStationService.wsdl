@@ -9,9 +9,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
    <complexType name="PartDTO">
     <sequence>
-     <element name="carChassisNumber" nillable="true" type="xsd:string"/>
      <element name="id" type="xsd:int"/>
      <element name="name" nillable="true" type="xsd:string"/>
+     <element name="type" nillable="true" type="xsd:string"/>
      <element name="weightKg" type="xsd:double"/>
     </sequence>
    </complexType>
@@ -104,6 +104,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    <wsdl:portType name="ShipmentStationService">
 
+      <wsdl:operation name="getShipment" parameterOrder="shipmentId">
+
+         <wsdl:input message="impl:getShipmentRequest" name="getShipmentRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getShipmentResponse" name="getShipmentResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="getAllShipments">
 
          <wsdl:input message="impl:getAllShipmentsRequest" name="getAllShipmentsRequest">
@@ -128,23 +140,29 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="getShipment" parameterOrder="shipmentId">
-
-         <wsdl:input message="impl:getShipmentRequest" name="getShipmentRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getShipmentResponse" name="getShipmentResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
    </wsdl:portType>
 
    <wsdl:binding name="ShipmentStationServiceSoapBinding" type="impl:ShipmentStationService">
 
       <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="getShipment">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getShipmentRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getShipmentResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
 
       <wsdl:operation name="getAllShipments">
 
@@ -175,24 +193,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="registerShipmentResponse">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getShipment">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getShipmentRequest">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getShipmentResponse">
 
             <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
 

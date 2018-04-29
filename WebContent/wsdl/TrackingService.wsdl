@@ -11,14 +11,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="trackPartRequest">
-
-      <wsdl:part name="partId" type="xsd:int">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
    <wsdl:message name="trackShipmentResponse">
 
       <wsdl:part name="trackShipmentReturn" type="xsd:string">
@@ -43,14 +35,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="trackPartResponse">
-
-      <wsdl:part name="trackPartReturn" type="xsd:string">
-
-      </wsdl:part>
-
-   </wsdl:message>
-
    <wsdl:portType name="TrackingService">
 
       <wsdl:operation name="trackCar" parameterOrder="carChassisNumber">
@@ -60,18 +44,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:trackCarResponse" name="trackCarResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="trackPart" parameterOrder="partId">
-
-         <wsdl:input message="impl:trackPartRequest" name="trackPartRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:trackPartResponse" name="trackPartResponse">
 
        </wsdl:output>
 
@@ -106,24 +78,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="trackCarResponse">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://tracker.service" use="encoded"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="trackPart">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="trackPartRequest">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://tracker.service" use="encoded"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="trackPartResponse">
 
             <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://tracker.service" use="encoded"/>
 

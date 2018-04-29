@@ -1,13 +1,16 @@
 package service.registration_station;
 
 import java.rmi.RemoteException;
+import java.util.List;
+
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import dto.car.CarDTO;
 import dto.part.PartDTO;
 import remote.base.registration.IRegistrationBase;
-import remote.base.registration.RegistrationBaseLocator;
+import remote.base.registration.RemoteRegistrationBaseLocator;
 import remote.model.car.ICar;
+import remote.model.part.IPart;
 import util.CollectionUtils;
 
 @WebService
@@ -17,7 +20,7 @@ public class RegistrationStationService implements IRegistrationStationService {
 
 	public RegistrationStationService() throws RemoteException {
 		try {
-			registrationBase = RegistrationBaseLocator.lookupBase();
+			registrationBase = RemoteRegistrationBaseLocator.lookupBase();
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
@@ -26,7 +29,8 @@ public class RegistrationStationService implements IRegistrationStationService {
 	@WebMethod
 	@Override
 	public CarDTO registerCar(String chassisNumber, String model, PartDTO[] parts) throws RemoteException {
-		ICar car = registrationBase.registerCar(chassisNumber, model, CollectionUtils.toRemotePartsList(parts));
+		List<IPart> remoteParts = CollectionUtils.toRemotePartsList(parts);
+		ICar car = registrationBase.registerCar(chassisNumber, model, remoteParts);
 		CarDTO carDto = new CarDTO(car);
 		return carDto;
 	}

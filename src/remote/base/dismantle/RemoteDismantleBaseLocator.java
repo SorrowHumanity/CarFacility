@@ -6,11 +6,11 @@ import java.rmi.RemoteException;
 import remote.dao.pallet.RemotePalletDAOLocator;
 import remote.dao.part.RemotePartDAOLocator;
 
-public final class DismantleBaseLocator {
+public final class RemoteDismantleBaseLocator {
 
 	public static final String DISMANTLE_BASE_ID = "RemoteDismantleBase";
 
-	private DismantleBaseLocator() {}
+	private RemoteDismantleBaseLocator() {}
 
 	/**
 	 * Returns a reference to the remote dismantle base

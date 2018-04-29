@@ -10,9 +10,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
    <complexType name="PartDTO">
     <sequence>
-     <element name="carChassisNumber" nillable="true" type="xsd:string"/>
      <element name="id" type="xsd:int"/>
      <element name="name" nillable="true" type="xsd:string"/>
+     <element name="type" nillable="true" type="xsd:string"/>
      <element name="weightKg" type="xsd:double"/>
     </sequence>
    </complexType>
@@ -47,6 +47,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element name="chassisNumber" nillable="true" type="xsd:string"/>
      <element name="model" nillable="true" type="xsd:string"/>
      <element name="parts" nillable="true" type="impl:ArrayOf_tns1_PartDTO"/>
+     <element name="weightKg" type="xsd:double"/>
     </sequence>
    </complexType>
   </schema>
@@ -146,17 +147,17 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    </wsdl:message>
 
-   <wsdl:message name="getAllPalletsResponse">
+   <wsdl:message name="registerPalletResponse">
 
-      <wsdl:part name="getAllPalletsReturn" type="impl:ArrayOf_tns3_PalletDTO">
+      <wsdl:part name="registerPalletReturn" type="tns3:PalletDTO">
 
       </wsdl:part>
 
    </wsdl:message>
 
-   <wsdl:message name="registerPalletResponse">
+   <wsdl:message name="getAllPalletsResponse">
 
-      <wsdl:part name="registerPalletReturn" type="tns3:PalletDTO">
+      <wsdl:part name="getAllPalletsReturn" type="impl:ArrayOf_tns3_PalletDTO">
 
       </wsdl:part>
 
@@ -212,13 +213,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="dismantleCar" parameterOrder="car">
+      <wsdl:operation name="registerPart" parameterOrder="carChassisNumber name weight">
 
-         <wsdl:input message="impl:dismantleCarRequest" name="dismantleCarRequest">
+         <wsdl:input message="impl:registerPartRequest" name="registerPartRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:dismantleCarResponse" name="dismantleCarResponse">
+         <wsdl:output message="impl:registerPartResponse" name="registerPartResponse">
 
        </wsdl:output>
 
@@ -236,13 +237,13 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="registerPart" parameterOrder="carChassisNumber name weight">
+      <wsdl:operation name="dismantleCar" parameterOrder="car">
 
-         <wsdl:input message="impl:registerPartRequest" name="registerPartRequest">
+         <wsdl:input message="impl:dismantleCarRequest" name="dismantleCarRequest">
 
        </wsdl:input>
 
-         <wsdl:output message="impl:registerPartResponse" name="registerPartResponse">
+         <wsdl:output message="impl:dismantleCarResponse" name="dismantleCarResponse">
 
        </wsdl:output>
 
@@ -255,6 +256,18 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
        </wsdl:input>
 
          <wsdl:output message="impl:getAllPartsResponse" name="getAllPartsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="registerPallet" parameterOrder="palletType parts">
+
+         <wsdl:input message="impl:registerPalletRequest" name="registerPalletRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:registerPalletResponse" name="registerPalletResponse">
 
        </wsdl:output>
 
@@ -284,18 +297,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
-      <wsdl:operation name="registerPallet" parameterOrder="palletType parts">
-
-         <wsdl:input message="impl:registerPalletRequest" name="registerPalletRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:registerPalletResponse" name="registerPalletResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
    </wsdl:portType>
 
    <wsdl:binding name="DismantleStationServiceSoapBinding" type="impl:DismantleStationService">
@@ -313,42 +314,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getPartsResponse">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="dismantleCar">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="dismantleCarRequest">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="dismantleCarResponse">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="getPalletParts">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getPalletPartsRequest">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getPalletPartsResponse">
 
             <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
 
@@ -374,6 +339,42 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getPalletParts">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getPalletPartsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getPalletPartsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="dismantleCar">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="dismantleCarRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="dismantleCarResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
       <wsdl:operation name="getAllParts">
 
          <wsdlsoap:operation soapAction=""/>
@@ -385,6 +386,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getAllPartsResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="registerPallet">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="registerPalletRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="registerPalletResponse">
 
             <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
 
@@ -421,24 +440,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="getAllPalletsResponse">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
-
-      <wsdl:operation name="registerPallet">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="registerPalletRequest">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="registerPalletResponse">
 
             <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://dismantle_station.service" use="encoded"/>
 

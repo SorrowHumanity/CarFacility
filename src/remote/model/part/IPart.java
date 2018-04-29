@@ -12,12 +12,6 @@ public interface IPart extends Remote {
 	int getId() throws RemoteException;
 
 	/**
-	 * @return the car chassis number value
-	 * @throws RemoteException
-	 **/
-	String getCarChassisNumber() throws RemoteException;
-
-	/**
 	 * @return the name value
 	 * @throws RemoteException
 	 **/

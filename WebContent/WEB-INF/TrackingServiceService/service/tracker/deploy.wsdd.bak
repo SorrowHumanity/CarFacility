@@ -22,13 +22,10 @@
       <operation name="trackCar" qname="operNS:trackCar" xmlns:operNS="http://tracker.service" returnQName="trackCarReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="carChassisNumber" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <operation name="trackPart" qname="operNS:trackPart" xmlns:operNS="http://tracker.service" returnQName="trackPartReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
-        <parameter qname="partId" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-      </operation>
       <operation name="trackShipment" qname="operNS:trackShipment" xmlns:operNS="http://tracker.service" returnQName="trackShipmentReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
         <parameter qname="shipmentId" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <parameter name="allowedMethods" value="trackCar trackPart trackShipment"/>
+      <parameter name="allowedMethods" value="trackCar trackShipment"/>
 
   </service>
 </deployment>

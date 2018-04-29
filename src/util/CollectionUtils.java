@@ -94,6 +94,9 @@ public final class CollectionUtils {
 		return shipmentDtos;
 	}
 	
+	/**
+	 * Converts a list of remote parts to a list of DTO parts 
+	 **/
 	public static List<PartDTO> toDTOList(List<IPart> parts) throws RemoteException {
 		int size = parts.size();
 		ArrayList<PartDTO> partDtos = new ArrayList<>(size);

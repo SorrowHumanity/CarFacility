@@ -114,8 +114,8 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 
 		try {
 			// read the pallet's parts
-			Collection<PartDTO> parts = partDao.read(shipmentId);
-			
+			Collection<PartDTO> parts = partDao.readShipmentParts(shipmentId);
+			System.out.println("Parts: " + parts.size());
 			// convert to DTOs
 			PartDTO[] partDTOs = CollectionUtils.toPartDTOArray(parts);
 			

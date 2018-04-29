@@ -9,9 +9,9 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
    <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
    <complexType name="PartDTO">
     <sequence>
-     <element name="carChassisNumber" nillable="true" type="xsd:string"/>
      <element name="id" type="xsd:int"/>
      <element name="name" nillable="true" type="xsd:string"/>
+     <element name="type" nillable="true" type="xsd:string"/>
      <element name="weightKg" type="xsd:double"/>
     </sequence>
    </complexType>
@@ -44,6 +44,7 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
      <element name="chassisNumber" nillable="true" type="xsd:string"/>
      <element name="model" nillable="true" type="xsd:string"/>
      <element name="parts" nillable="true" type="impl:ArrayOf_tns2_PartDTO"/>
+     <element name="weightKg" type="xsd:double"/>
     </sequence>
    </complexType>
   </schema>

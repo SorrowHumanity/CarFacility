@@ -8,7 +8,7 @@ import javax.jws.WebService;
 import dto.car.CarDTO;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
-import remote.base.dismantle.DismantleBaseLocator;
+import remote.base.dismantle.RemoteDismantleBaseLocator;
 import remote.base.dismantle.IDismantleBase;
 import remote.model.car.RemoteCar;
 import remote.model.pallet.IPallet;
@@ -22,7 +22,7 @@ public class DismantleStationService implements IDismantleStationService {
 
 	public DismantleStationService() throws RemoteException {
 		try {
-			dismantleBase = DismantleBaseLocator.lookupBase();
+			dismantleBase = RemoteDismantleBaseLocator.lookupBase();
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

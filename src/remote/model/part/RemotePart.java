@@ -10,18 +10,22 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String carChassisNumber, name;
+	private String name;
 	private double weightKg;
 
-	public RemotePart(int id, String carChassisNumber, String name, double weightKg) throws RemoteException {
+	public RemotePart(int id, String name, double weightKg) throws RemoteException {
 		this.id = id;
-		this.carChassisNumber = carChassisNumber;
 		this.name = name;
 		this.weightKg = weightKg;
 	}
 
+	// used for when creating car objects before a car is registered for the first time
+	public RemotePart(String name, double weightKg) throws RemoteException {
+		this(-1, name, weightKg);
+	}
+
 	public RemotePart(PartDTO partDto) throws RemoteException {
-		this(partDto.getId(), partDto.getCarChassisNumber(), partDto.getName(), partDto.getWeightKg());
+		this(partDto.getId(), partDto.getName(), partDto.getWeightKg());
 	}
 
 	@Override
@@ -40,19 +44,13 @@ public class RemotePart extends UnicastRemoteObject implements IPart {
 	}
 
 	@Override
-	public String getCarChassisNumber() throws RemoteException {
-		return carChassisNumber;
-	}
-
-	@Override
 	public String getType() throws RemoteException {
 		return name.substring(name.lastIndexOf(" ") + 1);
 	}
 
 	@Override
 	public String toString() {
-		return "RemotePart [id=" + id + ", carChassisNumber=" + carChassisNumber + ", name=" + name + ", weightKg="
-				+ weightKg + "]";
+		return "RemotePart [id=" + id + ", name=" + name + ", weightKg=" + weightKg + "]";
 	}
 
 }

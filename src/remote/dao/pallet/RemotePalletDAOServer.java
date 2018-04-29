@@ -125,7 +125,8 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 
 		try {
 
-			Collection<PartDTO> parts = partDao.read(palletId);
+			Collection<PartDTO> parts = partDao.readPalletParts(palletId);
+			
 			PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
 
 			return new PalletDTO(palletId, palletType, partDtos, weightKg);

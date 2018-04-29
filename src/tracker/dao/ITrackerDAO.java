@@ -17,17 +17,6 @@ public interface ITrackerDAO {
 
 	/**
 	 * Reads all database records of the parts, shipments and pallets related to the
-	 * part with the part id passed as a parameter
-	 * 
-	 * @param partId
-	 *            the id of the part
-	 * @return a string of records
-	 * @throws RemoteException
-	 **/
-	String readRecords(int partId) throws RemoteException;
-
-	/**
-	 * Reads all database records of the parts, shipments and pallets related to the
 	 * shipment with the shipment id passed as a parameter
 	 * 
 	 * @param shipmentId

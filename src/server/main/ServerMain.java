@@ -4,8 +4,8 @@ import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
-import remote.base.dismantle.DismantleBaseLocator;
-import remote.base.registration.RegistrationBaseLocator;
+import remote.base.dismantle.RemoteDismantleBaseLocator;
+import remote.base.registration.RemoteRegistrationBaseLocator;
 import remote.base.shipping.RemoteShipmentBaseLocator;
 import remote.dao.car.RemoteCarDAOLocator;
 import remote.dao.pallet.RemotePalletDAOLocator;
@@ -31,8 +31,8 @@ public final class ServerMain {
 		RemoteShipmentDAOLocator.bindDAO();
 
 		// bind Base objects
-		RegistrationBaseLocator.bindBase();
-		DismantleBaseLocator.bindBase();
+		RemoteRegistrationBaseLocator.bindBase();
+		RemoteDismantleBaseLocator.bindBase();
 		RemoteShipmentBaseLocator.bindBase();
 	}
 

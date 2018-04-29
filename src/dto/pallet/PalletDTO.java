@@ -15,6 +15,7 @@ public class PalletDTO implements Serializable {
 	private PartDTO[] parts;
 	private double weightKg;
 
+	// no-arg constructor for deserialization (XML to Object)
 	public PalletDTO() {}
 
 	public PalletDTO(int id, String palletType, PartDTO[] parts, double weightKg) {

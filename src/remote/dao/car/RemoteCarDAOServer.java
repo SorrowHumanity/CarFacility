@@ -86,7 +86,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
 		try {
 
-			Collection<PartDTO> parts = partDao.read(chassisNumber);
+			Collection<PartDTO> parts = partDao.readCarParts(chassisNumber);
 			PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
 			return new CarDTO(chassisNumber, model, partDtos);
 
