@@ -21,7 +21,7 @@ public interface IDismantleBase extends Remote {
 	List<IPart> dismantleCar(ICar car) throws RemoteException;
 
 	/**
-	 * Registers a part in the system
+	 * Registers a part in the system and adds it to an appropriate pallet
 	 * 
 	 * @param carChassisNumber
 	 *            the chassis number of the part

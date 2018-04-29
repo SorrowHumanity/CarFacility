@@ -36,10 +36,15 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	public IPart registerPart(String carChassisNumber, String name, double weightKg) throws RemoteException {
 		// create part in the database
 		PartDTO partDto = partDao.create(carChassisNumber, name, weightKg);
-
+		
+		IPart remotePart = new RemotePart(partDto);
+		
+		// add it to a pallet
+		addToPallet(remotePart);
+		
 		// cache & return
-		partCache.put(partDto.getId(), new RemotePart(partDto));
-
+		partCache.put(partDto.getId(), remotePart);
+		
 		return partCache.get(partDto.getId());
 	}
 
@@ -178,9 +183,6 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 			// add part to output list
 			carParts.add(remotePart);
-
-			// add part to pallet
-			addToPallet(remotePart);
 		}
 
 		return carParts;
