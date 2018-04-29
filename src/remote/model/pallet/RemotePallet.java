@@ -13,7 +13,7 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 
 	private static final long serialVersionUID = 1L;
 
-	public static final double MAX_PALLET_WEIGHT_CAPACITY = 250.0;
+	public static final double MAX_PALLET_WEIGHT_CAPACITY = 1000.0;
 	
 	private int id;
 	private String palletType;

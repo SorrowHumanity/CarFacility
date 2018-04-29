@@ -5,7 +5,6 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import dto.pallet.PalletDTO;
@@ -225,7 +224,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	 *  @param part
 	 *  		the part
 	 *  @return true, if the part is successfully added to a pallet. Otherwise, the part is 
-	 *  			too heavy (above 250 kg) for the standard pallets
+	 *  			too heavy (above 1000 kg) for the standard pallets
 	 * @throws RemoteException
 	 **/
 	private boolean addToPallet(IPart part) throws RemoteException {
@@ -251,7 +250,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		}
 	
 		// if there is no existing pallet that fits, create a new one
-		LinkedList<IPart> palletParts = new LinkedList<>();
+		ArrayList<IPart> palletParts = new ArrayList<>();
 		palletParts.add(part);
 		registerPallet(part.getType(), palletParts);
 		
