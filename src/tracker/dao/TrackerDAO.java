@@ -17,7 +17,9 @@ public class TrackerDAO implements ITrackerDAO {
 	private DatabaseHelper<String> carFacilityDb;
 
 	private TrackerDAO() throws RemoteException {
-		carFacilityDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
+		carFacilityDb = new DatabaseHelper<>(
+				DatabaseHelper.CAR_FACILITY_DB_URL,
+				DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
 	}
 
