@@ -42,9 +42,8 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 
 	@Override
 	public synchronized ICar getCar(String chassisNumber) throws RemoteException {
-		// check if car is cached
+		// cache if car is not already cached
 		if (!carCache.containsKey(chassisNumber)) {
-
 			// read car from the database
 			CarDTO carDto = carDao.read(chassisNumber);
 
@@ -64,8 +63,8 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 		int size = allCars.size();
 		ArrayList<ICar> carList = new ArrayList<>(size); // avoid arraylist expansion
 
-		// cache if not already cached
 		for (CarDTO car : allCars) {
+			// cache if car is not already cached
 			if (!carCache.containsKey(car.getChassisNumber()))
 				carCache.put(car.getChassisNumber(), new RemoteCar(car));
 

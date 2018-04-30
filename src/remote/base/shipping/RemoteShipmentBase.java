@@ -49,13 +49,11 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 
 	@Override
 	public synchronized IShipment getShipment(int shipmentId) throws RemoteException {
-		// check if shipment is cached
+		// cache if shipment not already cached
 		if (!shipmentCache.containsKey(shipmentId)) {
-
 			// read shipment from the database
 			ShipmentDTO shipmentDto = shipmentDao.read(shipmentId);
 
-			// cache shipment
 			shipmentCache.put(shipmentId, new RemoteShipment(shipmentDto));
 		}
 

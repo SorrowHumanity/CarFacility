@@ -3,8 +3,6 @@ package remote.model.pallet;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
-import java.util.Objects;
-
 import dto.pallet.PalletDTO;
 import remote.model.part.IPart;
 import util.CollectionUtils;
@@ -28,33 +26,27 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	public RemotePallet(PalletDTO palletDto) throws RemoteException {
-		this(palletDto.getId(), palletDto.getPalletType(), CollectionUtils.toRemotePartsList(palletDto.getParts()),
+		this(palletDto.getId(), palletDto.getPalletType(), CollectionUtils.toRemoteList(palletDto.getParts()),
 				palletDto.getWeightKg());
 	}
 
 	@Override
 	public boolean addPart(IPart part) throws RemoteException {
-		// check for null
 		if (part == null) return false;
-		
 		// update weight
 		weightKg += part.getWeightKg();
-		
 		// add part
 		return parts.add(part);
 	}
 
 	@Override
 	public boolean removePart(IPart part) throws RemoteException {
-		// check for null
 		if (part == null) return false;
-		
 		// update weight
 		weightKg -= part.getWeightKg();
-		
-		// find part
+		// find & remove part
 		for (int i = 0; i < parts.size(); i++)
-			if (Objects.equals(parts.get(i).getId(), part.getId()))
+			if (parts.get(i).getId() == part.getId())
 				return parts.remove(i) != null;
 
 		return false;
@@ -67,9 +59,8 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 
 	@Override
 	public boolean containsPart(IPart part) throws RemoteException {
-		// find part
 		for (IPart p : parts)
-			if (Objects.equals(p.getId(), part.getId()))
+			if (p.getId() == part.getId())
 				return true;
 
 		return false;

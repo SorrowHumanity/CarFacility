@@ -22,7 +22,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts an array of DTO parts to a list of remote parts
 	 **/
-	public static List<IPart> toRemotePartsList(PartDTO[] allParts) throws RemoteException {
+	public static List<IPart> toRemoteList(PartDTO[] allParts) throws RemoteException {
 		int size = allParts.length;
 		ArrayList<IPart> remoteParts = new ArrayList<>(size);
 

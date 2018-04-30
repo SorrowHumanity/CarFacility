@@ -46,7 +46,8 @@ public class PartDTO implements Serializable {
 	
 	public String getType() {
 		// the type of the part is always the last word of the name of each part.
-		// Part names follow the convention {Model} + {Part type}
+		// Part names follow the following convention: {Model} + " " + {Part type}
+		// Example: Subaru Engine
 		return name.substring(name.lastIndexOf(" ") + 1); 	
 	}
 

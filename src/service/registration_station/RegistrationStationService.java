@@ -29,7 +29,7 @@ public class RegistrationStationService implements IRegistrationStationService {
 	@WebMethod
 	@Override
 	public CarDTO registerCar(String chassisNumber, String model, PartDTO[] parts) throws RemoteException {
-		List<IPart> remoteParts = CollectionUtils.toRemotePartsList(parts);
+		List<IPart> remoteParts = CollectionUtils.toRemoteList(parts);
 		ICar car = registrationBase.registerCar(chassisNumber, model, remoteParts);
 		CarDTO carDto = new CarDTO(car);
 		return carDto;

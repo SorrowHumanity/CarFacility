@@ -71,7 +71,7 @@ public class DismantleStationService implements IDismantleStationService {
 	@WebMethod
 	@Override
 	public PalletDTO registerPallet(String palletType, PartDTO[] parts) throws RemoteException {
-		List<IPart> remoteParts = CollectionUtils.toRemotePartsList(parts);
+		List<IPart> remoteParts = CollectionUtils.toRemoteList(parts);
 		IPallet pallet = dismantleBase.registerPallet(palletType, remoteParts);
 		PalletDTO palletDto = new PalletDTO(pallet); 
 		return palletDto;

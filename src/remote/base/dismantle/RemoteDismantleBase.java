@@ -19,7 +19,8 @@ import remote.model.part.RemotePart;
 import util.CollectionUtils;
 
 public class RemoteDismantleBase extends UnicastRemoteObject implements IDismantleBase {
-
+	// the methods here are not synchronized, because some of them are using eachother
+	
 	private static final long serialVersionUID = 1L;
 
 	private Map<Integer, IPart> partCache = new HashMap<>();
@@ -36,16 +37,16 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	public IPart registerPart(String carChassisNumber, String name, double weightKg) throws RemoteException {
 		// create part in the database
 		PartDTO partDto = partDao.create(carChassisNumber, name, weightKg);
-		
+
 		IPart remotePart = new RemotePart(partDto);
 		
-		// add it to a pallet
+		// distribute part to pallet
 		addToPallet(remotePart);
 		
 		// cache & return
 		partCache.put(partDto.getId(), remotePart);
 		
-		return partCache.get(partDto.getId());
+		return remotePart;
 	}
 
 	@Override
@@ -57,14 +58,11 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		int size = allParts.size();
 		ArrayList<IPart> matchingParts = new ArrayList<>(size);
 
-		// go through all parts
 		for (PartDTO part : allParts) {
-
-			// cache, if it is not already cached
+			// cache, if part is not already cached
 			if (!partCache.containsKey(part.getId())) 
 				partCache.put(part.getId(), new RemotePart(part));
 
-			// add to output collection
 			matchingParts.add(partCache.get(part.getId()));
 		}
 
@@ -80,14 +78,11 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		int size = allParts.size();
 		ArrayList<IPart> matchingParts = new ArrayList<>(size); // avoid arraylist expansion
 
-		// go through all parts
 		for (PartDTO part : allParts) {
-
-			// cache, if it is not already cached
+			// cache, if part is not already cached
 			if (!partCache.containsKey(part.getId())) 
 				partCache.put(part.getId(), new RemotePart(part));
 
-			// add to output collection
 			matchingParts.add(partCache.get(part.getId()));
 		}
 
@@ -103,9 +98,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		int size = allParts.size();
 		ArrayList<IPart> partList = new ArrayList<>(size);
 
-		// go through all parts
 		for (PartDTO part : allParts) {
-
 			// cache, if it is not already cached
 			if (!partCache.containsKey(part.getId()))
 				partCache.put(part.getId(), new RemotePart(part));
@@ -121,8 +114,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		// create pallet in the database
 		PalletDTO palletDto = palletDao.create(palletType, CollectionUtils.toDTOArray(parts));
-
-		// create remote pallet and cache it
+		// cache and return
 		palletCache.put(palletDto.getId(), new RemotePallet(palletDto));
 
 		return palletCache.get(palletDto.getId());
@@ -130,13 +122,11 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 	@Override
 	public IPallet getPallet(int palletId) throws RemoteException {
-		// cache, if it is not already cached
+		// cache, if pallet is not already cached
 		if (!palletCache.containsKey(palletId)) {
-
 			// read pallet from database
 			PalletDTO palletDto = palletDao.read(palletId);
 
-			// cache pallet
 			palletCache.put(palletDto.getId(), new RemotePallet(palletDto));
 		}
 
@@ -152,14 +142,11 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		int size = allPallets.size();
 		ArrayList<IPallet> partList = new ArrayList<>(size);
 
-		// go through all parts
 		for (PalletDTO pallet : allPallets) {
-
-			// cache, if it is not already cached
+			// cache, if part is not already cached
 			if (!palletCache.containsKey(pallet.getId()))
 				palletCache.put(pallet.getId(), new RemotePallet(pallet));
 
-			// add to output collection
 			partList.add(palletCache.get(pallet.getId()));
 		}
 
@@ -175,13 +162,10 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		// get all available pallets
 		getAllPallets();
 			
-		// register all parts
+		// register all parts & add them to output collection
 		for (IPart part : car.getParts()) {
-			// register part
 			IPart remotePart = registerPart(car.getChassisNumber(),
 					part.getName(), part.getWeightKg());
-
-			// add part to output list
 			carParts.add(remotePart);
 		}
 
@@ -195,11 +179,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		
 		// find the pallet that contains the part
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
-			
 			IPallet pallet = entry.getValue();
-			
 			if (pallet != null && pallet.containsPart(part)) {
-				
 				// remove part from pallet
 				pallet.removePart(part);
 				
@@ -235,7 +216,6 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		
 		// attempt to add to existing pallet
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
-
 			IPallet pallet = entry.getValue();
 			if (pallet != null && pallet.fits(part)) {
 				// add part to pallet
