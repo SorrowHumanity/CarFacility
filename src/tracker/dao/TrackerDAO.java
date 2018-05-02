@@ -51,6 +51,7 @@ public class TrackerDAO implements ITrackerDAO {
 				carChassisNumber);
 		String allRecords = String.format("Tracking by chassis number %s:\n[%d parts found]\n%s", carChassisNumber,
 				recordList.size(), String.join("\n", recordList));
+		
 		return allRecords;
 
 	}
