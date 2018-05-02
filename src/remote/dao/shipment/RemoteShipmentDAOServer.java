@@ -94,6 +94,17 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		return rowsAffected != 0;
 	}
 
+	/**
+	 * Associates the parts to a shipment, including a reference to the pallet they came from
+	 * 
+	 *  @param shipmentId
+	 *  		the id of the shipment
+	 *  @param allParts
+	 *  		the parts
+	 *  @param	partAssociations
+	 *  		a map of the pallet id of the pallet in which a part was stored
+	 *  @throws RemoteException
+	 **/
 	private void associateParts(int shipmentId, PartDTO[] allParts, Map<Integer, Integer> partAssociations)
 			throws RemoteException {
 		for (PartDTO part : allParts) {
@@ -107,6 +118,14 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		}
 	}
 
+	/**
+	 * Creates a shipment data transfer object from a database result set
+	 * 
+	 * @param rs
+	 * 		the result set
+	 * @return the shipment data transfer object
+	 * @throws SQLException
+	 **/
 	private ShipmentDTO createShipment(ResultSet rs) throws SQLException, RemoteException {
 		int shipmentId = rs.getInt(ShipmentEntityConstants.ID_COLUMN);
 		String receiverFirstName = rs.getString(ShipmentEntityConstants.FIRST_NAME_COLUMN);
@@ -115,7 +134,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 		try {
 			// read the pallet's parts
 			Collection<PartDTO> parts = partDao.readShipmentParts(shipmentId);
-			System.out.println("Parts: " + parts.size());
+			
 			// convert to DTOs
 			PartDTO[] partDTOs = CollectionUtils.toPartDTOArray(parts);
 			

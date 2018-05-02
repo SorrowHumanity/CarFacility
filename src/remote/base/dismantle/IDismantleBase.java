@@ -65,12 +65,13 @@ public interface IDismantleBase extends Remote {
 	List<IPart> getAllParts() throws RemoteException;
 
 	/**
-	 * Registers a new pallet in the system
+	 * Registers a new pallet in the system.
 	 * 
 	 * @param palletType
 	 *            the types of parts to be stored in the pallet
 	 * @param parts
-	 *            a list of parts to be stored in the pallet
+	 *            a list of parts to be stored in the pallet. THESE PARTS NEED TO BE REIGISTERED BEFORE THEY ARE ADDED
+	 *            TO A PALLET
 	 * @return the newly registered pallet
 	 * @throws RemoteException
 	 **/

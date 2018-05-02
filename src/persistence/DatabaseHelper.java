@@ -39,8 +39,7 @@ public class DatabaseHelper<T> {
 	protected Connection getConnection() throws SQLException {
 		if (username == null) 
 			return DriverManager.getConnection(jdbcURL);
-		 else 
-			return DriverManager.getConnection(jdbcURL, username, password);
+		  return DriverManager.getConnection(jdbcURL, username, password);
 	}
 
 	private PreparedStatement prepare(Connection connection, String sql, Object[] parameters) throws SQLException {
@@ -62,9 +61,9 @@ public class DatabaseHelper<T> {
 	private PreparedStatement prepareReturningId(Connection connection, String sql, Object[] parameters)
 			throws SQLException {
 		PreparedStatement stat = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		for (int i = 0; i < parameters.length; i++) {
+		for (int i = 0; i < parameters.length; i++) 
 			stat.setObject(i + 1, parameters[i]);
-		}
+		
 		return stat;
 	}
 

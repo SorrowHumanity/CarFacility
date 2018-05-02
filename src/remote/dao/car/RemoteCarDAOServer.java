@@ -85,11 +85,13 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 		String model = rs.getString(CarEntityConstants.MODEL_COLUMN);
 
 		try {
-
+			// read the car's parts
 			Collection<PartDTO> parts = partDao.readCarParts(chassisNumber);
+			
+			// convert them to an array
 			PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
+			
 			return new CarDTO(chassisNumber, model, partDtos);
-
 		} catch (RemoteException e) {
 			e.printStackTrace();
 			return null;

@@ -3,6 +3,8 @@ package remote.model.pallet;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+import java.util.Objects;
+
 import dto.pallet.PalletDTO;
 import remote.model.part.IPart;
 import util.CollectionUtils;
@@ -33,8 +35,10 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	@Override
 	public boolean addPart(IPart part) throws RemoteException {
 		if (part == null) return false;
+		
 		// update weight
 		weightKg += part.getWeightKg();
+		
 		// add part
 		return parts.add(part);
 	}
@@ -42,8 +46,10 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	@Override
 	public boolean removePart(IPart part) throws RemoteException {
 		if (part == null) return false;
+		
 		// update weight
 		weightKg -= part.getWeightKg();
+		
 		// find & remove part
 		for (int i = 0; i < parts.size(); i++)
 			if (parts.get(i).getId() == part.getId())
@@ -100,7 +106,7 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	 * @throws RemoteException
 	 **/
 	private boolean typeEquals(IPart part) throws RemoteException {
-		boolean typeEquals = part.getName().endsWith(getPalletType());
+		boolean typeEquals = Objects.equals(part.getType(), getPalletType());
 		return typeEquals;
 	}
 
@@ -114,7 +120,7 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	 * @throws RemoteException
 	 **/
 	private boolean hasEnoughVolume(IPart part) throws RemoteException {
-		double combinedWeight = Double.sum(part.getWeightKg(), getWeightKg());
+		double combinedWeight = Double.sum(part.getWeightKg(), getWeightKg()); // part weight + pallet weight
 		boolean hasEnoughVolume = Double.compare(combinedWeight, MAX_PALLET_WEIGHT_CAPACITY) <= 0;
 		return hasEnoughVolume;
 	}

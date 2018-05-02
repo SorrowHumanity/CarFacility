@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import persistence.DatabaseHelper;
@@ -28,9 +30,9 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 	}
 
 	@Override
-	public PalletDTO create(String palletType, PartDTO[] parts) throws RemoteException {
+	public PalletDTO create(String palletType, List<PartDTO> parts) throws RemoteException {
 		// weight the parts
-		double weightKg = Arrays.stream(parts).mapToDouble(PartDTO::getWeightKg).sum();
+		double weightKg = parts.stream().mapToDouble(PartDTO::getWeightKg).sum();
 		
 		// create pallet
 		int id = palletDb.executeUpdateReturningId(
@@ -40,8 +42,11 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 
 		// create associations between the pallet and all the belonging parts
 		associateParts(id, parts);
-
-		return new PalletDTO(id, palletType, parts, weightKg);
+		
+		// convert to array
+		PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
+		
+		return new PalletDTO(id, palletType, partDtos, weightKg);
 	}
 
 	@Override
@@ -76,7 +81,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 				palletDto.getPalletType(), palletDto.getWeightKg(), palletDto.getId());
 
 		// update the contents of the pallet
-		associateParts(palletDto.getId(), palletDto.getParts());
+		associateParts(palletDto.getId(), Arrays.asList(palletDto.getParts()));
 
 		return rowsAffected != 0;
 	}
@@ -100,7 +105,16 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 					+ "part_id = ?;", palletId, part.getId());
 	}
 
-	private void associateParts(int palletId, PartDTO... parts) throws RemoteException {
+	/**
+	 * Associate only the parts that have not been associated already with the pallet id passed as a parameter
+	 * 
+	 *  @param palletId
+	 *  		the id of the pallet
+	 *  @param parts 
+	 *  		the parts
+	 *  @throws RemoteException
+	 **/
+	private void associateParts(int palletId, List<PartDTO> parts) throws RemoteException {
 		for (PartDTO part : parts) 
 			palletDb.executeUpdate("INSERT INTO car_facility_schema.contains"
 					+ " (part_id, pallet_id) SELECT ?, ? WHERE NOT EXISTS(SELECT *"
@@ -125,8 +139,10 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 
 		try {
 
+			// read all the parts of this pallet
 			Collection<PartDTO> parts = partDao.readPalletParts(palletId);
 			
+			// convert them to an array
 			PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
 
 			return new PalletDTO(palletId, palletType, partDtos, weightKg);

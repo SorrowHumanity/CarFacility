@@ -6,6 +6,6 @@ public interface ITrackingService {
 
 	String trackCar(String carChassisNumber) throws RemoteException;
 
-	String trackShipment(Integer shipmentId) throws RemoteException;
+	String trackShipment(int shipmentId) throws RemoteException;
 
 }

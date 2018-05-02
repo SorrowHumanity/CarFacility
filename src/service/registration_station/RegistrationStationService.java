@@ -46,7 +46,8 @@ public class RegistrationStationService implements IRegistrationStationService {
 	@WebMethod
 	@Override
 	public CarDTO[] getAllCars() throws RemoteException {
-		CarDTO[] allcars = CollectionUtils.toCarDTOArray(registrationBase.getAllCars());
+		List<ICar> remoteCars = registrationBase.getAllCars();
+		CarDTO[] allcars = CollectionUtils.toCarDTOArray(remoteCars);
 		return allcars;
 	}
 

@@ -47,7 +47,8 @@ public class ShipmentStationService implements IShipmentStationService {
 	@WebMethod
 	@Override
 	public ShipmentDTO[] getAllShipments() throws RemoteException {
-		ShipmentDTO[] allShipments = CollectionUtils.toShipmentDTOArray(shipmentBase.getAllShipments());
+		List<IShipment> remoteShipments = shipmentBase.getAllShipments();
+		ShipmentDTO[] allShipments = CollectionUtils.toShipmentDTOArray(remoteShipments);
 		return allShipments;
 	}
 

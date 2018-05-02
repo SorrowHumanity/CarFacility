@@ -3,6 +3,8 @@ package remote.dao.pallet;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Collection;
+import java.util.List;
+
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 
@@ -18,7 +20,7 @@ public interface IPalletDAO extends Remote {
 	 * @return a pallet data transfer object
 	 * @throws RemoteException
 	 **/
-	PalletDTO create(String palletType, PartDTO[] parts) throws RemoteException;
+	PalletDTO create(String palletType, List<PartDTO> parts) throws RemoteException;
 
 	/**
 	 * Reads a pallet entry from the pallets entity with the specified pallet id,
