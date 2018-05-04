@@ -30,7 +30,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
 	@Override
 	public CarDTO create(String chassisNumber, String model, List<PartDTO> parts) throws RemoteException {
-		// weight parts
+		// weight all parts
 		double weightKg = parts.stream().mapToDouble(PartDTO::getWeightKg).sum();
 
 		// update database

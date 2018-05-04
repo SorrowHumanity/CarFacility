@@ -54,6 +54,10 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 			// read shipment from the database
 			ShipmentDTO shipmentDto = shipmentDao.read(shipmentId);
 
+			// avoid caching null values
+			if (shipmentDto == null) 
+				throw new IllegalArgumentException("Shipment with id " + shipmentId + " does not exist!");
+			
 			shipmentCache.put(shipmentId, new RemoteShipment(shipmentDto));
 		}
 

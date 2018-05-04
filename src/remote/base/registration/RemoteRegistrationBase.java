@@ -47,6 +47,11 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 			// read car from the database
 			CarDTO carDto = carDao.read(chassisNumber);
 
+			// avoid caching null values
+			if (carDto == null) 
+				throw new IllegalArgumentException
+								("Car with chassis number " + chassisNumber + " does not exist!");
+			
 			// cache car
 			carCache.put(chassisNumber, new RemoteCar(carDto));
 		}

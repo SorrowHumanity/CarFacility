@@ -31,7 +31,7 @@ public class RemotePalletDAOServer extends UnicastRemoteObject implements IPalle
 
 	@Override
 	public PalletDTO create(String palletType, List<PartDTO> parts) throws RemoteException {
-		// weight the parts
+		// weight all parts
 		double weightKg = parts.stream().mapToDouble(PartDTO::getWeightKg).sum();
 		
 		// create pallet

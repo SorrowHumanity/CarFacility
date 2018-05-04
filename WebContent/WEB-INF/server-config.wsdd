@@ -7,8 +7,8 @@
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
-  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:requestFlow>
    <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
     <ns1:parameter name="scope" value="session"/>
@@ -30,10 +30,10 @@
    <ns1:parameter name="shipmentId" type="xsd:int"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="trackCar trackShipment"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="TrackingService"/>
-  <ns1:parameter name="className" value="service.tracker.TrackingService"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlServicePort" value="TrackingService"/>
+  <ns1:parameter name="className" value="service.tracker.TrackingService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://tracker.service"/>
   <ns1:parameter name="wsdlServiceElement" value="TrackingServiceService"/>
  </ns1:service>
@@ -72,10 +72,10 @@
   </ns1:operation>
   <ns1:operation name="getAllPallets" qname="ns14:getAllPallets" returnQName="getAllPalletsReturn" returnType="ns14:ArrayOf_tns3_PalletDTO" soapAction="" xmlns:ns14="http://dismantle_station.service"/>
   <ns1:parameter name="allowedMethods" value="registerPart registerPallet dismantleCar getAllPallets getPalletParts getAllParts getPallet getParts"/>
-  <ns1:parameter name="wsdlPortType" value="DismantleStationService"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="wsdlServicePort" value="DismantleStationService"/>
+  <ns1:parameter name="wsdlPortType" value="DismantleStationService"/>
   <ns1:parameter name="className" value="service.dismantle_station.DismantleStationService"/>
+  <ns1:parameter name="wsdlServicePort" value="DismantleStationService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://dismantle_station.service"/>
   <ns1:parameter name="wsdlServiceElement" value="DismantleStationServiceService"/>
   <ns1:parameter name="schemaUnqualified" value="http://pallet.dto,http://part.dto,http://car.dto,http://dismantle_station.service"/>
@@ -96,10 +96,10 @@
    <ns1:parameter name="receiverLastName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getShipment registerShipment getAllShipments"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="ShipmentStationService"/>
-  <ns1:parameter name="className" value="service.shipment_station.ShipmentStationService"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlServicePort" value="ShipmentStationService"/>
+  <ns1:parameter name="className" value="service.shipment_station.ShipmentStationService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://shipment_station.service"/>
   <ns1:parameter name="wsdlServiceElement" value="ShipmentStationServiceService"/>
   <ns1:parameter name="schemaUnqualified" value="http://shipment_station.service,http://shipment.dto,http://part.dto"/>
@@ -119,10 +119,10 @@
    <ns1:parameter name="parts" type="ns37:ArrayOf_tns2_PartDTO"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getCar registerCar getAllCars"/>
-  <ns1:parameter name="wsdlPortType" value="RegistrationStationService"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="wsdlServicePort" value="RegistrationStationService"/>
+  <ns1:parameter name="wsdlPortType" value="RegistrationStationService"/>
   <ns1:parameter name="className" value="service.registration_station.RegistrationStationService"/>
+  <ns1:parameter name="wsdlServicePort" value="RegistrationStationService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://registration_station.service"/>
   <ns1:parameter name="wsdlServiceElement" value="RegistrationStationServiceService"/>
   <ns1:parameter name="schemaUnqualified" value="http://registration_station.service,http://part.dto,http://car.dto"/>

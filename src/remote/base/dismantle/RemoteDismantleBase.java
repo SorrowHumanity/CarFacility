@@ -128,9 +128,14 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	public IPallet getPallet(int palletId) throws RemoteException {
 		// check if pallet is already cached
 		if (!palletCache.containsKey(palletId)) {
+			
 			// read pallet from database
 			PalletDTO palletDto = palletDao.read(palletId);
 
+			// avoid caching null values
+			if (palletDto == null) 
+				throw new IllegalArgumentException("Pallet with id " + palletId + " does not exist!");
+			
 			palletCache.put(palletDto.getId(), new RemotePallet(palletDto));
 		}
 

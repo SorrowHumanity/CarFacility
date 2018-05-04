@@ -43,6 +43,7 @@ public class ShipmentDTO implements Serializable {
 	}
 
 	public void setParts(PartDTO[] parts) {
+		assert parts != null;
 		this.parts = parts;
 	}
 
@@ -51,6 +52,7 @@ public class ShipmentDTO implements Serializable {
 	}
 
 	public void setReceiverFirstName(String receiverFirstName) {
+		assert receiverFirstName != null;
 		this.receiverFirstName = receiverFirstName;
 	}
 
@@ -59,6 +61,7 @@ public class ShipmentDTO implements Serializable {
 	}
 
 	public void setReceiverLastName(String receiverLastName) {
+		assert receiverLastName != null;
 		this.receiverLastName = receiverLastName;
 	}
 

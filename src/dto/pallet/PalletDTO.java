@@ -51,10 +51,12 @@ public class PalletDTO implements Serializable {
 	}
 
 	public void setPalletType(String palletType) {
+		assert palletType != null;
 		this.palletType = palletType;
 	}
 
 	public void setParts(PartDTO[] parts) {
+		assert parts != null;
 		this.parts = parts;
 	}
 

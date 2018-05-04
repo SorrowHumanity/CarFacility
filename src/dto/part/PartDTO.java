@@ -56,6 +56,7 @@ public class PartDTO implements Serializable {
 	}
 
 	public void setName(String name) {
+		assert name != null;
 		this.name = name;
 	}
 

@@ -39,15 +39,20 @@ public class CarDTO implements Serializable {
 		return parts;
 	}
 
+	// avoid passing null values between architectual 
+	// tiers by the usage of assertions in the setters
 	public void setChassisNumber(String chassisNumber) {
+		assert chassisNumber != null;
 		this.chassisNumber = chassisNumber;
 	}
 
 	public void setModel(String model) {
+		assert model != null;
 		this.model = model;
 	}
 
 	public void setParts(PartDTO[] parts) {
+		assert parts != null;
 		this.parts = parts;
 	}
 	
