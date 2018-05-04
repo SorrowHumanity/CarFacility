@@ -120,7 +120,7 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	 * @throws RemoteException
 	 **/
 	private boolean hasEnoughVolume(IPart part) throws RemoteException {
-		double combinedWeight = Double.sum(part.getWeightKg(), getWeightKg()); // part weight + pallet weight
+		double combinedWeight = Double.sum(part.getWeightKg(), getWeightKg()); // combined weight = part weight + pallet weight
 		boolean hasEnoughVolume = Double.compare(combinedWeight, MAX_PALLET_WEIGHT_CAPACITY) <= 0;
 		return hasEnoughVolume;
 	}

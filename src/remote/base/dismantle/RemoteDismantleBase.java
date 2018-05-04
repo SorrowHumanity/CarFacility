@@ -186,6 +186,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		// find the pallet that contains the part
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
 			IPallet pallet = entry.getValue();
+			
 			if (pallet != null && pallet.containsPart(part)) {
 				// remove part from pallet
 				pallet.removePart(part);
@@ -223,6 +224,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		// attempt to add to existing pallet
 		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
 			IPallet pallet = entry.getValue();
+			
 			if (pallet != null && pallet.fits(part)) {
 				// add part to pallet
 				pallet.addPart(part);
