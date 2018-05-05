@@ -13,9 +13,7 @@ import java.util.List;
 import org.postgresql.Driver;
 
 public class DatabaseHelper<T> {
-	private String jdbcURL;
-	private String username;
-	private String password;
+	private String jdbcURL, username, password;
 
 	public static final String CAR_FACILITY_DB_URL = "jdbc:postgresql://localhost:5432/car_facility_system";
 	public static final String POSTGRES_USERNAME = "postgres";
@@ -63,7 +61,6 @@ public class DatabaseHelper<T> {
 		PreparedStatement stat = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 		for (int i = 0; i < parameters.length; i++) 
 			stat.setObject(i + 1, parameters[i]);
-		
 		return stat;
 	}
 

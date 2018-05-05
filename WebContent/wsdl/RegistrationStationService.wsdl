@@ -104,18 +104,6 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
    <wsdl:portType name="RegistrationStationService">
 
-      <wsdl:operation name="getAllCars">
-
-         <wsdl:input message="impl:getAllCarsRequest" name="getAllCarsRequest">
-
-       </wsdl:input>
-
-         <wsdl:output message="impl:getAllCarsResponse" name="getAllCarsResponse">
-
-       </wsdl:output>
-
-      </wsdl:operation>
-
       <wsdl:operation name="getCar" parameterOrder="chassisNumber">
 
          <wsdl:input message="impl:getCarRequest" name="getCarRequest">
@@ -140,29 +128,23 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
 
       </wsdl:operation>
 
+      <wsdl:operation name="getAllCars">
+
+         <wsdl:input message="impl:getAllCarsRequest" name="getAllCarsRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:getAllCarsResponse" name="getAllCarsResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
    </wsdl:portType>
 
    <wsdl:binding name="RegistrationStationServiceSoapBinding" type="impl:RegistrationStationService">
 
       <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
-
-      <wsdl:operation name="getAllCars">
-
-         <wsdlsoap:operation soapAction=""/>
-
-         <wsdl:input name="getAllCarsRequest">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
-
-         </wsdl:input>
-
-         <wsdl:output name="getAllCarsResponse">
-
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
-
-         </wsdl:output>
-
-      </wsdl:operation>
 
       <wsdl:operation name="getCar">
 
@@ -193,6 +175,24 @@ Built on Apr 22, 2006 (06:55:48 PDT)-->
          </wsdl:input>
 
          <wsdl:output name="registerCarResponse">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="getAllCars">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="getAllCarsRequest">
+
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="getAllCarsResponse">
 
             <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
 
