@@ -40,7 +40,9 @@ public class CarDTO implements Serializable {
 	}
 
 	// avoid passing null values between architectual 
-	// tiers by the usage of assertions in the setters
+	// tiers by the usage of assertions in the setters.
+	// Setters are used in deserialization & the constructors with
+	// arguments
 	public void setChassisNumber(String chassisNumber) {
 		assert chassisNumber != null;
 		this.chassisNumber = chassisNumber;
