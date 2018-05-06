@@ -248,7 +248,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	}
 	
 	/**
-	 * Verifies that the part passed as a parameter fits the weight limits of the standards pallets
+	 * Verifies that the part passed as a parameter fits the weight limits of the standard pallets
 	 * 
 	 * @param part 
 	 * 			the part
