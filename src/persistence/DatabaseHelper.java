@@ -70,12 +70,12 @@ public class DatabaseHelper<T> {
 
 			stat.executeUpdate();
 
-			// retrieve the generated primary key
+			// Retrieve the generated primary key. The SERIAL data type is used for IDs in the database
 			try (ResultSet output = stat.getGeneratedKeys()) {
 
 				if (!output.next()) return -1; // no key has been generated
 
-				return output.getInt(1);
+				return output.getInt(1); // key has been generated
 			}
 		} catch (SQLException e) {
 			throw new RemoteException(e.getMessage(), e);
