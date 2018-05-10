@@ -27,7 +27,7 @@ public interface IPartDAO extends Remote {
 	 * parts entity and creates a collection of part data transfer objects
 	 * 
 	 * @param carChassisNumber
-	 *            the chassis number of the car that the part belonged to
+	 *            the chassis number of the car that the parts belonged to
 	 * @return a collection of part data transfer objects
 	 * @throws RemoteException
 	 **/

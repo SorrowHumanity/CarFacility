@@ -34,6 +34,8 @@ public final class ServerMain {
 		RemoteRegistrationBaseLocator.bindBase();
 		RemoteDismantleBaseLocator.bindBase();
 		RemoteShipmentBaseLocator.bindBase();
+		
+		System.out.println("Remote components bound...");
 	}
 
 }

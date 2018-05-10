@@ -20,18 +20,25 @@
       <parameter name="className" value="service.registration_station.RegistrationStationServiceSoapBindingImpl"/>
       <parameter name="wsdlPortType" value="RegistrationStationService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation name="getCar" qname="operNS:getCar" xmlns:operNS="http://registration_station.service" returnQName="getCarReturn" returnType="rtns:CarDTO" xmlns:rtns="http://car.dto" soapAction="" >
-        <parameter qname="chassisNumber" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-      </operation>
       <operation name="registerCar" qname="operNS:registerCar" xmlns:operNS="http://registration_station.service" returnQName="registerCarReturn" returnType="rtns:CarDTO" xmlns:rtns="http://car.dto" soapAction="" >
         <parameter qname="chassisNumber" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
         <parameter qname="model" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-        <parameter qname="parts" type="tns:ArrayOf_tns2_PartDTO" xmlns:tns="http://registration_station.service"/>
+        <parameter qname="parts" type="tns:ArrayOf_tns1_PartDTO" xmlns:tns="http://registration_station.service"/>
       </operation>
-      <operation name="getAllCars" qname="operNS:getAllCars" xmlns:operNS="http://registration_station.service" returnQName="getAllCarsReturn" returnType="rtns:ArrayOf_tns1_CarDTO" xmlns:rtns="http://registration_station.service" returnItemType="tns2:CarDTO" xmlns:tns2="http://car.dto" soapAction="" >
+      <operation name="getCar" qname="operNS:getCar" xmlns:operNS="http://registration_station.service" returnQName="getCarReturn" returnType="rtns:CarDTO" xmlns:rtns="http://car.dto" soapAction="" >
+        <parameter qname="chassisNumber" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="getAllCars" qname="operNS:getAllCars" xmlns:operNS="http://registration_station.service" returnQName="getAllCarsReturn" returnType="rtns:ArrayOf_tns2_CarDTO" xmlns:rtns="http://registration_station.service" returnItemType="tns2:CarDTO" xmlns:tns2="http://car.dto" soapAction="" >
       </operation>
       <parameter name="allowedMethods" value="getCar registerCar getAllCars"/>
 
+      <arrayMapping
+        xmlns:ns="http://registration_station.service"
+        qname="ns:ArrayOf_tns1_PartDTO"
+        type="java:dto.part.PartDTO[]"
+        innerType="cmp-ns:PartDTO" xmlns:cmp-ns="http://part.dto"
+        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      />
       <typeMapping
         xmlns:ns="http://car.dto"
         qname="ns:CarDTO"
@@ -50,16 +57,9 @@
       />
       <arrayMapping
         xmlns:ns="http://registration_station.service"
-        qname="ns:ArrayOf_tns1_CarDTO"
+        qname="ns:ArrayOf_tns2_CarDTO"
         type="java:dto.car.CarDTO[]"
         innerType="cmp-ns:CarDTO" xmlns:cmp-ns="http://car.dto"
-        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-      />
-      <arrayMapping
-        xmlns:ns="http://registration_station.service"
-        qname="ns:ArrayOf_tns2_PartDTO"
-        type="java:dto.part.PartDTO[]"
-        innerType="cmp-ns:PartDTO" xmlns:cmp-ns="http://part.dto"
         encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
       />
   </service>
