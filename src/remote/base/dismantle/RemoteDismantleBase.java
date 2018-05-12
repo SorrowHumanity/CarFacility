@@ -102,7 +102,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			if (!partCache.containsKey(part.getId()))
 				partCache.put(part.getId(), new RemotePart(part));
 
-		return new ArrayList<IPart>(partCache.values());
+		return new ArrayList<>(partCache.values());
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			if (!palletCache.containsKey(pallet.getId()))
 				palletCache.put(pallet.getId(), new RemotePallet(pallet));
 
-		return new ArrayList<IPallet>(palletCache.values());
+		return new ArrayList<>(palletCache.values());
 	}
 
 	@Override

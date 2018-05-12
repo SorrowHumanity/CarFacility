@@ -74,7 +74,7 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 			if (!shipmentCache.containsKey(shipment.getId()))
 				shipmentCache.put(shipment.getId(), new RemoteShipment(shipment));
 
-		return new ArrayList<IShipment>(shipmentCache.values());
+		return new ArrayList<>(shipmentCache.values());
 	}
 
 	/**

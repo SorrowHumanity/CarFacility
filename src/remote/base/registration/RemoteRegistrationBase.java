@@ -69,7 +69,7 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 			if (!carCache.containsKey(car.getChassisNumber()))
 				carCache.put(car.getChassisNumber(), new RemoteCar(car));
 
-		return new ArrayList<ICar>(carCache.values());
+		return new ArrayList<>(carCache.values());
 	}
 
 }
