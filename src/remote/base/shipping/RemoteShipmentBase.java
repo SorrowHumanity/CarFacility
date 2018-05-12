@@ -69,20 +69,12 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 		// read all shipment from the database
 		Collection<ShipmentDTO> allShipments = shipmentDao.readAll();
 
-		// create output collection
-		int size = allShipments.size();
-		ArrayList<IShipment> shipmentList = new ArrayList<>(size); // avoid arraylist expansion
-
 		// cache if not already cached
-		for (ShipmentDTO shipment : allShipments) {
+		for (ShipmentDTO shipment : allShipments) 
 			if (!shipmentCache.containsKey(shipment.getId()))
 				shipmentCache.put(shipment.getId(), new RemoteShipment(shipment));
 
-			// add to output collection
-			shipmentList.add(shipmentCache.get(shipment.getId()));
-		}
-
-		return shipmentList;
+		return new ArrayList<IShipment>(shipmentCache.values());
 	}
 
 	/**
@@ -96,6 +88,7 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 	 **/
 	private Map<Integer, Integer> takeParts(List<IPart> parts) throws RemoteException {
 		int size = parts.size();
+		
 		// key(part id), value(pallet id)
 		HashMap<Integer, Integer> idMap = new HashMap<>(size);
 

@@ -96,21 +96,13 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	public List<IPart> getAllParts() throws RemoteException {
 		// read all parts from the database
 		Collection<PartDTO> allParts = partDao.readAll();
-
-		// create output collection
-		int size = allParts.size();
-		ArrayList<IPart> partList = new ArrayList<>(size);
-
-		for (PartDTO part : allParts) {
-			// cache, if it is not already cached
+		
+		// cache, if it is not already cached
+		for (PartDTO part : allParts) 
 			if (!partCache.containsKey(part.getId()))
 				partCache.put(part.getId(), new RemotePart(part));
 
-			// add to output collection
-			partList.add(partCache.get(part.getId()));
-		}
-
-		return partList;
+		return new ArrayList<IPart>(partCache.values());
 	}
 
 	@Override
@@ -147,19 +139,12 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		// read all pallets from the database
 		Collection<PalletDTO> allPallets = palletDao.readAll();
 
-		// create output collection
-		int size = allPallets.size();
-		ArrayList<IPallet> partList = new ArrayList<>(size);
-
-		for (PalletDTO pallet : allPallets) {
-			// cache, if pallet is not already cached
+		// cache all pallets that have not been already
+		for (PalletDTO pallet : allPallets) 
 			if (!palletCache.containsKey(pallet.getId()))
 				palletCache.put(pallet.getId(), new RemotePallet(pallet));
 
-			partList.add(palletCache.get(pallet.getId()));
-		}
-
-		return partList;
+		return new ArrayList<IPallet>(palletCache.values());
 	}
 
 	@Override

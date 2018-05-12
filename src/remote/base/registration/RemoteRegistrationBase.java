@@ -64,20 +64,12 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 		// read all cars from the database
 		Collection<CarDTO> allCars = carDao.readAll();
 
-		// create output collection
-		int size = allCars.size();
-		ArrayList<ICar> carList = new ArrayList<>(size); // avoid arraylist expansion
-
-		for (CarDTO car : allCars) {
-			// cache if car is not already cached
+		// cache all cars that have not been cached already
+		for (CarDTO car : allCars) 
 			if (!carCache.containsKey(car.getChassisNumber()))
 				carCache.put(car.getChassisNumber(), new RemoteCar(car));
 
-			// add to output collection
-			carList.add(carCache.get(car.getChassisNumber()));
-		}
-
-		return carList;
+		return new ArrayList<ICar>(carCache.values());
 	}
 
 }
