@@ -20,6 +20,8 @@ public interface IShipmentDAO extends Remote {
 	 *            the last name of the receiver
 	 * @param parts
 	 *            the parts to be stored in the shipment
+	 * @param palletAssociations
+	 * 		      a map of that shows which part comes from which pallet
 	 * @return a shipment data transfer object
 	 * @throws RemoteException
 	 **/
