@@ -28,9 +28,6 @@ public final class RemoteDismantleBaseLocator {
 
 	/**
 	 * Binds a remote dismantle base to the specified id
-	 * 
-	 * @param id
-	 *            the id
 	 * @throws RemoteException
 	 **/
 	public static void bindBase() throws RemoteException {

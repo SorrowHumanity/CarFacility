@@ -3,6 +3,7 @@ package remote.base.dismantle;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -225,10 +226,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		}
 	
 		// if there is no existing pallet that fits, create a new one
-		ArrayList<IPart> palletParts = new ArrayList<>();
-		palletParts.add(part);
-		registerPallet(part.getType(), palletParts);
-		
+		registerPallet(part.getType(), Arrays.asList(part));	
 		return true;
 	}
 	
