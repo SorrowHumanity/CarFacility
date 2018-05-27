@@ -51,7 +51,8 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 		weightKg -= part.getWeightKg();
 		
 		// find & remove part
-		for (int i = 0; i < parts.size(); i++)
+		int size = parts.size();
+		for (int i = 0; i < size; i++)
 			if (parts.get(i).getId() == part.getId())
 				return parts.remove(i) != null;
 
