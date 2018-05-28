@@ -53,7 +53,6 @@ public class TrackerDAO implements ITrackerDAO {
 				recordList.size(), String.join("\n", recordList));
 		
 		return allRecords;
-
 	}
 
 	@Override

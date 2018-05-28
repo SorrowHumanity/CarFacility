@@ -20,13 +20,15 @@ public class TrackingService implements ITrackingService {
 	@WebMethod
 	@Override
 	public String trackCar(String carChassisNumber) throws RemoteException {
-		return trackerDao.readRecords(carChassisNumber);
+		String records = trackerDao.readRecords(carChassisNumber); 
+		return records;
 	}
 
 	@WebMethod
 	@Override
 	public String trackShipment(int shipmentId) throws RemoteException {
-		return trackerDao.readRecords(shipmentId);
+		String records = trackerDao.readRecords(shipmentId); 
+		return records;
 	}
 
 }
