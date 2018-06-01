@@ -39,7 +39,7 @@ public final class CollectionUtils {
 		int size = allCars.size();
 		CarDTO[] carDtos = new CarDTO[size];
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; ++i)
 			carDtos[i] = new CarDTO(allCars.get(i));
 
 		return carDtos;
@@ -75,7 +75,7 @@ public final class CollectionUtils {
 		int size = allParts.size();
 		PartDTO[] partDtos = new PartDTO[size];
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; ++i)
 			partDtos[i] = new PartDTO(allParts.get(i));
 
 		return partDtos;
@@ -88,7 +88,7 @@ public final class CollectionUtils {
 		int size = allShipments.size();
 		ShipmentDTO[] shipmentDtos = new ShipmentDTO[size];
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; ++i)
 			shipmentDtos[i] = new ShipmentDTO(allShipments.get(i));
 
 		return shipmentDtos;

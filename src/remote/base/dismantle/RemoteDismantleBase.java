@@ -8,6 +8,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import remote.dao.pallet.IPalletDAO;
@@ -155,7 +158,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		ArrayList<IPart> carParts = new ArrayList<>(size);
 		
 		// register all parts & add them to output collection
-		for (IPart part : car.getParts()) {
+		List<IPart> parts = car.getParts();
+		for (IPart part : parts) {
 			IPart remotePart = registerPart(car.getChassisNumber(),
 					part.getName(), part.getWeightKg());
 			carParts.add(remotePart);
@@ -208,7 +212,8 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		if (isOverweight(part)) return false;
 		
 		// attempt to add to existing pallet
-		for (Map.Entry<Integer, IPallet> entry : palletCache.entrySet()) {
+		Set<Entry<Integer, IPallet>> palletCacheEntries = palletCache.entrySet();
+		for (Map.Entry<Integer, IPallet> entry : palletCacheEntries) {
 			IPallet pallet = entry.getValue();
 			
 			if (pallet != null && pallet.fits(part)) {
