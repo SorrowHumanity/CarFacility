@@ -52,7 +52,7 @@ public final class CollectionUtils {
 		int size = allPallets.size();
 		PalletDTO[] palletDtos = new PalletDTO[size];
 
-		for (int i = 0; i < size; i++)
+		for (int i = 0; i < size; ++i)
 			palletDtos[i] = new PalletDTO(allPallets.get(i));
 
 		return palletDtos;
