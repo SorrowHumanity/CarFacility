@@ -62,9 +62,7 @@ public final class CollectionUtils {
 	 * Converts a collection of DTO parts to an array of DTO parts
 	 **/
 	public static PartDTO[] toPartDTOArray(Collection<PartDTO> allParts) {
-		int size = allParts.size();
-		PartDTO[] array = new PartDTO[size];
-		allParts.toArray(array);
+		PartDTO[] array = allParts.toArray(new PartDTO[0]);
 		return array;
 	}
 
