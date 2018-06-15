@@ -109,15 +109,15 @@
   <ns1:arrayMapping innerType="ns36:ShipmentDTO" languageSpecificType="java:dto.shipment.ShipmentDTO[]" qname="ns35:ArrayOf_tns1_ShipmentDTO" xmlns:ns35="http://shipment_station.service" xmlns:ns36="http://shipment.dto"/>
  </ns1:service>
  <ns1:service name="RegistrationStationService" provider="java:RPC">
-  <ns1:operation name="registerCar" qname="ns38:registerCar" returnQName="registerCarReturn" returnType="ns37:CarDTO" soapAction="" xmlns:ns37="http://car.dto" xmlns:ns38="http://registration_station.service">
+  <ns1:operation name="getCar" qname="ns38:getCar" returnQName="getCarReturn" returnType="ns37:CarDTO" soapAction="" xmlns:ns37="http://car.dto" xmlns:ns38="http://registration_station.service">
+   <ns1:parameter name="chassisNumber" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
+  </ns1:operation>
+  <ns1:operation name="getAllCars" qname="ns39:getAllCars" returnQName="getAllCarsReturn" returnType="ns39:ArrayOf_tns1_CarDTO" soapAction="" xmlns:ns39="http://registration_station.service"/>
+  <ns1:operation name="registerCar" qname="ns41:registerCar" returnQName="registerCarReturn" returnType="ns40:CarDTO" soapAction="" xmlns:ns40="http://car.dto" xmlns:ns41="http://registration_station.service">
    <ns1:parameter name="chassisNumber" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
    <ns1:parameter name="model" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-   <ns1:parameter name="parts" type="ns38:ArrayOf_tns1_PartDTO"/>
+   <ns1:parameter name="parts" type="ns41:ArrayOf_tns2_PartDTO"/>
   </ns1:operation>
-  <ns1:operation name="getCar" qname="ns40:getCar" returnQName="getCarReturn" returnType="ns39:CarDTO" soapAction="" xmlns:ns39="http://car.dto" xmlns:ns40="http://registration_station.service">
-   <ns1:parameter name="chassisNumber" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
-  </ns1:operation>
-  <ns1:operation name="getAllCars" qname="ns41:getAllCars" returnQName="getAllCarsReturn" returnType="ns41:ArrayOf_tns2_CarDTO" soapAction="" xmlns:ns41="http://registration_station.service"/>
   <ns1:parameter name="allowedMethods" value="getCar registerCar getAllCars"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="RegistrationStationService"/>
@@ -128,8 +128,8 @@
   <ns1:parameter name="schemaUnqualified" value="http://registration_station.service,http://part.dto,http://car.dto"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" qname="ns42:CarDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:dto.car.CarDTO" xmlns:ns42="http://car.dto"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" qname="ns43:PartDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:dto.part.PartDTO" xmlns:ns43="http://part.dto"/>
-  <ns1:arrayMapping innerType="ns45:PartDTO" languageSpecificType="java:dto.part.PartDTO[]" qname="ns44:ArrayOf_tns1_PartDTO" xmlns:ns44="http://registration_station.service" xmlns:ns45="http://part.dto"/>
-  <ns1:arrayMapping innerType="ns47:CarDTO" languageSpecificType="java:dto.car.CarDTO[]" qname="ns46:ArrayOf_tns2_CarDTO" xmlns:ns46="http://registration_station.service" xmlns:ns47="http://car.dto"/>
+  <ns1:arrayMapping innerType="ns45:CarDTO" languageSpecificType="java:dto.car.CarDTO[]" qname="ns44:ArrayOf_tns1_CarDTO" xmlns:ns44="http://registration_station.service" xmlns:ns45="http://car.dto"/>
+  <ns1:arrayMapping innerType="ns47:PartDTO" languageSpecificType="java:dto.part.PartDTO[]" qname="ns46:ArrayOf_tns2_PartDTO" xmlns:ns46="http://registration_station.service" xmlns:ns47="http://part.dto"/>
  </ns1:service>
  <ns1:transport name="http">
   <ns1:requestFlow>

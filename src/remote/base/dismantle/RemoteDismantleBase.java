@@ -115,9 +115,10 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		PalletDTO palletDto = palletDao.create(palletType, CollectionUtils.toPartDTOList(parts));
 		
 		// cache and return
-		palletCache.put(palletDto.getId(), new RemotePallet(palletDto));
+		IPallet remotePallet = new RemotePallet(palletDto);
+		palletCache.put(palletDto.getId(), remotePallet);
 
-		return palletCache.get(palletDto.getId());
+		return remotePallet;
 	}
 
 	@Override
