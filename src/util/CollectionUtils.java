@@ -22,7 +22,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts an array of DTO parts to a list of remote parts
 	 **/
-	public static List<IPart> toRemoteList(PartDTO[] allParts) throws RemoteException {
+	public static List<IPart> toRemotePartList(PartDTO[] allParts) throws RemoteException {
 		int size = allParts.length;
 		ArrayList<IPart> remoteParts = new ArrayList<>(size);
 
@@ -69,7 +69,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts a list of remote parts to an array of DTO parts
 	 **/
-	public static PartDTO[] toDTOArray(List<IPart> allParts) throws RemoteException {
+	public static PartDTO[] toPartDTOArray(List<IPart> allParts) throws RemoteException {
 		int size = allParts.size();
 		PartDTO[] partDtos = new PartDTO[size];
 
@@ -95,7 +95,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts a list of remote parts to a list of DTO parts 
 	 **/
-	public static List<PartDTO> toDTOList(List<IPart> parts) throws RemoteException {
+	public static List<PartDTO> toPartDTOList(List<IPart> parts) throws RemoteException {
 		int size = parts.size();
 		ArrayList<PartDTO> partDtos = new ArrayList<>(size);
 		

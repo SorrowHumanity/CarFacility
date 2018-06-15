@@ -32,7 +32,7 @@ public class DismantleStationService implements IDismantleStationService {
 	@Override
 	public PartDTO[] dismantleCar(CarDTO car) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.dismantleCar(new RemoteCar(car));
-		PartDTO[] partDtos = CollectionUtils.toDTOArray(remoteParts); 
+		PartDTO[] partDtos = CollectionUtils.toPartDTOArray(remoteParts); 
 		return partDtos;
 	}
 
@@ -48,7 +48,7 @@ public class DismantleStationService implements IDismantleStationService {
 	@Override
 	public PartDTO[] getParts(String carChassisNumber) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(carChassisNumber);
-		PartDTO[] partDtos = CollectionUtils.toDTOArray(remoteParts); 
+		PartDTO[] partDtos = CollectionUtils.toPartDTOArray(remoteParts); 
 		return partDtos;
 	}
 
@@ -56,7 +56,7 @@ public class DismantleStationService implements IDismantleStationService {
 	@Override
 	public PartDTO[] getPalletParts(int palletId) throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getParts(palletId);
-		PartDTO[] partDtos = CollectionUtils.toDTOArray(remoteParts); 
+		PartDTO[] partDtos = CollectionUtils.toPartDTOArray(remoteParts); 
 		return partDtos;
 	}
 
@@ -64,14 +64,14 @@ public class DismantleStationService implements IDismantleStationService {
 	@Override
 	public PartDTO[] getAllParts() throws RemoteException {
 		List<IPart> remoteParts = dismantleBase.getAllParts();
-		PartDTO[] partDtos = CollectionUtils.toDTOArray(remoteParts); 
+		PartDTO[] partDtos = CollectionUtils.toPartDTOArray(remoteParts); 
 		return partDtos;
 	}
 
 	@WebMethod
 	@Override
 	public PalletDTO registerPallet(String palletType, PartDTO[] parts) throws RemoteException {
-		List<IPart> remoteParts = CollectionUtils.toRemoteList(parts);
+		List<IPart> remoteParts = CollectionUtils.toRemotePartList(parts);
 		IPallet pallet = dismantleBase.registerPallet(palletType, remoteParts);
 		PalletDTO palletDto = new PalletDTO(pallet); 
 		return palletDto;

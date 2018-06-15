@@ -28,7 +28,7 @@ public class RemotePallet extends UnicastRemoteObject implements IPallet {
 	}
 
 	public RemotePallet(PalletDTO palletDto) throws RemoteException {
-		this(palletDto.getId(), palletDto.getPalletType(), CollectionUtils.toRemoteList(palletDto.getParts()),
+		this(palletDto.getId(), palletDto.getPalletType(), CollectionUtils.toRemotePartList(palletDto.getParts()),
 				palletDto.getWeightKg());
 	}
 

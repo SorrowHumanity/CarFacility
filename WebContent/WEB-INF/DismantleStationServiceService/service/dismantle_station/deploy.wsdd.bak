@@ -12,63 +12,47 @@
 
   <!-- Services from DismantleStationServiceService WSDL service -->
 
-  <service name="DismantleStationService" provider="java:RPC" style="rpc" use="encoded">
+  <service name="DismantleStationService" provider="java:RPC" style="wrapped" use="literal">
       <parameter name="wsdlTargetNamespace" value="http://dismantle_station.service"/>
       <parameter name="wsdlServiceElement" value="DismantleStationServiceService"/>
-      <parameter name="schemaUnqualified" value="http://pallet.dto,http://part.dto,http://car.dto,http://dismantle_station.service"/>
+      <parameter name="schemaQualified" value="http://pallet.dto,http://part.dto,http://car.dto,http://dismantle_station.service"/>
       <parameter name="wsdlServicePort" value="DismantleStationService"/>
       <parameter name="className" value="service.dismantle_station.DismantleStationServiceSoapBindingImpl"/>
       <parameter name="wsdlPortType" value="DismantleStationService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation name="getParts" qname="operNS:getParts" xmlns:operNS="http://dismantle_station.service" returnQName="getPartsReturn" returnType="rtns:ArrayOf_tns1_PartDTO" xmlns:rtns="http://dismantle_station.service" returnItemType="tns2:PartDTO" xmlns:tns2="http://part.dto" soapAction="" >
-        <parameter qname="carChassisNumber" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      <operation name="getParts" qname="operNS:getParts" xmlns:operNS="http://dismantle_station.service" returnQName="retNS:getPartsReturn" xmlns:retNS="http://dismantle_station.service" returnType="rtns:PartDTO" xmlns:rtns="http://part.dto" soapAction="" >
+        <parameter qname="pns:carChassisNumber" xmlns:pns="http://dismantle_station.service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <operation name="registerPart" qname="operNS:registerPart" xmlns:operNS="http://dismantle_station.service" returnQName="registerPartReturn" returnType="rtns:PartDTO" xmlns:rtns="http://part.dto" soapAction="" >
-        <parameter qname="carChassisNumber" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-        <parameter qname="name" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-        <parameter qname="weight" type="tns:double" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      <operation name="dismantleCar" qname="operNS:dismantleCar" xmlns:operNS="http://dismantle_station.service" returnQName="retNS:dismantleCarReturn" xmlns:retNS="http://dismantle_station.service" returnType="rtns:PartDTO" xmlns:rtns="http://part.dto" soapAction="" >
+        <parameter qname="pns:car" xmlns:pns="http://dismantle_station.service" type="tns:CarDTO" xmlns:tns="http://car.dto"/>
       </operation>
-      <operation name="getPalletParts" qname="operNS:getPalletParts" xmlns:operNS="http://dismantle_station.service" returnQName="getPalletPartsReturn" returnType="rtns:ArrayOf_tns1_PartDTO" xmlns:rtns="http://dismantle_station.service" returnItemType="tns2:PartDTO" xmlns:tns2="http://part.dto" soapAction="" >
-        <parameter qname="palletId" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      <operation name="registerPart" qname="operNS:registerPart" xmlns:operNS="http://dismantle_station.service" returnQName="retNS:registerPartReturn" xmlns:retNS="http://dismantle_station.service" returnType="rtns:PartDTO" xmlns:rtns="http://part.dto" soapAction="" >
+        <parameter qname="pns:carChassisNumber" xmlns:pns="http://dismantle_station.service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:name" xmlns:pns="http://dismantle_station.service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:weight" xmlns:pns="http://dismantle_station.service" type="tns:double" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <operation name="dismantleCar" qname="operNS:dismantleCar" xmlns:operNS="http://dismantle_station.service" returnQName="dismantleCarReturn" returnType="rtns:ArrayOf_tns1_PartDTO" xmlns:rtns="http://dismantle_station.service" returnItemType="tns2:PartDTO" xmlns:tns2="http://part.dto" soapAction="" >
-        <parameter qname="car" type="tns:CarDTO" xmlns:tns="http://car.dto"/>
+      <operation name="getPalletParts" qname="operNS:getPalletParts" xmlns:operNS="http://dismantle_station.service" returnQName="retNS:getPalletPartsReturn" xmlns:retNS="http://dismantle_station.service" returnType="rtns:PartDTO" xmlns:rtns="http://part.dto" soapAction="" >
+        <parameter qname="pns:palletId" xmlns:pns="http://dismantle_station.service" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <operation name="getAllParts" qname="operNS:getAllParts" xmlns:operNS="http://dismantle_station.service" returnQName="getAllPartsReturn" returnType="rtns:ArrayOf_tns1_PartDTO" xmlns:rtns="http://dismantle_station.service" returnItemType="tns2:PartDTO" xmlns:tns2="http://part.dto" soapAction="" >
+      <operation name="getAllParts" qname="operNS:getAllParts" xmlns:operNS="http://dismantle_station.service" returnQName="retNS:getAllPartsReturn" xmlns:retNS="http://dismantle_station.service" returnType="rtns:PartDTO" xmlns:rtns="http://part.dto" soapAction="" >
       </operation>
-      <operation name="registerPallet" qname="operNS:registerPallet" xmlns:operNS="http://dismantle_station.service" returnQName="registerPalletReturn" returnType="rtns:PalletDTO" xmlns:rtns="http://pallet.dto" soapAction="" >
-        <parameter qname="palletType" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
-        <parameter qname="parts" type="tns:ArrayOf_tns1_PartDTO" xmlns:tns="http://dismantle_station.service"/>
+      <operation name="getAllPallets" qname="operNS:getAllPallets" xmlns:operNS="http://dismantle_station.service" returnQName="retNS:getAllPalletsReturn" xmlns:retNS="http://dismantle_station.service" returnType="rtns:PalletDTO" xmlns:rtns="http://pallet.dto" soapAction="" >
       </operation>
-      <operation name="getPallet" qname="operNS:getPallet" xmlns:operNS="http://dismantle_station.service" returnQName="getPalletReturn" returnType="rtns:PalletDTO" xmlns:rtns="http://pallet.dto" soapAction="" >
-        <parameter qname="palletId" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      <operation name="getPallet" qname="operNS:getPallet" xmlns:operNS="http://dismantle_station.service" returnQName="retNS:getPalletReturn" xmlns:retNS="http://dismantle_station.service" returnType="rtns:PalletDTO" xmlns:rtns="http://pallet.dto" soapAction="" >
+        <parameter qname="pns:palletId" xmlns:pns="http://dismantle_station.service" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <operation name="getAllPallets" qname="operNS:getAllPallets" xmlns:operNS="http://dismantle_station.service" returnQName="getAllPalletsReturn" returnType="rtns:ArrayOf_tns3_PalletDTO" xmlns:rtns="http://dismantle_station.service" returnItemType="tns2:PalletDTO" xmlns:tns2="http://pallet.dto" soapAction="" >
+      <operation name="registerPallet" qname="operNS:registerPallet" xmlns:operNS="http://dismantle_station.service" returnQName="retNS:registerPalletReturn" xmlns:retNS="http://dismantle_station.service" returnType="rtns:PalletDTO" xmlns:rtns="http://pallet.dto" soapAction="" >
+        <parameter qname="pns:palletType" xmlns:pns="http://dismantle_station.service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+        <parameter qname="pns:parts" xmlns:pns="http://dismantle_station.service" type="tns:PartDTO" xmlns:tns="http://part.dto"/>
       </operation>
       <parameter name="allowedMethods" value="registerPart registerPallet dismantleCar getAllPallets getPalletParts getAllParts getPallet getParts"/>
 
-      <typeMapping
-        xmlns:ns="http://pallet.dto"
-        qname="ns:PalletDTO"
-        type="java:dto.pallet.PalletDTO"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-      />
       <arrayMapping
         xmlns:ns="http://dismantle_station.service"
         qname="ns:ArrayOf_tns1_PartDTO"
         type="java:dto.part.PartDTO[]"
         innerType="cmp-ns:PartDTO" xmlns:cmp-ns="http://part.dto"
-        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-      />
-      <typeMapping
-        xmlns:ns="http://car.dto"
-        qname="ns:CarDTO"
-        type="java:dto.car.CarDTO"
-        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
-        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+        encodingStyle=""
       />
       <typeMapping
         xmlns:ns="http://part.dto"
@@ -76,14 +60,23 @@
         type="java:dto.part.PartDTO"
         serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
         deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
-        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+        encodingStyle=""
       />
-      <arrayMapping
-        xmlns:ns="http://dismantle_station.service"
-        qname="ns:ArrayOf_tns3_PalletDTO"
-        type="java:dto.pallet.PalletDTO[]"
-        innerType="cmp-ns:PalletDTO" xmlns:cmp-ns="http://pallet.dto"
-        encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+      <typeMapping
+        xmlns:ns="http://pallet.dto"
+        qname="ns:PalletDTO"
+        type="java:dto.pallet.PalletDTO"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://car.dto"
+        qname="ns:CarDTO"
+        type="java:dto.car.CarDTO"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
       />
   </service>
 </deployment>

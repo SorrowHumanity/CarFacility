@@ -25,7 +25,7 @@ public class RemoteShipment extends UnicastRemoteObject implements IShipment {
 	}
 
 	public RemoteShipment(ShipmentDTO remoteShipment) throws RemoteException {
-		this(remoteShipment.getId(), CollectionUtils.toRemoteList(remoteShipment.getParts()),
+		this(remoteShipment.getId(), CollectionUtils.toRemotePartList(remoteShipment.getParts()),
 				remoteShipment.getReceiverFirstName(), remoteShipment.getReceiverLastName());
 	}
 

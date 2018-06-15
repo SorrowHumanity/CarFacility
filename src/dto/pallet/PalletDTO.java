@@ -26,7 +26,7 @@ public class PalletDTO implements Serializable {
 	}
 
 	public PalletDTO(IPallet remotePallet) throws RemoteException {
-		this(remotePallet.getId(), remotePallet.getPalletType(), CollectionUtils.toDTOArray(remotePallet.getParts()),
+		this(remotePallet.getId(), remotePallet.getPalletType(), CollectionUtils.toPartDTOArray(remotePallet.getParts()),
 				remotePallet.getWeightKg());
 	}
 

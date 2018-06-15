@@ -38,7 +38,7 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 		Map<Integer, Integer> palletIds = takeParts(parts);
 
 		// create database entry
-		List<PartDTO> partDtos = CollectionUtils.toDTOList(parts);
+		List<PartDTO> partDtos = CollectionUtils.toPartDTOList(parts);
 		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, partDtos, palletIds);
 
 		// cache and return

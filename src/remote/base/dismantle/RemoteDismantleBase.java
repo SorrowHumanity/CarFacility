@@ -112,7 +112,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	@Override
 	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		// create pallet in the database
-		PalletDTO palletDto = palletDao.create(palletType, CollectionUtils.toDTOList(parts));
+		PalletDTO palletDto = palletDao.create(palletType, CollectionUtils.toPartDTOList(parts));
 		
 		// cache and return
 		palletCache.put(palletDto.getId(), new RemotePallet(palletDto));

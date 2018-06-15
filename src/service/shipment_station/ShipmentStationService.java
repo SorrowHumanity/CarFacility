@@ -30,7 +30,7 @@ public class ShipmentStationService implements IShipmentStationService {
 	@Override
 	public ShipmentDTO registerShipment(PartDTO[] parts, String receiverFirstName, String receiverLastName)
 			throws RemoteException {
-		List<IPart> remoteParts = CollectionUtils.toRemoteList(parts);
+		List<IPart> remoteParts = CollectionUtils.toRemotePartList(parts);
 		IShipment shipment = shipmentBase.registerShipment(remoteParts, receiverFirstName, receiverLastName);
 		ShipmentDTO shipmentDto = new ShipmentDTO(shipment);
 		return shipmentDto;

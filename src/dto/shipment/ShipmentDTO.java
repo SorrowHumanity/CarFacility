@@ -26,7 +26,7 @@ public class ShipmentDTO implements Serializable {
 	}
 
 	public ShipmentDTO(IShipment remoteShipment) throws RemoteException {
-		this(remoteShipment.getId(), CollectionUtils.toDTOArray(remoteShipment.getShippedParts()),
+		this(remoteShipment.getId(), CollectionUtils.toPartDTOArray(remoteShipment.getShippedParts()),
 				remoteShipment.getReceiverFirstName(), remoteShipment.getReceiverLastName());
 	}
 
