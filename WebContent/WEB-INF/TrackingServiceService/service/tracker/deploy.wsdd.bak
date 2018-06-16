@@ -12,19 +12,18 @@
 
   <!-- Services from TrackingServiceService WSDL service -->
 
-  <service name="TrackingService" provider="java:RPC" style="wrapped" use="literal">
+  <service name="TrackingService" provider="java:RPC" style="rpc" use="encoded">
       <parameter name="wsdlTargetNamespace" value="http://tracker.service"/>
       <parameter name="wsdlServiceElement" value="TrackingServiceService"/>
-      <parameter name="schemaQualified" value="http://tracker.service"/>
       <parameter name="wsdlServicePort" value="TrackingService"/>
       <parameter name="className" value="service.tracker.TrackingServiceSoapBindingImpl"/>
       <parameter name="wsdlPortType" value="TrackingService"/>
       <parameter name="typeMappingVersion" value="1.2"/>
-      <operation name="trackShipment" qname="operNS:trackShipment" xmlns:operNS="http://tracker.service" returnQName="retNS:trackShipmentReturn" xmlns:retNS="http://tracker.service" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
-        <parameter qname="pns:shipmentId" xmlns:pns="http://tracker.service" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      <operation name="trackCar" qname="operNS:trackCar" xmlns:operNS="http://tracker.service" returnQName="trackCarReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="carChassisNumber" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <operation name="trackCar" qname="operNS:trackCar" xmlns:operNS="http://tracker.service" returnQName="retNS:trackCarReturn" xmlns:retNS="http://tracker.service" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
-        <parameter qname="pns:carChassisNumber" xmlns:pns="http://tracker.service" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      <operation name="trackShipment" qname="operNS:trackShipment" xmlns:operNS="http://tracker.service" returnQName="trackShipmentReturn" returnType="rtns:string" xmlns:rtns="http://www.w3.org/2001/XMLSchema" soapAction="" >
+        <parameter qname="shipmentId" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
       <parameter name="allowedMethods" value="trackCar trackShipment"/>
 

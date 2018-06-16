@@ -7,8 +7,8 @@
   <ns1:parameter name="dotNetSoapEncFix" value="true"/>
   <ns1:parameter name="enableNamespacePrefixOptimization" value="false"/>
   <ns1:parameter name="sendXMLDeclaration" value="true"/>
-  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+  <ns1:parameter name="sendXsiTypes" value="true"/>
   <ns1:requestFlow>
    <ns1:handler type="java:org.apache.axis.handlers.JWSHandler">
     <ns1:parameter name="scope" value="session"/>
@@ -22,19 +22,18 @@
  <ns1:handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
  <ns1:handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
  <ns1:handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
- <ns1:service name="TrackingService" provider="java:RPC" style="wrapped" use="literal">
-  <ns2:operation name="trackShipment" qname="ns1:trackShipment" returnQName="ns1:trackShipmentReturn" returnType="xsd:string" soapAction="" xmlns:ns1="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
-   <ns2:parameter qname="ns1:shipmentId" type="xsd:int"/>
+ <ns1:service name="TrackingService" provider="java:RPC">
+  <ns2:operation name="trackCar" qname="ns1:trackCar" returnQName="trackCarReturn" returnType="xsd:string" soapAction="" xmlns:ns1="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ns2="http://xml.apache.org/axis/wsdd/">
+   <ns2:parameter name="carChassisNumber" type="xsd:string"/>
   </ns2:operation>
-  <ns1:operation name="trackCar" qname="ns2:trackCar" returnQName="ns2:trackCarReturn" returnType="xsd:string" soapAction="" xmlns:ns2="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-   <ns1:parameter qname="ns2:carChassisNumber" type="xsd:string"/>
+  <ns1:operation name="trackShipment" qname="ns2:trackShipment" returnQName="trackShipmentReturn" returnType="xsd:string" soapAction="" xmlns:ns2="http://tracker.service" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <ns1:parameter name="shipmentId" type="xsd:int"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="trackCar trackShipment"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="TrackingService"/>
   <ns1:parameter name="className" value="service.tracker.TrackingService"/>
   <ns1:parameter name="wsdlServicePort" value="TrackingService"/>
-  <ns1:parameter name="schemaQualified" value="http://tracker.service"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://tracker.service"/>
   <ns1:parameter name="wsdlServiceElement" value="TrackingServiceService"/>
  </ns1:service>
@@ -73,11 +72,11 @@
    <ns1:parameter qname="ns18:parts" type="ns20:PartDTO" xmlns:ns20="http://part.dto"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="registerPart registerPallet dismantleCar getAllPallets getPalletParts getAllParts getPallet getParts"/>
-  <ns1:parameter name="wsdlPortType" value="DismantleStationService"/>
   <ns1:parameter name="typeMappingVersion" value="1.2"/>
-  <ns1:parameter name="schemaQualified" value="http://pallet.dto,http://part.dto,http://car.dto,http://dismantle_station.service"/>
-  <ns1:parameter name="wsdlServicePort" value="DismantleStationService"/>
+  <ns1:parameter name="wsdlPortType" value="DismantleStationService"/>
   <ns1:parameter name="className" value="service.dismantle_station.DismantleStationService"/>
+  <ns1:parameter name="wsdlServicePort" value="DismantleStationService"/>
+  <ns1:parameter name="schemaQualified" value="http://pallet.dto,http://part.dto,http://car.dto,http://dismantle_station.service"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://dismantle_station.service"/>
   <ns1:parameter name="wsdlServiceElement" value="DismantleStationServiceService"/>
   <ns1:typeMapping deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" qname="ns21:PartDTO" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" type="java:dto.part.PartDTO" xmlns:ns21="http://part.dto"/>
@@ -96,10 +95,10 @@
    <ns1:parameter name="receiverLastName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getShipment registerShipment getAllShipments"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="ShipmentStationService"/>
-  <ns1:parameter name="className" value="service.shipment_station.ShipmentStationService"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlServicePort" value="ShipmentStationService"/>
+  <ns1:parameter name="className" value="service.shipment_station.ShipmentStationService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://shipment_station.service"/>
   <ns1:parameter name="wsdlServiceElement" value="ShipmentStationServiceService"/>
   <ns1:parameter name="schemaUnqualified" value="http://shipment_station.service,http://shipment.dto,http://part.dto"/>
@@ -119,10 +118,10 @@
    <ns1:parameter name="parts" type="ns41:ArrayOf_tns2_PartDTO"/>
   </ns1:operation>
   <ns1:parameter name="allowedMethods" value="getCar registerCar getAllCars"/>
-  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlPortType" value="RegistrationStationService"/>
-  <ns1:parameter name="className" value="service.registration_station.RegistrationStationService"/>
+  <ns1:parameter name="typeMappingVersion" value="1.2"/>
   <ns1:parameter name="wsdlServicePort" value="RegistrationStationService"/>
+  <ns1:parameter name="className" value="service.registration_station.RegistrationStationService"/>
   <ns1:parameter name="wsdlTargetNamespace" value="http://registration_station.service"/>
   <ns1:parameter name="wsdlServiceElement" value="RegistrationStationServiceService"/>
   <ns1:parameter name="schemaUnqualified" value="http://registration_station.service,http://part.dto,http://car.dto"/>

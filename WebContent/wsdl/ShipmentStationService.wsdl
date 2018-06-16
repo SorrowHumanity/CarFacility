@@ -1,215 +1,233 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://shipment_station.service" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://shipment_station.service" xmlns:intf="http://shipment_station.service" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://shipment.dto" xmlns:tns2="http://part.dto" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-<!--WSDL created by Apache Axis version: 1.4
-Built on Apr 22, 2006 (06:55:48 PDT)-->
- <wsdl:types>
-  <schema targetNamespace="http://part.dto" xmlns="http://www.w3.org/2001/XMLSchema">
-   <import namespace="http://shipment.dto"/>
-   <import namespace="http://shipment_station.service"/>
-   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
-   <complexType name="PartDTO">
-    <sequence>
-     <element name="id" type="xsd:int"/>
-     <element name="name" nillable="true" type="xsd:string"/>
-     <element name="type" nillable="true" type="xsd:string"/>
-     <element name="weightKg" type="xsd:double"/>
-    </sequence>
-   </complexType>
-  </schema>
-  <schema targetNamespace="http://shipment_station.service" xmlns="http://www.w3.org/2001/XMLSchema">
-   <import namespace="http://part.dto"/>
-   <import namespace="http://shipment.dto"/>
-   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
-   <complexType name="ArrayOf_tns2_PartDTO">
-    <complexContent>
-     <restriction base="soapenc:Array">
-      <attribute ref="soapenc:arrayType" wsdl:arrayType="tns2:PartDTO[]"/>
-     </restriction>
-    </complexContent>
-   </complexType>
-   <complexType name="ArrayOf_tns1_ShipmentDTO">
-    <complexContent>
-     <restriction base="soapenc:Array">
-      <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:ShipmentDTO[]"/>
-     </restriction>
-    </complexContent>
-   </complexType>
-  </schema>
-  <schema targetNamespace="http://shipment.dto" xmlns="http://www.w3.org/2001/XMLSchema">
-   <import namespace="http://part.dto"/>
-   <import namespace="http://shipment_station.service"/>
-   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
-   <complexType name="ShipmentDTO">
-    <sequence>
-     <element name="id" type="xsd:int"/>
-     <element name="parts" nillable="true" type="impl:ArrayOf_tns2_PartDTO"/>
-     <element name="receiverFirstName" nillable="true" type="xsd:string"/>
-     <element name="receiverLastName" nillable="true" type="xsd:string"/>
-    </sequence>
-   </complexType>
-  </schema>
- </wsdl:types>
+<wsdl:definitions targetNamespace="http://shipment_station.service"
+	xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://shipment_station.service"
+	xmlns:intf="http://shipment_station.service" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:tns1="http://shipment.dto" xmlns:tns2="http://part.dto"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<!--WSDL created by Apache Axis version: 1.4 Built on Apr 22, 2006 (06:55:48 
+		PDT) -->
+	<wsdl:types>
+		<schema targetNamespace="http://part.dto" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://shipment.dto" />
+			<import namespace="http://shipment_station.service" />
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<complexType name="PartDTO">
+				<sequence>
+					<element name="id" type="xsd:int" />
+					<element name="name" nillable="true" type="xsd:string" />
+					<element name="type" nillable="true" type="xsd:string" />
+					<element name="weightKg" type="xsd:double" />
+				</sequence>
+			</complexType>
+		</schema>
+		<schema targetNamespace="http://shipment_station.service"
+			xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://part.dto" />
+			<import namespace="http://shipment.dto" />
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<complexType name="ArrayOf_tns2_PartDTO">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns2:PartDTO[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+			<complexType name="ArrayOf_tns1_ShipmentDTO">
+				<complexContent>
+					<restriction base="soapenc:Array">
+						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:ShipmentDTO[]" />
+					</restriction>
+				</complexContent>
+			</complexType>
+		</schema>
+		<schema targetNamespace="http://shipment.dto" xmlns="http://www.w3.org/2001/XMLSchema">
+			<import namespace="http://part.dto" />
+			<import namespace="http://shipment_station.service" />
+			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
+			<complexType name="ShipmentDTO">
+				<sequence>
+					<element name="id" type="xsd:int" />
+					<element name="parts" nillable="true" type="impl:ArrayOf_tns2_PartDTO" />
+					<element name="receiverFirstName" nillable="true" type="xsd:string" />
+					<element name="receiverLastName" nillable="true" type="xsd:string" />
+				</sequence>
+			</complexType>
+		</schema>
+	</wsdl:types>
 
-   <wsdl:message name="registerShipmentRequest">
+	<wsdl:message name="registerShipmentRequest">
 
-      <wsdl:part name="parts" type="impl:ArrayOf_tns2_PartDTO">
+		<wsdl:part name="parts" type="impl:ArrayOf_tns2_PartDTO">
 
-      </wsdl:part>
+		</wsdl:part>
 
-      <wsdl:part name="receiverFirstName" type="xsd:string">
+		<wsdl:part name="receiverFirstName" type="xsd:string">
 
-      </wsdl:part>
+		</wsdl:part>
 
-      <wsdl:part name="receiverLastName" type="xsd:string">
+		<wsdl:part name="receiverLastName" type="xsd:string">
 
-      </wsdl:part>
+		</wsdl:part>
 
-   </wsdl:message>
+	</wsdl:message>
 
-   <wsdl:message name="getAllShipmentsRequest">
+	<wsdl:message name="getAllShipmentsRequest">
 
-   </wsdl:message>
+	</wsdl:message>
 
-   <wsdl:message name="registerShipmentResponse">
+	<wsdl:message name="registerShipmentResponse">
 
-      <wsdl:part name="registerShipmentReturn" type="tns1:ShipmentDTO">
+		<wsdl:part name="registerShipmentReturn" type="tns1:ShipmentDTO">
 
-      </wsdl:part>
+		</wsdl:part>
 
-   </wsdl:message>
+	</wsdl:message>
 
-   <wsdl:message name="getAllShipmentsResponse">
+	<wsdl:message name="getAllShipmentsResponse">
 
-      <wsdl:part name="getAllShipmentsReturn" type="impl:ArrayOf_tns1_ShipmentDTO">
+		<wsdl:part name="getAllShipmentsReturn" type="impl:ArrayOf_tns1_ShipmentDTO">
 
-      </wsdl:part>
+		</wsdl:part>
 
-   </wsdl:message>
+	</wsdl:message>
 
-   <wsdl:message name="getShipmentRequest">
+	<wsdl:message name="getShipmentRequest">
 
-      <wsdl:part name="shipmentId" type="xsd:int">
+		<wsdl:part name="shipmentId" type="xsd:int">
 
-      </wsdl:part>
+		</wsdl:part>
 
-   </wsdl:message>
+	</wsdl:message>
 
-   <wsdl:message name="getShipmentResponse">
+	<wsdl:message name="getShipmentResponse">
 
-      <wsdl:part name="getShipmentReturn" type="tns1:ShipmentDTO">
+		<wsdl:part name="getShipmentReturn" type="tns1:ShipmentDTO">
 
-      </wsdl:part>
+		</wsdl:part>
 
-   </wsdl:message>
+	</wsdl:message>
 
-   <wsdl:portType name="ShipmentStationService">
+	<wsdl:portType name="ShipmentStationService">
 
-      <wsdl:operation name="getShipment" parameterOrder="shipmentId">
+		<wsdl:operation name="getShipment" parameterOrder="shipmentId">
 
-         <wsdl:input message="impl:getShipmentRequest" name="getShipmentRequest">
+			<wsdl:input message="impl:getShipmentRequest" name="getShipmentRequest">
 
-       </wsdl:input>
+			</wsdl:input>
 
-         <wsdl:output message="impl:getShipmentResponse" name="getShipmentResponse">
+			<wsdl:output message="impl:getShipmentResponse" name="getShipmentResponse">
 
-       </wsdl:output>
+			</wsdl:output>
 
-      </wsdl:operation>
+		</wsdl:operation>
 
-      <wsdl:operation name="getAllShipments">
+		<wsdl:operation name="getAllShipments">
 
-         <wsdl:input message="impl:getAllShipmentsRequest" name="getAllShipmentsRequest">
+			<wsdl:input message="impl:getAllShipmentsRequest" name="getAllShipmentsRequest">
 
-       </wsdl:input>
+			</wsdl:input>
 
-         <wsdl:output message="impl:getAllShipmentsResponse" name="getAllShipmentsResponse">
+			<wsdl:output message="impl:getAllShipmentsResponse" name="getAllShipmentsResponse">
 
-       </wsdl:output>
+			</wsdl:output>
 
-      </wsdl:operation>
+		</wsdl:operation>
 
-      <wsdl:operation name="registerShipment" parameterOrder="parts receiverFirstName receiverLastName">
+		<wsdl:operation name="registerShipment"
+			parameterOrder="parts receiverFirstName receiverLastName">
 
-         <wsdl:input message="impl:registerShipmentRequest" name="registerShipmentRequest">
+			<wsdl:input message="impl:registerShipmentRequest" name="registerShipmentRequest">
 
-       </wsdl:input>
+			</wsdl:input>
 
-         <wsdl:output message="impl:registerShipmentResponse" name="registerShipmentResponse">
+			<wsdl:output message="impl:registerShipmentResponse"
+				name="registerShipmentResponse">
 
-       </wsdl:output>
+			</wsdl:output>
 
-      </wsdl:operation>
+		</wsdl:operation>
 
-   </wsdl:portType>
+	</wsdl:portType>
 
-   <wsdl:binding name="ShipmentStationServiceSoapBinding" type="impl:ShipmentStationService">
+	<wsdl:binding name="ShipmentStationServiceSoapBinding"
+		type="impl:ShipmentStationService">
 
-      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdlsoap:binding style="rpc"
+			transport="http://schemas.xmlsoap.org/soap/http" />
 
-      <wsdl:operation name="getShipment">
+		<wsdl:operation name="getShipment">
 
-         <wsdlsoap:operation soapAction=""/>
+			<wsdlsoap:operation soapAction="" />
 
-         <wsdl:input name="getShipmentRequest">
+			<wsdl:input name="getShipmentRequest">
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://shipment_station.service" use="encoded" />
 
-         </wsdl:input>
+			</wsdl:input>
 
-         <wsdl:output name="getShipmentResponse">
+			<wsdl:output name="getShipmentResponse">
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://shipment_station.service" use="encoded" />
 
-         </wsdl:output>
+			</wsdl:output>
 
-      </wsdl:operation>
+		</wsdl:operation>
 
-      <wsdl:operation name="getAllShipments">
+		<wsdl:operation name="getAllShipments">
 
-         <wsdlsoap:operation soapAction=""/>
+			<wsdlsoap:operation soapAction="" />
 
-         <wsdl:input name="getAllShipmentsRequest">
+			<wsdl:input name="getAllShipmentsRequest">
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://shipment_station.service" use="encoded" />
 
-         </wsdl:input>
+			</wsdl:input>
 
-         <wsdl:output name="getAllShipmentsResponse">
+			<wsdl:output name="getAllShipmentsResponse">
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://shipment_station.service" use="encoded" />
 
-         </wsdl:output>
+			</wsdl:output>
 
-      </wsdl:operation>
+		</wsdl:operation>
 
-      <wsdl:operation name="registerShipment">
+		<wsdl:operation name="registerShipment">
 
-         <wsdlsoap:operation soapAction=""/>
+			<wsdlsoap:operation soapAction="" />
 
-         <wsdl:input name="registerShipmentRequest">
+			<wsdl:input name="registerShipmentRequest">
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://shipment_station.service" use="encoded" />
 
-         </wsdl:input>
+			</wsdl:input>
 
-         <wsdl:output name="registerShipmentResponse">
+			<wsdl:output name="registerShipmentResponse">
 
-            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://shipment_station.service" use="encoded"/>
+				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+					namespace="http://shipment_station.service" use="encoded" />
 
-         </wsdl:output>
+			</wsdl:output>
 
-      </wsdl:operation>
+		</wsdl:operation>
 
-   </wsdl:binding>
+	</wsdl:binding>
 
-   <wsdl:service name="ShipmentStationServiceService">
+	<wsdl:service name="ShipmentStationServiceService">
 
-      <wsdl:port binding="impl:ShipmentStationServiceSoapBinding" name="ShipmentStationService">
+		<wsdl:port binding="impl:ShipmentStationServiceSoapBinding"
+			name="ShipmentStationService">
 
-         <wsdlsoap:address location="http://desktop-9ise3kk:8080/CarFacilityServer/services/ShipmentStationService"/>
+			<wsdlsoap:address
+				location="http://desktop-9ise3kk:8080/CarFacilityServer/services/ShipmentStationService" />
 
-      </wsdl:port>
+		</wsdl:port>
 
-   </wsdl:service>
+	</wsdl:service>
 
 </wsdl:definitions>
