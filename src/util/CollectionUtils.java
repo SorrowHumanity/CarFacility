@@ -22,7 +22,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts an array of DTO parts to a list of remote parts
 	 **/
-	public synchronized static List<IPart> toRemotePartList(PartDTO[] allParts) throws RemoteException {
+	public static List<IPart> toRemotePartList(PartDTO[] allParts) throws RemoteException {
 		int size = allParts.length;
 		ArrayList<IPart> remoteParts = new ArrayList<>(size);
 
@@ -35,7 +35,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts a list of remote cars to an array of DTO cars
 	 **/
-	public synchronized static CarDTO[] toCarDTOArray(List<ICar> allCars) throws RemoteException {
+	public static CarDTO[] toCarDTOArray(List<ICar> allCars) throws RemoteException {
 		int size = allCars.size();
 		CarDTO[] carDtos = new CarDTO[size];
 
@@ -48,7 +48,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts a list of remote pallets to an array of DTO pallets
 	 **/
-	public synchronized static PalletDTO[] toPalletDTOArray(List<IPallet> allPallets) throws RemoteException {
+	public static PalletDTO[] toPalletDTOArray(List<IPallet> allPallets) throws RemoteException {
 		int size = allPallets.size();
 		PalletDTO[] palletDtos = new PalletDTO[size];
 
@@ -61,7 +61,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts a collection of DTO parts to an array of DTO parts
 	 **/
-	public synchronized static PartDTO[] toPartDTOArray(Collection<PartDTO> allParts) {
+	public static PartDTO[] toPartDTOArray(Collection<PartDTO> allParts) {
 		PartDTO[] array = allParts.toArray(new PartDTO[0]);
 		return array;
 	}
@@ -69,7 +69,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts a list of remote parts to an array of DTO parts
 	 **/
-	public synchronized static PartDTO[] toPartDTOArray(List<IPart> allParts) throws RemoteException {
+	public static PartDTO[] toPartDTOArray(List<IPart> allParts) throws RemoteException {
 		int size = allParts.size();
 		PartDTO[] partDtos = new PartDTO[size];
 
@@ -82,7 +82,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts a list of remote shipments to an an array of DTO shipments
 	 **/
-	public synchronized static ShipmentDTO[] toShipmentDTOArray(List<IShipment> allShipments) throws RemoteException {
+	public static ShipmentDTO[] toShipmentDTOArray(List<IShipment> allShipments) throws RemoteException {
 		int size = allShipments.size();
 		ShipmentDTO[] shipmentDtos = new ShipmentDTO[size];
 
@@ -95,7 +95,7 @@ public final class CollectionUtils {
 	/**
 	 * Converts a list of remote parts to a list of DTO parts 
 	 **/
-	public synchronized static List<PartDTO> toPartDTOList(List<IPart> parts) throws RemoteException {
+	public static List<PartDTO> toPartDTOList(List<IPart> parts) throws RemoteException {
 		int size = parts.size();
 		ArrayList<PartDTO> partDtos = new ArrayList<>(size);
 		
