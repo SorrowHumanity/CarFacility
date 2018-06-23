@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import dto.pallet.PalletDTO;
@@ -127,7 +128,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			PalletDTO palletDto = palletDao.read(palletId);
 
 			if (palletDto == null) 
-				throw new IllegalArgumentException("Pallet with id " + palletId + " does not exist!");
+				throw new NoSuchElementException("Pallet with id " + palletId + " does not exist!");
 			
 			palletCache.put(palletDto.getId(), new RemotePallet(palletDto));
 		}

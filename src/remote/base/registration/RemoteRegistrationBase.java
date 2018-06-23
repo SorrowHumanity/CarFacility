@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import dto.car.CarDTO;
 import dto.part.PartDTO;
@@ -51,7 +52,7 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 
 			// avoid caching null values
 			if (carDto == null) 
-				throw new IllegalArgumentException
+				throw new NoSuchElementException
 								("Car with chassis number " + chassisNumber + " does not exist!");
 			
 			// cache car

@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import remote.model.part.*;
 import dto.part.PartDTO;
@@ -56,7 +57,7 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 
 			// avoid caching null values
 			if (shipmentDto == null) 
-				throw new IllegalArgumentException("Shipment with id " + shipmentId + " does not exist!");
+				throw new NoSuchElementException("Shipment with id " + shipmentId + " does not exist!");
 			
 			shipmentCache.put(shipmentId, new RemoteShipment(shipmentDto));
 		}
