@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import remote.model.part.*;
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
 import remote.base.dismantle.IDismantleBase;
 import remote.dao.shipment.IShipmentDAO;
+import remote.model.part.IPart;
 import remote.model.shipment.IShipment;
 import remote.model.shipment.RemoteShipment;
 import util.CollectionUtils;
@@ -42,10 +42,12 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 		List<PartDTO> partDtos = CollectionUtils.toPartDTOList(parts);
 		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, partDtos, palletIds);
 
+		
+		IShipment newShipment = new RemoteShipment(shipmentDto);
 		// cache and return
-		shipmentCache.put(shipmentDto.getId(), new RemoteShipment(shipmentDto));
+		shipmentCache.put(shipmentDto.getId(), newShipment);
 
-		return shipmentCache.get(shipmentDto.getId());
+		return newShipment;
 	}
 
 	@Override
@@ -59,7 +61,10 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 			if (shipmentDto == null) 
 				throw new NoSuchElementException("Shipment with id " + shipmentId + " does not exist!");
 			
-			shipmentCache.put(shipmentId, new RemoteShipment(shipmentDto));
+			IShipment remoteShipment = new RemoteShipment(shipmentDto);
+			shipmentCache.put(shipmentId, remoteShipment);
+			
+			return remoteShipment;
 		}
 
 		return shipmentCache.get(shipmentId);

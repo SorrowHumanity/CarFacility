@@ -20,7 +20,8 @@ public class RemoteShipmentBaseLocator {
 	public static void bindBase() throws RemoteException {
 		try {
 			Naming.rebind(SHIPMENT_BASE_URL,
-					new RemoteShipmentBase(RemoteShipmentDAOLocator.lookupDAO(), RemoteDismantleBaseLocator.lookupBase()));
+					new RemoteShipmentBase(RemoteShipmentDAOLocator.lookupDAO(),
+							RemoteDismantleBaseLocator.lookupBase()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

@@ -43,18 +43,18 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 		// create part in the database
 		PartDTO partDto = partDao.create(carChassisNumber, name, weightKg);
 
-		IPart remotePart = new RemotePart(partDto);
+		IPart newPart = new RemotePart(partDto);
 		
 		// get all pallets, in case there is an existing pallet that fits the part
 		getAllPallets();
 		
 		// distribute part to a pallet
-		addToPallet(remotePart);
+		addToPallet(newPart);
 		
 		// cache & return
-		partCache.put(remotePart.getId(), remotePart);
+		partCache.put(newPart.getId(), newPart);
 		
-		return remotePart;
+		return newPart;
 	}
 
 	@Override
@@ -114,11 +114,11 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
 		PalletDTO palletDto = palletDao.create(palletType, CollectionUtils.toPartDTOList(parts));
 		
-		IPallet remotePallet = new RemotePallet(palletDto);
+		IPallet newPallet = new RemotePallet(palletDto);
 		
-		palletCache.put(palletDto.getId(), remotePallet);
+		palletCache.put(palletDto.getId(), newPallet);
 
-		return remotePallet;
+		return newPallet;
 	}
 
 	@Override
@@ -130,7 +130,12 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			if (palletDto == null) 
 				throw new NoSuchElementException("Pallet with id " + palletId + " does not exist!");
 			
-			palletCache.put(palletDto.getId(), new RemotePallet(palletDto));
+			
+			IPallet remotePallet = new RemotePallet(palletDto);
+			
+			palletCache.put(palletDto.getId(), remotePallet);
+			
+			return remotePallet;
 		}
 
 		return palletCache.get(palletId);
@@ -192,7 +197,7 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 			}
 		}
 		
-		return -1;
+		throw new NoSuchElementException("No pallet contains part " + String.valueOf(part));
 	}
 
 	/**

@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.postgresql.Driver;
@@ -99,7 +99,7 @@ public class DatabaseHelper<T> {
 		try (Connection con = getConnection()) {
 			PreparedStatement stat = prepare(con, sql, parameters);
 			ResultSet rs = stat.executeQuery();
-			LinkedList<T> allObjects = new LinkedList<>();
+			ArrayList<T> allObjects = new ArrayList<>();
 			while (rs.next())
 				allObjects.add(mapper.create(rs));
 			rs.close();

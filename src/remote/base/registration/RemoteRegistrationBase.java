@@ -55,8 +55,11 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 				throw new NoSuchElementException
 								("Car with chassis number " + chassisNumber + " does not exist!");
 			
-			// cache car
-			carCache.put(chassisNumber, new RemoteCar(carDto));
+			ICar remoteCar = new RemoteCar(carDto);
+			
+			carCache.put(chassisNumber, remoteCar);
+			
+			return remoteCar;
 		}
 
 		return carCache.get(chassisNumber);
