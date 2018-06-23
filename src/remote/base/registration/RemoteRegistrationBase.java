@@ -34,10 +34,12 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 		// create database entry
 		CarDTO carDto = carDao.create(chassisNumber, model, partDtos);
 
-		// cache and return
-		carCache.put(chassisNumber, new RemoteCar(carDto));
+		ICar newCar = new RemoteCar(carDto);
 		
-		return carCache.get(chassisNumber);
+		// cache and return
+		carCache.put(chassisNumber, newCar);
+		
+		return newCar;
 	}
 
 	@Override

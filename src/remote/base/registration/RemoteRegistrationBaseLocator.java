@@ -7,7 +7,7 @@ import remote.dao.car.RemoteCarDAOLocator;
 
 public final class RemoteRegistrationBaseLocator {
 
-	public static final String REGISTRATION_BASE_ID = "RemoteRegistrationBase";
+	public static final String REGISTRATION_BASE_URL = "RemoteRegistrationBase";
 
 	private RemoteRegistrationBaseLocator() {}
 
@@ -18,7 +18,7 @@ public final class RemoteRegistrationBaseLocator {
 	 **/
 	public static void bindBase() throws RemoteException {
 		try {
-			Naming.rebind(REGISTRATION_BASE_ID, new RemoteRegistrationBase(RemoteCarDAOLocator.lookupDAO()));
+			Naming.rebind(REGISTRATION_BASE_URL, new RemoteRegistrationBase(RemoteCarDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
@@ -32,7 +32,7 @@ public final class RemoteRegistrationBaseLocator {
 	 **/
 	public static IRegistrationBase lookupBase() throws RemoteException {
 		try {
-			return (IRegistrationBase) Naming.lookup(REGISTRATION_BASE_ID);
+			return (IRegistrationBase) Naming.lookup(REGISTRATION_BASE_URL);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

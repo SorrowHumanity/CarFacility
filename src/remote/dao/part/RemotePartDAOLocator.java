@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 
 public final class RemotePartDAOLocator {
 
-	public static final String PART_DAO_ID = "RemotePartDAO";
+	public static final String PART_DAO_URL = "RemotePartDAO";
 
 	private RemotePartDAOLocator() {}
 
@@ -16,7 +16,7 @@ public final class RemotePartDAOLocator {
 	 **/
 	public static IPartDAO lookupDAO() throws RemoteException {
 		try {
-			return (IPartDAO) Naming.lookup(PART_DAO_ID);
+			return (IPartDAO) Naming.lookup(PART_DAO_URL);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
@@ -29,7 +29,7 @@ public final class RemotePartDAOLocator {
 	 **/
 	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(PART_DAO_ID, new RemotePartDAOServer());
+			Naming.rebind(PART_DAO_URL, new RemotePartDAOServer());
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

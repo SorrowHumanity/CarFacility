@@ -7,7 +7,7 @@ import remote.dao.part.RemotePartDAOLocator;
 
 public final class RemoteShipmentDAOLocator {
 
-	public static final String SHIPMENT_DAO_ID = "RemoteShipmentDAO";
+	public static final String SHIPMENT_DAO_URL = "RemoteShipmentDAO";
 
 	private RemoteShipmentDAOLocator() {}
 
@@ -19,7 +19,7 @@ public final class RemoteShipmentDAOLocator {
 	 **/
 	public static IShipmentDAO lookupDAO() throws RemoteException {
 		try {
-			return (IShipmentDAO) Naming.lookup(SHIPMENT_DAO_ID);
+			return (IShipmentDAO) Naming.lookup(SHIPMENT_DAO_URL);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
@@ -32,7 +32,7 @@ public final class RemoteShipmentDAOLocator {
 	 **/
 	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(SHIPMENT_DAO_ID, new RemoteShipmentDAOServer(RemotePartDAOLocator.lookupDAO()));
+			Naming.rebind(SHIPMENT_DAO_URL, new RemoteShipmentDAOServer(RemotePartDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

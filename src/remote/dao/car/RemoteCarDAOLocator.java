@@ -7,7 +7,7 @@ import remote.dao.part.RemotePartDAOLocator;
 
 public final class RemoteCarDAOLocator {
 
-	public static final String CAR_DAO_ID = "RemoteCarDAO";
+	public static final String CAR_DAO_URL = "RemoteCarDAO";
 
 	private RemoteCarDAOLocator() {}
 
@@ -22,7 +22,7 @@ public final class RemoteCarDAOLocator {
 	 **/
 	public static ICarDAO lookupDAO() throws RemoteException {
 		try {
-			return (ICarDAO) Naming.lookup(CAR_DAO_ID);
+			return (ICarDAO) Naming.lookup(CAR_DAO_URL);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
@@ -35,7 +35,7 @@ public final class RemoteCarDAOLocator {
 	 **/
 	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(CAR_DAO_ID, new RemoteCarDAOServer(RemotePartDAOLocator.lookupDAO()));
+			Naming.rebind(CAR_DAO_URL, new RemoteCarDAOServer(RemotePartDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

@@ -111,11 +111,10 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 	@Override
 	public IPallet registerPallet(String palletType, List<IPart> parts) throws RemoteException {
-		// create pallet in the database
 		PalletDTO palletDto = palletDao.create(palletType, CollectionUtils.toPartDTOList(parts));
 		
-		// cache and return
 		IPallet remotePallet = new RemotePallet(palletDto);
+		
 		palletCache.put(palletDto.getId(), remotePallet);
 
 		return remotePallet;
@@ -123,13 +122,10 @@ public class RemoteDismantleBase extends UnicastRemoteObject implements IDismant
 
 	@Override
 	public IPallet getPallet(int palletId) throws RemoteException {
-		// check if pallet is already cached
 		if (!palletCache.containsKey(palletId)) {
 			
-			// read pallet from database
 			PalletDTO palletDto = palletDao.read(palletId);
 
-			// avoid caching null values
 			if (palletDto == null) 
 				throw new IllegalArgumentException("Pallet with id " + palletId + " does not exist!");
 			

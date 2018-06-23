@@ -8,7 +8,7 @@ import remote.dao.shipment.RemoteShipmentDAOLocator;
 
 public class RemoteShipmentBaseLocator {
 
-	public static final String SHIPMENT_BASE_ID = "RemoteShipmentBase";
+	public static final String SHIPMENT_BASE_URL = "RemoteShipmentBase";
 
 	private RemoteShipmentBaseLocator() {}
 
@@ -19,7 +19,7 @@ public class RemoteShipmentBaseLocator {
 	 **/
 	public static void bindBase() throws RemoteException {
 		try {
-			Naming.rebind(SHIPMENT_BASE_ID,
+			Naming.rebind(SHIPMENT_BASE_URL,
 					new RemoteShipmentBase(RemoteShipmentDAOLocator.lookupDAO(), RemoteDismantleBaseLocator.lookupBase()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
@@ -34,7 +34,7 @@ public class RemoteShipmentBaseLocator {
 	 **/
 	public static IShipmentBase lookupBase() throws RemoteException {
 		try {
-			return (IShipmentBase) Naming.lookup(SHIPMENT_BASE_ID);
+			return (IShipmentBase) Naming.lookup(SHIPMENT_BASE_URL);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

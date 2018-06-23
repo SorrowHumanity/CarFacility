@@ -8,7 +8,7 @@ import remote.dao.part.RemotePartDAOLocator;
 
 public final class RemoteDismantleBaseLocator {
 
-	public static final String DISMANTLE_BASE_ID = "RemoteDismantleBase";
+	public static final String DISMANTLE_BASE_URL = "RemoteDismantleBase";
 
 	private RemoteDismantleBaseLocator() {}
 
@@ -20,7 +20,7 @@ public final class RemoteDismantleBaseLocator {
 	 **/
 	public static IDismantleBase lookupBase() throws RemoteException {
 		try {
-			return (IDismantleBase) Naming.lookup(DISMANTLE_BASE_ID);
+			return (IDismantleBase) Naming.lookup(DISMANTLE_BASE_URL);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
@@ -32,7 +32,7 @@ public final class RemoteDismantleBaseLocator {
 	 **/
 	public static void bindBase() throws RemoteException {
 		try {
-			Naming.rebind(DISMANTLE_BASE_ID,
+			Naming.rebind(DISMANTLE_BASE_URL,
 					new RemoteDismantleBase(RemotePartDAOLocator.lookupDAO(), RemotePalletDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);

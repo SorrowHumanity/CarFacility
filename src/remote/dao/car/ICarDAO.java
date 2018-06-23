@@ -47,12 +47,12 @@ public interface ICarDAO extends Remote {
 	 * Updates the car entry in the cars entity with the chassis number of the car
 	 * object passed as parameter
 	 * 
-	 * @param updatedCarDto
+	 * @param carDto
 	 *            an updated car object
 	 * @return true, if at least one car entry is updated. Otherwise, false
 	 * @throws RemoteException
 	 **/
-	boolean update(CarDTO updatedCarDto) throws RemoteException;
+	boolean update(CarDTO carDto) throws RemoteException;
 
 	/**
 	 * Remove the car entry in the cars entity with the chassis number of the car

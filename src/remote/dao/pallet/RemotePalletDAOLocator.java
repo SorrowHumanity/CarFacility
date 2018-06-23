@@ -7,7 +7,7 @@ import remote.dao.part.RemotePartDAOLocator;
 
 public final class RemotePalletDAOLocator {
 
-	public static final String PALLET_DAO_ID = "RemotePalletDAO";
+	public static final String PALLET_DAO_URL = "RemotePalletDAO";
 
 	private RemotePalletDAOLocator() {}
 
@@ -19,7 +19,7 @@ public final class RemotePalletDAOLocator {
 	 **/
 	public static IPalletDAO lookupDAO() throws RemoteException {
 		try {
-			return (IPalletDAO) Naming.lookup(PALLET_DAO_ID);
+			return (IPalletDAO) Naming.lookup(PALLET_DAO_URL);
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
@@ -32,7 +32,7 @@ public final class RemotePalletDAOLocator {
 	 **/
 	public static void bindDAO() throws RemoteException {
 		try {
-			Naming.rebind(PALLET_DAO_ID, new RemotePalletDAOServer(RemotePartDAOLocator.lookupDAO()));
+			Naming.rebind(PALLET_DAO_URL, new RemotePalletDAOServer(RemotePartDAOLocator.lookupDAO()));
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
