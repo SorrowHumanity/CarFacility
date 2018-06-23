@@ -22,9 +22,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 	private DatabaseHelper<ShipmentDTO> shipmentDb;
 
 	public RemoteShipmentDAOServer(IPartDAO partDao) throws RemoteException {
-		shipmentDb = new DatabaseHelper<>(
-				DatabaseHelper.CAR_FACILITY_DB_URL,
-				DatabaseHelper.POSTGRES_USERNAME,
+		shipmentDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
 		this.partDao = partDao;
 	}
@@ -49,26 +47,13 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 
 	@Override
 	public ShipmentDTO read(int shipmentId) throws RemoteException {
-		return shipmentDb.mapSingle((rs) -> {
-			try {
-				return createShipment(rs);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}, "SELECT * FROM car_facility_schema.shipments WHERE shipments.id = ?;", shipmentId);
+		return shipmentDb.mapSingle((rs) -> createShipment(rs),
+				"SELECT * FROM car_facility_schema.shipments WHERE shipments.id = ?;", shipmentId);
 	}
 
 	@Override
 	public Collection<ShipmentDTO> readAll() throws RemoteException {
-		return shipmentDb.map((rs) -> {
-			try {
-				return createShipment(rs);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
-			}
-		}, "SELECT * FROM car_facility_schema.shipments;");
+		return shipmentDb.map((rs) -> createShipment(rs), "SELECT * FROM car_facility_schema.shipments;");
 	}
 
 	@Override
@@ -95,15 +80,16 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 	}
 
 	/**
-	 * Associates the parts to a shipment, including a reference to the pallet they came from
+	 * Associates the parts to a shipment, including a reference to the pallet they
+	 * came from
 	 * 
-	 *  @param shipmentId
-	 *  		the id of the shipment
-	 *  @param allParts
-	 *  		the parts
-	 *  @param	partAssociations
-	 *  		a map of the pallet id of the pallet in which a part was stored
-	 *  @throws RemoteException
+	 * @param shipmentId
+	 *            the id of the shipment
+	 * @param allParts
+	 *            the parts
+	 * @param partAssociations
+	 *            a map of the pallet id of the pallet in which a part was stored
+	 * @throws RemoteException
 	 **/
 	private void associateParts(int shipmentId, PartDTO[] allParts, Map<Integer, Integer> partAssociations)
 			throws RemoteException {
@@ -122,25 +108,26 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 	 * Creates a shipment data transfer object from a database result set
 	 * 
 	 * @param rs
-	 * 		the result set
+	 *            the result set
 	 * @return the shipment data transfer object
 	 * @throws SQLException
 	 **/
-	private ShipmentDTO createShipment(ResultSet rs) throws SQLException, RemoteException {
-		int shipmentId = rs.getInt(ShipmentEntityConstants.ID_COLUMN);
-		String receiverFirstName = rs.getString(ShipmentEntityConstants.FIRST_NAME_COLUMN);
-		String receiverLastName = rs.getString(ShipmentEntityConstants.LAST_NAME_COLUMN);
-
+	private ShipmentDTO createShipment(ResultSet rs) {
 		try {
+			int shipmentId = rs.getInt(ShipmentEntityConstants.ID_COLUMN);
+			String receiverFirstName = rs.getString(ShipmentEntityConstants.FIRST_NAME_COLUMN);
+			String receiverLastName = rs.getString(ShipmentEntityConstants.LAST_NAME_COLUMN);
+
 			// read the pallet's parts
 			Collection<PartDTO> parts = partDao.readShipmentParts(shipmentId);
-			
+
 			// convert to DTOs
 			PartDTO[] partDTOs = CollectionUtils.toPartDTOArray(parts);
-			
+
 			return new ShipmentDTO(shipmentId, partDTOs, receiverFirstName, receiverLastName);
 		} catch (Exception e) {
-			throw new RemoteException(e.getMessage(), e);
+			e.printStackTrace();
+			return null;
 		}
 	}
 

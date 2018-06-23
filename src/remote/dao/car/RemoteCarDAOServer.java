@@ -21,9 +21,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	private DatabaseHelper<CarDTO> carDb;
 
 	public RemoteCarDAOServer(IPartDAO partDao) throws RemoteException {
-		carDb = new DatabaseHelper<>(
-				DatabaseHelper.CAR_FACILITY_DB_URL, 
-				DatabaseHelper.POSTGRES_USERNAME,
+		carDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
 		this.partDao = partDao;
 	}
@@ -38,7 +36,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 				chassisNumber, model, weightKg);
 
 		PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
-		 
+
 		return new CarDTO(chassisNumber, model, partDtos);
 	}
 
@@ -80,19 +78,19 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	 * @return a car data transfer object
 	 * @throws SQLException
 	 **/
-	private CarDTO createCar(ResultSet rs) throws SQLException {
-		String chassisNumber = rs.getString(CarEntityConstants.CHASSIS_NUMBER_COLUMN);
-		String model = rs.getString(CarEntityConstants.MODEL_COLUMN);
-
+	private CarDTO createCar(ResultSet rs) {
 		try {
+			String chassisNumber = rs.getString(CarEntityConstants.CHASSIS_NUMBER_COLUMN);
+			String model = rs.getString(CarEntityConstants.MODEL_COLUMN);
+
 			// read the car's parts
 			Collection<PartDTO> parts = partDao.readCarParts(chassisNumber);
-			
+
 			// convert them to an array
 			PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
-			
+
 			return new CarDTO(chassisNumber, model, partDtos);
-		} catch (RemoteException e) {
+		} catch (RemoteException | SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
