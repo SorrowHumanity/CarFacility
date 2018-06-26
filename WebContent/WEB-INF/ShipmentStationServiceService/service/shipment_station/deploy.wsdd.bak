@@ -23,12 +23,12 @@
       <operation name="getShipment" qname="operNS:getShipment" xmlns:operNS="http://shipment_station.service" returnQName="getShipmentReturn" returnType="rtns:ShipmentDTO" xmlns:rtns="http://shipment.dto" soapAction="" >
         <parameter qname="shipmentId" type="tns:int" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
       </operation>
-      <operation name="getAllShipments" qname="operNS:getAllShipments" xmlns:operNS="http://shipment_station.service" returnQName="getAllShipmentsReturn" returnType="rtns:ArrayOf_tns1_ShipmentDTO" xmlns:rtns="http://shipment_station.service" returnItemType="tns2:ShipmentDTO" xmlns:tns2="http://shipment.dto" soapAction="" >
-      </operation>
       <operation name="registerShipment" qname="operNS:registerShipment" xmlns:operNS="http://shipment_station.service" returnQName="registerShipmentReturn" returnType="rtns:ShipmentDTO" xmlns:rtns="http://shipment.dto" soapAction="" >
         <parameter qname="parts" type="tns:ArrayOf_tns2_PartDTO" xmlns:tns="http://shipment_station.service"/>
         <parameter qname="receiverFirstName" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
         <parameter qname="receiverLastName" type="tns:string" xmlns:tns="http://www.w3.org/2001/XMLSchema"/>
+      </operation>
+      <operation name="getAllShipments" qname="operNS:getAllShipments" xmlns:operNS="http://shipment_station.service" returnQName="getAllShipmentsReturn" returnType="rtns:ArrayOf_tns1_ShipmentDTO" xmlns:rtns="http://shipment_station.service" returnItemType="tns2:ShipmentDTO" xmlns:tns2="http://shipment.dto" soapAction="" >
       </operation>
       <parameter name="allowedMethods" value="getShipment registerShipment getAllShipments"/>
 

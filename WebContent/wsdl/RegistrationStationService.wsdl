@@ -1,231 +1,215 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions targetNamespace="http://registration_station.service"
-	xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://registration_station.service"
-	xmlns:intf="http://registration_station.service" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
-	xmlns:tns1="http://car.dto" xmlns:tns2="http://part.dto"
-	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<!--WSDL created by Apache Axis version: 1.4 Built on Apr 22, 2006 (06:55:48 
-		PDT) -->
-	<wsdl:types>
-		<schema targetNamespace="http://part.dto" xmlns="http://www.w3.org/2001/XMLSchema">
-			<import namespace="http://car.dto" />
-			<import namespace="http://registration_station.service" />
-			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
-			<complexType name="PartDTO">
-				<sequence>
-					<element name="id" type="xsd:int" />
-					<element name="name" nillable="true" type="xsd:string" />
-					<element name="type" nillable="true" type="xsd:string" />
-					<element name="weightKg" type="xsd:double" />
-				</sequence>
-			</complexType>
-		</schema>
-		<schema targetNamespace="http://registration_station.service"
-			xmlns="http://www.w3.org/2001/XMLSchema">
-			<import namespace="http://part.dto" />
-			<import namespace="http://car.dto" />
-			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
-			<complexType name="ArrayOf_tns2_PartDTO">
-				<complexContent>
-					<restriction base="soapenc:Array">
-						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns2:PartDTO[]" />
-					</restriction>
-				</complexContent>
-			</complexType>
-			<complexType name="ArrayOf_tns1_CarDTO">
-				<complexContent>
-					<restriction base="soapenc:Array">
-						<attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:CarDTO[]" />
-					</restriction>
-				</complexContent>
-			</complexType>
-		</schema>
-		<schema targetNamespace="http://car.dto" xmlns="http://www.w3.org/2001/XMLSchema">
-			<import namespace="http://part.dto" />
-			<import namespace="http://registration_station.service" />
-			<import namespace="http://schemas.xmlsoap.org/soap/encoding/" />
-			<complexType name="CarDTO">
-				<sequence>
-					<element name="chassisNumber" nillable="true" type="xsd:string" />
-					<element name="model" nillable="true" type="xsd:string" />
-					<element name="parts" nillable="true" type="impl:ArrayOf_tns2_PartDTO" />
-					<element name="weightKg" type="xsd:double" />
-				</sequence>
-			</complexType>
-		</schema>
-	</wsdl:types>
+<wsdl:definitions targetNamespace="http://registration_station.service" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://registration_station.service" xmlns:intf="http://registration_station.service" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns1="http://car.dto" xmlns:tns2="http://part.dto" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema targetNamespace="http://part.dto" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://car.dto"/>
+   <import namespace="http://registration_station.service"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="PartDTO">
+    <sequence>
+     <element name="id" type="xsd:int"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="type" nillable="true" type="xsd:string"/>
+     <element name="weightKg" type="xsd:double"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://registration_station.service" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://part.dto"/>
+   <import namespace="http://car.dto"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="ArrayOf_tns2_PartDTO">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="tns2:PartDTO[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+   <complexType name="ArrayOf_tns1_CarDTO">
+    <complexContent>
+     <restriction base="soapenc:Array">
+      <attribute ref="soapenc:arrayType" wsdl:arrayType="tns1:CarDTO[]"/>
+     </restriction>
+    </complexContent>
+   </complexType>
+  </schema>
+  <schema targetNamespace="http://car.dto" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://part.dto"/>
+   <import namespace="http://registration_station.service"/>
+   <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+   <complexType name="CarDTO">
+    <sequence>
+     <element name="chassisNumber" nillable="true" type="xsd:string"/>
+     <element name="model" nillable="true" type="xsd:string"/>
+     <element name="parts" nillable="true" type="impl:ArrayOf_tns2_PartDTO"/>
+     <element name="weightKg" type="xsd:double"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
 
-	<wsdl:message name="getCarResponse">
+   <wsdl:message name="getCarResponse">
 
-		<wsdl:part name="getCarReturn" type="tns1:CarDTO">
+      <wsdl:part name="getCarReturn" type="tns1:CarDTO">
 
-		</wsdl:part>
+      </wsdl:part>
 
-	</wsdl:message>
+   </wsdl:message>
 
-	<wsdl:message name="getAllCarsResponse">
+   <wsdl:message name="getAllCarsResponse">
 
-		<wsdl:part name="getAllCarsReturn" type="impl:ArrayOf_tns1_CarDTO">
+      <wsdl:part name="getAllCarsReturn" type="impl:ArrayOf_tns1_CarDTO">
 
-		</wsdl:part>
+      </wsdl:part>
 
-	</wsdl:message>
+   </wsdl:message>
 
-	<wsdl:message name="getCarRequest">
+   <wsdl:message name="getCarRequest">
 
-		<wsdl:part name="chassisNumber" type="xsd:string">
+      <wsdl:part name="chassisNumber" type="xsd:string">
 
-		</wsdl:part>
+      </wsdl:part>
 
-	</wsdl:message>
+   </wsdl:message>
 
-	<wsdl:message name="registerCarRequest">
+   <wsdl:message name="registerCarRequest">
 
-		<wsdl:part name="chassisNumber" type="xsd:string">
+      <wsdl:part name="chassisNumber" type="xsd:string">
 
-		</wsdl:part>
+      </wsdl:part>
 
-		<wsdl:part name="model" type="xsd:string">
+      <wsdl:part name="model" type="xsd:string">
 
-		</wsdl:part>
+      </wsdl:part>
 
-		<wsdl:part name="parts" type="impl:ArrayOf_tns2_PartDTO">
+      <wsdl:part name="parts" type="impl:ArrayOf_tns2_PartDTO">
 
-		</wsdl:part>
+      </wsdl:part>
 
-	</wsdl:message>
+   </wsdl:message>
 
-	<wsdl:message name="registerCarResponse">
+   <wsdl:message name="registerCarResponse">
 
-		<wsdl:part name="registerCarReturn" type="tns1:CarDTO">
+      <wsdl:part name="registerCarReturn" type="tns1:CarDTO">
 
-		</wsdl:part>
+      </wsdl:part>
 
-	</wsdl:message>
+   </wsdl:message>
 
-	<wsdl:message name="getAllCarsRequest">
+   <wsdl:message name="getAllCarsRequest">
 
-	</wsdl:message>
+   </wsdl:message>
 
-	<wsdl:portType name="RegistrationStationService">
+   <wsdl:portType name="RegistrationStationService">
 
-		<wsdl:operation name="getCar" parameterOrder="chassisNumber">
+      <wsdl:operation name="getAllCars">
 
-			<wsdl:input message="impl:getCarRequest" name="getCarRequest">
+         <wsdl:input message="impl:getAllCarsRequest" name="getAllCarsRequest">
 
-			</wsdl:input>
+       </wsdl:input>
 
-			<wsdl:output message="impl:getCarResponse" name="getCarResponse">
+         <wsdl:output message="impl:getAllCarsResponse" name="getAllCarsResponse">
 
-			</wsdl:output>
+       </wsdl:output>
 
-		</wsdl:operation>
+      </wsdl:operation>
 
-		<wsdl:operation name="getAllCars">
+      <wsdl:operation name="getCar" parameterOrder="chassisNumber">
 
-			<wsdl:input message="impl:getAllCarsRequest" name="getAllCarsRequest">
+         <wsdl:input message="impl:getCarRequest" name="getCarRequest">
 
-			</wsdl:input>
+       </wsdl:input>
 
-			<wsdl:output message="impl:getAllCarsResponse" name="getAllCarsResponse">
+         <wsdl:output message="impl:getCarResponse" name="getCarResponse">
 
-			</wsdl:output>
+       </wsdl:output>
 
-		</wsdl:operation>
+      </wsdl:operation>
 
-		<wsdl:operation name="registerCar" parameterOrder="chassisNumber model parts">
+      <wsdl:operation name="registerCar" parameterOrder="chassisNumber model parts">
 
-			<wsdl:input message="impl:registerCarRequest" name="registerCarRequest">
+         <wsdl:input message="impl:registerCarRequest" name="registerCarRequest">
 
-			</wsdl:input>
+       </wsdl:input>
 
-			<wsdl:output message="impl:registerCarResponse" name="registerCarResponse">
+         <wsdl:output message="impl:registerCarResponse" name="registerCarResponse">
 
-			</wsdl:output>
+       </wsdl:output>
 
-		</wsdl:operation>
+      </wsdl:operation>
 
-	</wsdl:portType>
+   </wsdl:portType>
 
-	<wsdl:binding name="RegistrationStationServiceSoapBinding"
-		type="impl:RegistrationStationService">
+   <wsdl:binding name="RegistrationStationServiceSoapBinding" type="impl:RegistrationStationService">
 
-		<wsdlsoap:binding style="rpc"
-			transport="http://schemas.xmlsoap.org/soap/http" />
+      <wsdlsoap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
 
-		<wsdl:operation name="getCar">
+      <wsdl:operation name="getAllCars">
 
-			<wsdlsoap:operation soapAction="" />
+         <wsdlsoap:operation soapAction=""/>
 
-			<wsdl:input name="getCarRequest">
+         <wsdl:input name="getAllCarsRequest">
 
-				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://registration_station.service" use="encoded" />
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
 
-			</wsdl:input>
+         </wsdl:input>
 
-			<wsdl:output name="getCarResponse">
+         <wsdl:output name="getAllCarsResponse">
 
-				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://registration_station.service" use="encoded" />
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
 
-			</wsdl:output>
+         </wsdl:output>
 
-		</wsdl:operation>
+      </wsdl:operation>
 
-		<wsdl:operation name="getAllCars">
+      <wsdl:operation name="getCar">
 
-			<wsdlsoap:operation soapAction="" />
+         <wsdlsoap:operation soapAction=""/>
 
-			<wsdl:input name="getAllCarsRequest">
+         <wsdl:input name="getCarRequest">
 
-				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://registration_station.service" use="encoded" />
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
 
-			</wsdl:input>
+         </wsdl:input>
 
-			<wsdl:output name="getAllCarsResponse">
+         <wsdl:output name="getCarResponse">
 
-				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://registration_station.service" use="encoded" />
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
 
-			</wsdl:output>
+         </wsdl:output>
 
-		</wsdl:operation>
+      </wsdl:operation>
 
-		<wsdl:operation name="registerCar">
+      <wsdl:operation name="registerCar">
 
-			<wsdlsoap:operation soapAction="" />
+         <wsdlsoap:operation soapAction=""/>
 
-			<wsdl:input name="registerCarRequest">
+         <wsdl:input name="registerCarRequest">
 
-				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://registration_station.service" use="encoded" />
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
 
-			</wsdl:input>
+         </wsdl:input>
 
-			<wsdl:output name="registerCarResponse">
+         <wsdl:output name="registerCarResponse">
 
-				<wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
-					namespace="http://registration_station.service" use="encoded" />
+            <wsdlsoap:body encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://registration_station.service" use="encoded"/>
 
-			</wsdl:output>
+         </wsdl:output>
 
-		</wsdl:operation>
+      </wsdl:operation>
 
-	</wsdl:binding>
+   </wsdl:binding>
 
-	<wsdl:service name="RegistrationStationServiceService">
+   <wsdl:service name="RegistrationStationServiceService">
 
-		<wsdl:port binding="impl:RegistrationStationServiceSoapBinding"
-			name="RegistrationStationService">
+      <wsdl:port binding="impl:RegistrationStationServiceSoapBinding" name="RegistrationStationService">
 
-			<wsdlsoap:address
-				location="http://localhost:8080/CarFacilityServer/services/RegistrationStationService" />
+         <wsdlsoap:address location="http://localhost:8080/CarFacilityServer/services/RegistrationStationService"/>
 
-		</wsdl:port>
+      </wsdl:port>
 
-	</wsdl:service>
+   </wsdl:service>
 
 </wsdl:definitions>

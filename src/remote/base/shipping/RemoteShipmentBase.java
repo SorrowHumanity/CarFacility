@@ -42,7 +42,6 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 		List<PartDTO> partDtos = CollectionUtils.toPartDTOList(parts);
 		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, partDtos, palletIds);
 
-		
 		IShipment newShipment = new RemoteShipment(shipmentDto);
 		// cache and return
 		shipmentCache.put(shipmentDto.getId(), newShipment);
