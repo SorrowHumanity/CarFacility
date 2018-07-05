@@ -14,7 +14,7 @@ public class TrackingService implements ITrackingService {
 	private ITrackerDAO trackerDao;
 
 	public TrackingService() throws RemoteException {
-		trackerDao = TrackerDAO.getInstance();
+		this.trackerDao = TrackerDAO.getInstance();
 	}
 
 	@WebMethod

@@ -22,7 +22,7 @@ public class DismantleStationService implements IDismantleStationService {
 
 	public DismantleStationService() throws RemoteException {
 		try {
-			dismantleBase = RemoteDismantleBaseLocator.lookupBase();
+			this.dismantleBase = RemoteDismantleBaseLocator.lookupBase();
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

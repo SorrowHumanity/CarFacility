@@ -20,7 +20,7 @@ public class ShipmentStationService implements IShipmentStationService {
 
 	public ShipmentStationService() throws RemoteException {
 		try {
-			shipmentBase = RemoteShipmentBaseLocator.lookupBase();
+			this.shipmentBase = RemoteShipmentBaseLocator.lookupBase();
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}

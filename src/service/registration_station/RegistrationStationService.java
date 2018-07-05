@@ -20,7 +20,7 @@ public class RegistrationStationService implements IRegistrationStationService {
 
 	public RegistrationStationService() throws RemoteException {
 		try {
-			registrationBase = RemoteRegistrationBaseLocator.lookupBase();
+			this.registrationBase = RemoteRegistrationBaseLocator.lookupBase();
 		} catch (Exception e) {
 			throw new RemoteException(e.getMessage(), e);
 		}
