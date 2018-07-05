@@ -1,11 +1,11 @@
-package remote.model.shipment;
+package remote.domain.shipment;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import dto.shipment.ShipmentDTO;
-import remote.model.part.IPart;
+import remote.domain.part.IPart;
 import util.CollectionUtils;
 
 public class RemoteShipment extends UnicastRemoteObject implements IShipment {

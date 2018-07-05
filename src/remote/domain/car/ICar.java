@@ -1,10 +1,10 @@
-package remote.model.car;
+package remote.domain.car;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import remote.model.part.IPart;
+import remote.domain.part.IPart;
 
 public interface ICar extends Remote {
 

@@ -9,8 +9,8 @@ import dto.car.CarDTO;
 import dto.part.PartDTO;
 import remote.base.registration.IRegistrationBase;
 import remote.base.registration.RemoteRegistrationBaseLocator;
-import remote.model.car.ICar;
-import remote.model.part.IPart;
+import remote.domain.car.ICar;
+import remote.domain.part.IPart;
 import util.CollectionUtils;
 
 @WebService

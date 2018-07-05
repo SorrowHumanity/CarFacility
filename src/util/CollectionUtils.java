@@ -9,11 +9,11 @@ import dto.car.CarDTO;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
-import remote.model.car.ICar;
-import remote.model.pallet.IPallet;
-import remote.model.part.IPart;
-import remote.model.part.RemotePart;
-import remote.model.shipment.IShipment;
+import remote.domain.car.ICar;
+import remote.domain.pallet.IPallet;
+import remote.domain.part.IPart;
+import remote.domain.part.RemotePart;
+import remote.domain.shipment.IShipment;
 
 public final class CollectionUtils {
 
@@ -24,7 +24,7 @@ public final class CollectionUtils {
 	 **/
 	public static List<IPart> toRemotePartList(PartDTO[] allParts) throws RemoteException {
 		int size = allParts.length;
-		ArrayList<IPart> remoteParts = new ArrayList<>(size);
+		List<IPart> remoteParts = new ArrayList<>(size);
 
 		for (PartDTO part : allParts)
 			remoteParts.add(new RemotePart(part));
@@ -51,7 +51,7 @@ public final class CollectionUtils {
 	public static PalletDTO[] toPalletDTOArray(List<IPallet> allPallets) throws RemoteException {
 		int size = allPallets.size();
 		PalletDTO[] palletDtos = new PalletDTO[size];
-
+		
 		for (int i = 0; i < size; ++i)
 			palletDtos[i] = new PalletDTO(allPallets.get(i));
 
@@ -62,8 +62,8 @@ public final class CollectionUtils {
 	 * Converts a collection of DTO parts to an array of DTO parts
 	 **/
 	public static PartDTO[] toPartDTOArray(Collection<PartDTO> allParts) {
-		PartDTO[] array = allParts.toArray(new PartDTO[0]);
-		return array;
+		PartDTO[] partArray = allParts.toArray(new PartDTO[0]);
+		return partArray;
 	}
 
 	/**
@@ -97,7 +97,7 @@ public final class CollectionUtils {
 	 **/
 	public static List<PartDTO> toPartDTOList(List<IPart> parts) throws RemoteException {
 		int size = parts.size();
-		ArrayList<PartDTO> partDtos = new ArrayList<>(size);
+		List<PartDTO> partDtos = new ArrayList<>(size);
 		
 		for (IPart part : parts) 
 			partDtos.add(new PartDTO(part));

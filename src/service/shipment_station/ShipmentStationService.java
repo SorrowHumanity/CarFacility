@@ -9,8 +9,8 @@ import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
 import remote.base.shipping.IShipmentBase;
 import remote.base.shipping.RemoteShipmentBaseLocator;
-import remote.model.part.IPart;
-import remote.model.shipment.IShipment;
+import remote.domain.part.IPart;
+import remote.domain.shipment.IShipment;
 import util.CollectionUtils;
 
 @WebService

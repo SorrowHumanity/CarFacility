@@ -18,10 +18,10 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	private static final long serialVersionUID = 1L;
 
 	private IPartDAO partDao;
-	private DatabaseHelper<CarDTO> carDb;
+	private DatabaseHelper<CarDTO> carsEntity;
 
 	public RemoteCarDAOServer(IPartDAO partDao) throws RemoteException {
-		carDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
+		this.carsEntity = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
 		this.partDao = partDao;
 	}
@@ -32,7 +32,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 		double weightKg = parts.stream().mapToDouble(PartDTO::getWeightKg).sum();
 
 		// update database
-		carDb.executeUpdate("INSERT INTO car_facility_schema.cars (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
+		carsEntity.executeUpdate("INSERT INTO car_facility_schema.cars (chassis_number, model, weight_kg) VALUES (?, ?, ?);",
 				chassisNumber, model, weightKg);
 
 		PartDTO[] partDtos = CollectionUtils.toPartDTOArray(parts);
@@ -42,19 +42,19 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 
 	@Override
 	public CarDTO read(String chassisNumber) throws RemoteException {
-		return carDb.mapSingle((rs) -> createCar(rs),
+		return carsEntity.mapSingle((rs) -> createCar(rs),
 				"SELECT * FROM car_facility_schema.cars WHERE chassis_number = ?;", chassisNumber);
 	}
 
 	@Override
 	public Collection<CarDTO> readAll() throws RemoteException {
-		return carDb.map((rs) -> createCar(rs), "SELECT * FROM car_facility_schema.cars;");
+		return carsEntity.map((rs) -> createCar(rs), "SELECT * FROM car_facility_schema.cars;");
 	}
 
 	@Override
 	public boolean update(CarDTO updatedCarDto) throws RemoteException {
 		// update database
-		int rowsAffected = carDb.executeUpdate(
+		int rowsAffected = carsEntity.executeUpdate(
 				"UPDATE car_facility_schema.cars SET model = ?, weight_kg = ? WHERE chassis_number = ?;",
 				updatedCarDto.getModel(), updatedCarDto.getWeightKg(), updatedCarDto.getChassisNumber());
 
@@ -64,7 +64,7 @@ public class RemoteCarDAOServer extends UnicastRemoteObject implements ICarDAO {
 	@Override
 	public boolean delete(CarDTO carDto) throws RemoteException {
 		// update database
-		int rowsAffected = carDb.executeUpdate("DELETE FROM car_facility_schema.cars WHERE chassis_number = ?;",
+		int rowsAffected = carsEntity.executeUpdate("DELETE FROM car_facility_schema.cars WHERE chassis_number = ?;",
 				carDto.getChassisNumber());
 
 		return rowsAffected != 0;

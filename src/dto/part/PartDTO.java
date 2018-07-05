@@ -3,7 +3,7 @@ package dto.part;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
-import remote.model.part.IPart;
+import remote.domain.part.IPart;
 
 public class PartDTO implements Serializable {
 
@@ -16,18 +16,13 @@ public class PartDTO implements Serializable {
 	// no-arg constructor for deserialization (XML to Object)
 	public PartDTO() {}
 
-	// used when reading objects from the database. IDs are generated in the database
+	// used when reading objects from the database
 	public PartDTO(int id, String name, double weightKg) {
 		setId(id);
 		setName(name);
 		setWeightKg(weightKg);
 	}
 	
-	// used to save objects in the database. IDs are generated in the database
-	public PartDTO(String name, double weightKg) {
-		this(-1, name, weightKg);
-	}
-
 	public PartDTO(IPart remotePart) throws RemoteException {
 		this(remotePart.getId(),remotePart.getName(), remotePart.getWeightKg());
 	}

@@ -7,28 +7,28 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-
 import dto.part.PartDTO;
 import dto.shipment.ShipmentDTO;
 import remote.base.dismantle.IDismantleBase;
 import remote.dao.shipment.IShipmentDAO;
-import remote.model.part.IPart;
-import remote.model.shipment.IShipment;
-import remote.model.shipment.RemoteShipment;
+import remote.domain.part.IPart;
+import remote.domain.shipment.IShipment;
+import remote.domain.shipment.RemoteShipment;
 import util.CollectionUtils;
 
 public class RemoteShipmentBase extends UnicastRemoteObject implements IShipmentBase {
 
 	private static final long serialVersionUID = 1L;
 
-	private Map<Integer, IShipment> shipmentCache = new HashMap<>();
+	private Map<Integer, IShipment> shipmentCache;
+	
 	private IShipmentDAO shipmentDao;
 	private IDismantleBase dismantleBase;
 
 	public RemoteShipmentBase(IShipmentDAO shipmentDao, IDismantleBase dismantleBase) throws RemoteException {
 		this.shipmentDao = shipmentDao;
 		this.dismantleBase = dismantleBase;
+		this.shipmentCache = new HashMap<>();
 	}
 
 	@Override
@@ -38,12 +38,12 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 		// key(part id), value(pallet id)
 		Map<Integer, Integer> palletIds = takeParts(parts);
 
-		// create database entry
 		List<PartDTO> partDtos = CollectionUtils.toPartDTOList(parts);
+		
 		ShipmentDTO shipmentDto = shipmentDao.create(receiverFirstName, receiverLastName, partDtos, palletIds);
 
 		IShipment newShipment = new RemoteShipment(shipmentDto);
-		// cache and return
+
 		shipmentCache.put(shipmentDto.getId(), newShipment);
 
 		return newShipment;
@@ -51,18 +51,15 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 
 	@Override
 	public synchronized IShipment getShipment(int shipmentId) throws RemoteException {
-		// cache if shipment not already cached
 		if (!shipmentCache.containsKey(shipmentId)) {
-			// read shipment from the database
 			ShipmentDTO shipmentDto = shipmentDao.read(shipmentId);
 
-			// avoid caching null values
-			if (shipmentDto == null) 
-				throw new NoSuchElementException("Shipment with id " + shipmentId + " does not exist!");
-			
+			if (shipmentDto == null) return null;
+				
 			IShipment remoteShipment = new RemoteShipment(shipmentDto);
+
 			shipmentCache.put(shipmentId, remoteShipment);
-			
+
 			return remoteShipment;
 		}
 
@@ -71,11 +68,9 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 
 	@Override
 	public synchronized List<IShipment> getAllShipments() throws RemoteException {
-		// read all shipment from the database
 		Collection<ShipmentDTO> allShipments = shipmentDao.readAll();
 
-		// cache if not already cached
-		for (ShipmentDTO shipment : allShipments) 
+		for (ShipmentDTO shipment : allShipments)
 			if (!shipmentCache.containsKey(shipment.getId()))
 				shipmentCache.put(shipment.getId(), new RemoteShipment(shipment));
 
@@ -93,9 +88,9 @@ public class RemoteShipmentBase extends UnicastRemoteObject implements IShipment
 	 **/
 	private Map<Integer, Integer> takeParts(List<IPart> parts) throws RemoteException {
 		int size = parts.size();
-		
+
 		// key(part id), value(pallet id)
-		HashMap<Integer, Integer> idMap = new HashMap<>(size);
+		Map<Integer, Integer> idMap = new HashMap<>(size);
 
 		for (IPart part : parts) {
 			// remove part from it's pallet

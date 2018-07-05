@@ -4,8 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import remote.model.part.IPart;
-import remote.model.shipment.IShipment;
+import remote.domain.part.IPart;
+import remote.domain.shipment.IShipment;
 
 public interface IShipmentBase extends Remote {
 

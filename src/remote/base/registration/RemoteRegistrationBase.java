@@ -7,25 +7,24 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-
 import dto.car.CarDTO;
 import dto.part.PartDTO;
-import remote.model.part.IPart;
 import remote.dao.car.ICarDAO;
-import remote.model.car.ICar;
-import remote.model.car.RemoteCar;
+import remote.domain.car.ICar;
+import remote.domain.car.RemoteCar;
+import remote.domain.part.IPart;
 import util.CollectionUtils;
 
 public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegistrationBase {
 
 	private static final long serialVersionUID = 1L;
 
-	private Map<String, ICar> carCache = new HashMap<>();
+	private Map<String, ICar> carCache;
 	private ICarDAO carDao;
 
 	public RemoteRegistrationBase(ICarDAO carDao) throws RemoteException {
 		this.carDao = carDao;
+		this.carCache = new HashMap<>();
 	}
 
 	@Override
@@ -51,10 +50,8 @@ public class RemoteRegistrationBase extends UnicastRemoteObject implements IRegi
 			CarDTO carDto = carDao.read(chassisNumber);
 
 			// avoid caching null values
-			if (carDto == null) 
-				throw new NoSuchElementException
-								("Car with chassis number " + chassisNumber + " does not exist!");
-			
+			if (carDto == null) return null; 
+				
 			ICar remoteCar = new RemoteCar(carDto);
 			
 			carCache.put(chassisNumber, remoteCar);

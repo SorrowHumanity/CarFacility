@@ -9,10 +9,10 @@ import dto.car.CarDTO;
 import dto.pallet.PalletDTO;
 import dto.part.PartDTO;
 import remote.base.dismantle.RemoteDismantleBaseLocator;
+import remote.domain.car.RemoteCar;
+import remote.domain.pallet.IPallet;
+import remote.domain.part.IPart;
 import remote.base.dismantle.IDismantleBase;
-import remote.model.car.RemoteCar;
-import remote.model.pallet.IPallet;
-import remote.model.part.IPart;
 import util.CollectionUtils;
 
 @WebService

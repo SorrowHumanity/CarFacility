@@ -1,11 +1,11 @@
-package remote.model.car;
+package remote.domain.car;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
 import dto.car.CarDTO;
-import remote.model.part.IPart;
+import remote.domain.part.IPart;
 import util.CollectionUtils;
 
 public class RemoteCar extends UnicastRemoteObject implements ICar {

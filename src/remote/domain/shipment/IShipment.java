@@ -1,10 +1,10 @@
-package remote.model.shipment;
+package remote.domain.shipment;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import remote.model.part.IPart;
+import remote.domain.part.IPart;
 
 public interface IShipment extends Remote {
 

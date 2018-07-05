@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.Arrays;
 
 import dto.part.PartDTO;
-import remote.model.shipment.IShipment;
+import remote.domain.shipment.IShipment;
 import util.CollectionUtils;
 
 public class ShipmentDTO implements Serializable {

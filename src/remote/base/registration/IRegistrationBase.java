@@ -4,8 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-import remote.model.car.ICar;
-import remote.model.part.IPart;
+import remote.domain.car.ICar;
+import remote.domain.part.IPart;
 
 public interface IRegistrationBase extends Remote {
 

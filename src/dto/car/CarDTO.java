@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 import dto.part.PartDTO;
-import remote.model.car.ICar;
+import remote.domain.car.ICar;
 import util.CollectionUtils;
 
 public class CarDTO implements Serializable {

@@ -1,4 +1,4 @@
-package remote.model.part;
+package remote.domain.part;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

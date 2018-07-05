@@ -3,7 +3,7 @@ package dto.pallet;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import dto.part.PartDTO;
-import remote.model.pallet.IPallet;
+import remote.domain.pallet.IPallet;
 import util.CollectionUtils;
 
 public class PalletDTO implements Serializable {

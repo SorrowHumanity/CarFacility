@@ -19,10 +19,10 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 	private static final long serialVersionUID = 1L;
 
 	private IPartDAO partDao;
-	private DatabaseHelper<ShipmentDTO> shipmentDb;
+	private DatabaseHelper<ShipmentDTO> shipmentsEntity;
 
 	public RemoteShipmentDAOServer(IPartDAO partDao) throws RemoteException {
-		shipmentDb = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
+		this.shipmentsEntity = new DatabaseHelper<>(DatabaseHelper.CAR_FACILITY_DB_URL, DatabaseHelper.POSTGRES_USERNAME,
 				DatabaseHelper.POSTGRES_PASSWORD);
 		this.partDao = partDao;
 	}
@@ -30,7 +30,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 	@Override
 	public ShipmentDTO create(String receiverFirstName, String receiverLastName, List<PartDTO> parts,
 			Map<Integer, Integer> partAssociations) throws RemoteException {
-		int id = shipmentDb.executeUpdateReturningId(
+		int id = shipmentsEntity.executeUpdateReturningId(
 				"INSERT INTO car_facility_schema.shipments (receiver_first_name, receiver_last_name)"
 						+ " VALUES (?, ?) RETURNING id;",
 				receiverFirstName, receiverLastName);
@@ -47,19 +47,19 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 
 	@Override
 	public ShipmentDTO read(int shipmentId) throws RemoteException {
-		return shipmentDb.mapSingle((rs) -> createShipment(rs),
+		return shipmentsEntity.mapSingle((rs) -> createShipment(rs),
 				"SELECT * FROM car_facility_schema.shipments WHERE shipments.id = ?;", shipmentId);
 	}
 
 	@Override
 	public Collection<ShipmentDTO> readAll() throws RemoteException {
-		return shipmentDb.map((rs) -> createShipment(rs), "SELECT * FROM car_facility_schema.shipments;");
+		return shipmentsEntity.map((rs) -> createShipment(rs), "SELECT * FROM car_facility_schema.shipments;");
 	}
 
 	@Override
 	public boolean update(ShipmentDTO shipmentDto) throws RemoteException {
 		// update database
-		int rowsAffected = shipmentDb.executeUpdate(
+		int rowsAffected = shipmentsEntity.executeUpdate(
 				"UPDATE car_facility_schema.shipments SET receiver_first_name = ?, receiver_last_name = ? WHERE id = ?;",
 				shipmentDto.getReceiverFirstName(), shipmentDto.getReceiverLastName(), shipmentDto.getId());
 
@@ -69,11 +69,11 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 	@Override
 	public boolean delete(ShipmentDTO shipmentDto) throws RemoteException {
 		// remove all part associations to the shipment
-		shipmentDb.executeUpdate("DELETE FROM car_facility_schema.requests WHERE shipments_id = ?;",
+		shipmentsEntity.executeUpdate("DELETE FROM car_facility_schema.requests WHERE shipments_id = ?;",
 				shipmentDto.getId());
 
 		// remove shipment
-		int rowsAffected = shipmentDb.executeUpdate("DELETE FROM car_facility_schema.shipments WHERE id = ?;",
+		int rowsAffected = shipmentsEntity.executeUpdate("DELETE FROM car_facility_schema.shipments WHERE id = ?;",
 				shipmentDto.getId());
 
 		return rowsAffected != 0;
@@ -95,7 +95,7 @@ public class RemoteShipmentDAOServer extends UnicastRemoteObject implements IShi
 			throws RemoteException {
 		for (PartDTO part : allParts) {
 			int palletId = partAssociations.get(part.getId());
-			shipmentDb.executeUpdate(
+			shipmentsEntity.executeUpdate(
 					"INSERT INTO car_facility_schema.requests"
 							+ " (part_id, shipment_id, pallet_id) SELECT ?, ?, ? WHERE NOT EXISTS(SELECT *"
 							+ " FROM car_facility_schema.requests WHERE requests.part_id = "
